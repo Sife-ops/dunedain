@@ -1,5 +1,4 @@
 import { Auth } from "@aws-amplify/auth";
-import { setAccessToken } from "../token";
 import { useState } from "react";
 
 export const SignIn = () => {
@@ -14,9 +13,10 @@ export const SignIn = () => {
           try {
             const res = await Auth.signIn(email, password);
             console.log(res);
-            // console.log(res.signInUserSession.accessToken.jwtToken);
-            setAccessToken(res.signInUserSession.accessToken.jwtToken);
-            // p.setIsSignedIn(true);
+            localStorage.setItem(
+              "accessToken",
+              res.signInUserSession.accessToken.jwtToken
+            );
           } catch (e) {
             console.log(e);
           }
@@ -32,7 +32,7 @@ export const SignIn = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">login</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   );
