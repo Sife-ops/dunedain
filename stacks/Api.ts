@@ -4,9 +4,12 @@ import {
   Api as ApiGateway,
   Config,
 } from "@serverless-stack/resources";
+
 import { Database } from "./Database";
+import { Auth } from "./Auth";
 
 export function Api({ stack }: StackContext) {
+  const auth = use(Auth);
   const db = use(Database);
 
   const api = new ApiGateway(stack, "api", {
@@ -30,6 +33,8 @@ export function Api({ stack }: StackContext) {
       },
     },
   });
+
+  auth.attachPermissionsForAuthUsers(stack, [api]);
 
   new Config.Parameter(stack, "API_URL", {
     value: api.url,
