@@ -1,14 +1,14 @@
 import { List } from "./Article";
-import { Login } from "./login";
-import { Register } from "./register";
+import { SignIn } from "./sign-in";
+import { SignUp } from "./sign-up";
 
 export const Dev = () => {
   return (
     <div>
       <h3>register</h3>
-      <Register />
+      <SignUp />
       <h3>login</h3>
-      <Login />
+      <SignIn />
       <h3>articles</h3>
       <List />
     </div>

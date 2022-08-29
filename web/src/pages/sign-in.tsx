@@ -2,7 +2,7 @@ import { Auth } from "@aws-amplify/auth";
 import { setAccessToken } from "../token";
 import { useState } from "react";
 
-export const Login = () => {
+export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
