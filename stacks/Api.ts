@@ -13,7 +13,17 @@ export function Api({ stack }: StackContext) {
   const db = use(Database);
 
   const api = new ApiGateway(stack, "api", {
+    authorizers: {
+      jwt: {
+        type: "user_pool",
+        userPool: {
+          id: auth.userPoolId,
+          clientIds: [auth.userPoolClientId],
+        },
+      },
+    },
     defaults: {
+      authorizer: "jwt",
       function: {
         permissions: [db.table],
         config: [db.TABLE_NAME],
