@@ -2,10 +2,11 @@
 // import React from "react";
 // import { List } from "./pages/Article";
 import ReactDOM from "react-dom/client";
+import { Auth } from "@aws-amplify/auth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Dev } from "./pages/dev";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
-import { Auth } from "@aws-amplify/auth";
+import { getAccessToken } from "./token";
 
 Auth.configure({
   Auth: {
@@ -20,13 +21,20 @@ Auth.configure({
 
     // mandatorySignIn: false,
     // clientMetadata: { app: "cognito-vue-bootstrap" },
-
   },
 });
 
 const urql = createClient({
   url: import.meta.env.VITE_GRAPHQL_URL,
   exchanges: defaultExchanges,
+  fetchOptions: () => {
+    const token = getAccessToken();
+    return {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    };
+  },
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

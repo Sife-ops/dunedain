@@ -27,8 +27,8 @@ export function List() {
   }));
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>Articles</h2>
+    <div>
+      {/* <h2>Articles</h2> */}
       <h3>Submit</h3>
       <form
         onSubmit={e => {
