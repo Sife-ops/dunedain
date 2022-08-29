@@ -2,7 +2,7 @@
 // import React from "react";
 // import { List } from "./pages/Article";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Dev } from "./pages/dev";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
 
