@@ -5,6 +5,24 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Dev } from "./pages/dev";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
+import { Auth } from "@aws-amplify/auth";
+
+Auth.configure({
+  Auth: {
+    // identityPoolId: process.env.IDENTITY_POOL_ID,
+    identityPoolId: import.meta.env.VITE_IDENTITY_POOL_ID,
+    // region: process.env.AWS_REGION,
+    region: import.meta.env.VITE_REGION,
+    // userPoolId: process.env.USER_POOL_ID,
+    userPoolId: import.meta.env.VITE_USER_POOL_ID,
+    // userPoolWebClientId: process.env.USER_POOL_WEB_CLIENT_ID,
+    userPoolWebClientId: import.meta.env.VITE_USER_POOL_CLIENT_ID,
+
+    // mandatorySignIn: false,
+    // clientMetadata: { app: "cognito-vue-bootstrap" },
+
+  },
+});
 
 const urql = createClient({
   url: import.meta.env.VITE_GRAPHQL_URL,
