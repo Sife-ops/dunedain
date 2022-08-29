@@ -12,25 +12,26 @@ export const SignIn = () => {
           e.preventDefault();
           try {
             const res = await Auth.signIn(email, password);
-            console.log(res);
             localStorage.setItem(
               "accessToken",
               res.signInUserSession.accessToken.jwtToken
             );
+            window.location.reload();
           } catch (e) {
             console.log(e);
           }
         }}
       >
         <input
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          placeholder="password"
-          value={password}
           onChange={(e) => setPassword(e.target.value)}
+          placeholder="password"
+          type={"password"}
+          value={password}
         />
         <button type="submit">Sign In</button>
       </form>
