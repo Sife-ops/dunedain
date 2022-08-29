@@ -11,9 +11,9 @@ export function List() {
       articles: {
         id: true,
         title: true,
-        url: true
-      }
-    }
+        url: true,
+      },
+    },
   });
 
   const [, createArticle] = useTypedMutation((opts: ArticleForm) => ({
@@ -21,9 +21,9 @@ export function List() {
       opts,
       {
         id: true,
-        url: true
-      }
-    ]
+        url: true,
+      },
+    ],
   }));
 
   return (
@@ -31,12 +31,12 @@ export function List() {
       {/* <h2>Articles</h2> */}
       <h3>Submit</h3>
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           const fd = new FormData(e.currentTarget);
           createArticle({
             url: fd.get("url")!.toString(),
-            title: fd.get("title")!.toString()
+            title: fd.get("title")!.toString(),
           });
           e.currentTarget.reset();
         }}
@@ -47,8 +47,8 @@ export function List() {
       </form>
       <h3>Latest</h3>
       <ol>
-        {articles.data?.articles.map(article => (
-          <li>
+        {articles.data?.articles.map((article) => (
+          <li key={article.id}>
             <div>
               <div>
                 {article.title} - <a href={article.url}>{article.url}</a>
