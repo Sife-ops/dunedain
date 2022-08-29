@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Dev } from "./pages/dev";
+import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
 import { SignIn } from "./pages/sign-in";
@@ -60,7 +61,8 @@ function App() {
     <BrowserRouter>
       {signedIn ? (
         <Routes>
-          <Route path="/" element={<Dev />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/dev" element={<Dev />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       ) : (

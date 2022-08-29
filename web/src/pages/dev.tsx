@@ -1,4 +1,4 @@
-import { List } from "./Article";
+import { List } from "../component/article";
 
 export const Dev = () => {
   return (

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export const SignUp = () => {
+  // todo: hooks
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
