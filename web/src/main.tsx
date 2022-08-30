@@ -20,6 +20,7 @@ Auth.configure({
   },
 });
 
+// todo: authExchange
 const urql = createClient({
   url: import.meta.env.VITE_GRAPHQL_URL,
   exchanges: defaultExchanges,
@@ -46,7 +47,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false);
+  // todo: state change breaks routes
+  const [signedIn, setSignedIn] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -57,22 +59,26 @@ function App() {
     }
   }, []);
 
-  return (
-    <BrowserRouter>
-      {signedIn ? (
+  if (signedIn) {
+    return (
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dev" element={<Dev />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
-      ) : (
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="*" element={<Navigate replace to="/" />} />
-        </Routes>
-      )}
+      </BrowserRouter>
+    );
+  }
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="*" element={<Navigate replace to="/" />} />
+      </Routes>
     </BrowserRouter>
   );
 }

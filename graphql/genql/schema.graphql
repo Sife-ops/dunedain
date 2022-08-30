@@ -20,6 +20,7 @@ type Category {
 }
 
 type Mutation {
+  bookmarkCreate(title: String!, url: String!): Bookmark!
   createArticle(title: String!, url: String!): Article!
 }
 

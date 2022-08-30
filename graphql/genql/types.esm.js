@@ -59,6 +59,19 @@ export default {
             ]
         },
         "Mutation": {
+            "bookmarkCreate": [
+                3,
+                {
+                    "title": [
+                        2,
+                        "String!"
+                    ],
+                    "url": [
+                        2,
+                        "String!"
+                    ]
+                }
+            ],
             "createArticle": [
                 0,
                 {
