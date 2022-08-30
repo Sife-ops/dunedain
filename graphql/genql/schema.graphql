@@ -13,6 +13,7 @@ type Bookmark {
 }
 
 type Category {
+  bookmarks: [Bookmark!]!
   categoryId: String!
   title: String!
   userId: String!
@@ -26,4 +27,5 @@ type Query {
   articles: [Article!]!
   bookmark: Bookmark!
   bookmarks: [Bookmark!]!
+  categories: [Category!]!
 }

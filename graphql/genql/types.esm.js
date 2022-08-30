@@ -42,6 +42,9 @@ export default {
             ]
         },
         "Category": {
+            "bookmarks": [
+                3
+            ],
             "categoryId": [
                 2
             ],
@@ -82,6 +85,9 @@ export default {
             ],
             "bookmarks": [
                 3
+            ],
+            "categories": [
+                4
             ],
             "__typename": [
                 2

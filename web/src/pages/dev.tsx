@@ -4,23 +4,6 @@ import { List } from "../component/article";
 import { BookmarkForm } from "../component/bookmark-form";
 
 export const Dev = () => {
-  const [bookmark] = useTypedQuery({
-    query: {
-      bookmark: {
-        userId: true,
-        bookmarkId: true,
-        title: true,
-        url: true,
-
-        categories: {
-          userId: true,
-          categoryId: true,
-          title: true,
-        },
-      },
-    },
-  });
-
   const [bookmarks] = useTypedQuery({
     query: {
       bookmarks: {
@@ -38,17 +21,34 @@ export const Dev = () => {
     },
   });
 
-  useEffect(() => {
-    if (!bookmark.fetching && bookmark.data) {
-      console.log(bookmark.data);
-    }
-  }, [bookmark.fetching]);
+  const [categories] = useTypedQuery({
+    query: {
+      categories: {
+        userId: true,
+        categoryId: true,
+        title: true,
+
+        bookmarks: {
+          userId: true,
+          bookmarkId: true,
+          url: true,
+          title: true,
+        },
+      },
+    },
+  });
 
   useEffect(() => {
     if (!bookmarks.fetching && bookmarks.data) {
       console.log(bookmarks.data);
     }
   }, [bookmarks.fetching]);
+
+  useEffect(() => {
+    if (!categories.fetching && categories.data) {
+      console.log(categories.data);
+    }
+  }, [categories.fetching]);
 
   return (
     <div>
