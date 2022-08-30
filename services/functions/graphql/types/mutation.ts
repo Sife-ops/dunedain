@@ -4,6 +4,14 @@ import { BookmarkType } from "./bookmark";
 import { ArticleType } from "./article";
 import { builder } from "../builder";
 
+const bookmarkCreateInput = builder.inputType("bookmarkCreateInput", {
+  fields: (t) => ({
+    title: t.string({ required: true }),
+    url: t.string({ required: true }),
+    categoryIds: t.stringList({ required: true }),
+  }),
+});
+
 builder.mutationFields((t) => ({
   createArticle: t.field({
     type: ArticleType,
@@ -17,15 +25,30 @@ builder.mutationFields((t) => ({
   bookmarkCreate: t.field({
     type: BookmarkType,
     args: {
-      title: t.arg.string({ required: true }),
-      url: t.arg.string({ required: true }),
+      input: t.arg({ type: bookmarkCreateInput, required: true }),
     },
-    resolve: async (_, args, context) => {
-      return await dunedainModel.entities.BookmarkEntity.create({
-        url: args.url,
-        title: args.title,
-        userId: context.user.userId,
+    resolve: async (
+      _,
+      { input: { categoryIds, title, url } },
+      { user: { userId } }
+    ) => {
+      const bookmark = await dunedainModel.entities.BookmarkEntity.create({
+        url,
+        title,
+        userId,
       }).go();
+
+      for (const categoryId of categoryIds) {
+        const categories = await dunedainModel.entities.BookmarkCategoryEntity.create(
+          {
+            userId,
+            bookmarkId: bookmark.bookmarkId,
+            categoryId,
+          }
+        ).go();
+      }
+
+      return bookmark;
     },
   }),
 }));

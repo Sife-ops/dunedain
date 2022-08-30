@@ -11,10 +11,9 @@ export const Home = () => {
   // const [bookmarksQueryState] = useBookmarksQuery();
 
   const [categoriesQueryState] = useCategoriesQuery();
+  const { categories, toggleCategory, updateCategories } = useCategories();
 
   const [createMode, setCreateMode] = useState(false);
-
-  const { categories, toggleCategory, updateCategories } = useCategories();
 
   useEffect(() => {
     const { fetching, data } = categoriesQueryState;
@@ -47,8 +46,7 @@ export const Home = () => {
       {createMode && (
         <div>
           <h3>New Bookmark</h3>
-          <BookmarkForm />
-          <button onClick={() => setCreateMode(false)}>cancel</button>
+          <BookmarkForm categories={categories} setCreateMode={setCreateMode} />
         </div>
       )}
     </div>

@@ -2,7 +2,7 @@ export default {
     "scalars": [
         1,
         2,
-        7
+        8
     ],
     "types": {
         "Article": {
@@ -62,13 +62,9 @@ export default {
             "bookmarkCreate": [
                 3,
                 {
-                    "title": [
-                        2,
-                        "String!"
-                    ],
-                    "url": [
-                        2,
-                        "String!"
+                    "input": [
+                        7,
+                        "bookmarkCreateInput!"
                     ]
                 }
             ],
@@ -101,6 +97,20 @@ export default {
             ],
             "categories": [
                 4
+            ],
+            "__typename": [
+                2
+            ]
+        },
+        "bookmarkCreateInput": {
+            "categoryIds": [
+                2
+            ],
+            "title": [
+                2
+            ],
+            "url": [
+                2
             ],
             "__typename": [
                 2

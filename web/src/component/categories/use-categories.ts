@@ -41,6 +41,7 @@ export const useCategories = () => {
 
   return {
     categories,
+    setCategories,
     toggleCategory,
     updateCategories,
   };

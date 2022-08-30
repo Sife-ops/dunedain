@@ -20,7 +20,7 @@ type Category {
 }
 
 type Mutation {
-  bookmarkCreate(title: String!, url: String!): Bookmark!
+  bookmarkCreate(input: bookmarkCreateInput!): Bookmark!
   createArticle(title: String!, url: String!): Article!
 }
 
@@ -29,4 +29,10 @@ type Query {
   bookmark: Bookmark!
   bookmarks: [Bookmark!]!
   categories: [Category!]!
+}
+
+input bookmarkCreateInput {
+  categoryIds: [String!]!
+  title: String!
+  url: String!
 }
