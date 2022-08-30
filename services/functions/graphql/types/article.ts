@@ -1,5 +1,8 @@
 import { Article } from "@dunedain/core/article";
+import { Bookmark } from "@dunedain/core/bookmark";
+import { Category } from "@dunedain/core/category";
 import { builder } from "../builder";
+import { dunedainModel } from '@dunedain/core/model';
 
 const ArticleType = builder
   .objectRef<Article.ArticleEntityType>("Article")
@@ -11,10 +14,95 @@ const ArticleType = builder
     })
   });
 
+const CategoryType = builder
+  .objectRef<Category.CategoryEntityType>("Category")
+  .implement({
+    fields: t => ({
+      userId: t.exposeString("userId"),
+      categoryId: t.exposeString("categoryId"),
+      title: t.exposeString("title"),
+      // bookmarks: t.field({
+      //   type: [BookmarkType],
+      //   resolve: () => {
+      //     return []
+      //   }
+      // })
+    })
+  });
+
+const BookmarkType = builder
+  .objectRef<Bookmark.BookmarkEntityType>("Bookmark")
+  .implement({
+    fields: t => ({
+      userId: t.exposeString("userId"),
+      bookmarkId: t.exposeString("bookmarkId"),
+      title: t.exposeString("title"),
+      url: t.exposeString("url"),
+
+      categories: t.field({
+        type: [CategoryType],
+        resolve: async (parent) => {
+          const bookmarkCategories = await dunedainModel
+            .entities
+            .BookmarkCategoryEntity
+            .query
+            .bookmarkCategory({ bookmarkId: parent.bookmarkId })
+            .go()
+
+          const categories = bookmarkCategories.map(async (e) => {
+            const [category] = await dunedainModel
+              .entities
+              .CategoryEntity
+              .query
+              .category({ categoryId: e.categoryId })
+              .go();
+            return category;
+          })
+
+          return categories;
+        }
+      })
+
+    })
+  });
+
 builder.queryFields(t => ({
   articles: t.field({
     type: [ArticleType],
     resolve: () => Article.list()
+  }),
+
+  bookmarks: t.field({
+    type: [BookmarkType],
+    resolve: async (_, __, { user: { userId } }) => {
+      return await dunedainModel
+        .entities
+        .BookmarkEntity
+        .query
+        .user({ userId })
+        .go()
+    }
+  }),
+
+  bookmark: t.field({
+    type: BookmarkType,
+    resolve: async () => {
+
+      return {
+        userId: 'a',
+        bookmarkId: 'a',
+        url: 'a',
+        title: 'a',
+        categories: [
+          {
+            userId: 'a',
+            categoryId: 'a',
+            title: 'a'
+          }
+        ]
+      }
+
+    }
   })
 }));
 

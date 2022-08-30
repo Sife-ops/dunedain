@@ -4,10 +4,26 @@ type Article {
   url: String!
 }
 
+type Bookmark {
+  bookmarkId: String!
+  categories: [Category!]!
+  title: String!
+  url: String!
+  userId: String!
+}
+
+type Category {
+  categoryId: String!
+  title: String!
+  userId: String!
+}
+
 type Mutation {
   createArticle(title: String!, url: String!): Article!
 }
 
 type Query {
   articles: [Article!]!
+  bookmark: Bookmark!
+  bookmarks: [Bookmark!]!
 }

@@ -7,6 +7,8 @@ export function Database({ stack }: StackContext) {
       sk: "string",
       gsi1pk: "string",
       gsi1sk: "string",
+      gsi2pk: "string",
+      gsi2sk: "string",
     },
     primaryIndex: {
       partitionKey: "pk",

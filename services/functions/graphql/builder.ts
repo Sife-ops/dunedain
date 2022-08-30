@@ -1,6 +1,12 @@
 import SchemaBuilder from "@pothos/core";
 
-export const builder = new SchemaBuilder({});
+export const builder = new SchemaBuilder<{
+  Context: {
+    user: {
+      userId: string
+    }
+  }
+}>({});
 
 builder.queryType({});
 builder.mutationType({});
