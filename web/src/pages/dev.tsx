@@ -21,11 +21,34 @@ export const Dev = () => {
     },
   });
 
+  const [bookmarks] = useTypedQuery({
+    query: {
+      bookmarks: {
+        userId: true,
+        bookmarkId: true,
+        url: true,
+        title: true,
+
+        categories: {
+          userId: true,
+          categoryId: true,
+          title: true,
+        },
+      },
+    },
+  });
+
   useEffect(() => {
     if (!bookmark.fetching && bookmark.data) {
       console.log(bookmark.data);
     }
   }, [bookmark.fetching]);
+
+  useEffect(() => {
+    if (!bookmarks.fetching && bookmarks.data) {
+      console.log(bookmarks.data);
+    }
+  }, [bookmarks.fetching]);
 
   return (
     <div>
