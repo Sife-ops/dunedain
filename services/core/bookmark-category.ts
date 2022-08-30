@@ -36,7 +36,7 @@ export const BookmarkCategoryEntity = new Entity(
     indexes: {
 
       user: {
-        collection: 'user',
+        collection: ['user', 'userBookmarkCategory'] as const,
         pk: {
           field: "pk",
           composite: ['userId'],
