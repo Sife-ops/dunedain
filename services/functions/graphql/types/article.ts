@@ -36,32 +36,63 @@ const BookmarkType = builder
     fields: t => ({
       userId: t.exposeString("userId"),
       bookmarkId: t.exposeString("bookmarkId"),
-      title: t.exposeString("title"),
       url: t.exposeString("url"),
+      title: t.exposeString("title"),
 
-      categories: t.field({
+      categories: t.loadable({
         type: [CategoryType],
+        load: async (ids: string[], { user: { userId } }) => {
+          const categories = await dunedainModel
+            .entities
+            .CategoryEntity
+            .query
+            .user({ userId })
+            .go()
+
+          const bookmarkCategories = categories.filter(e => {
+            if (ids.find(id => id === e.categoryId)) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+
+          return bookmarkCategories;
+        },
         resolve: async (parent) => {
           const bookmarkCategories = await dunedainModel
             .entities
             .BookmarkCategoryEntity
             .query
-            .bookmarkCategory({ bookmarkId: parent.bookmarkId })
-            .go()
+            .bookmarkCategory({
+              bookmarkId: parent.bookmarkId
+            }).go();
 
-          const categories = bookmarkCategories.map(async (e) => {
-            const [category] = await dunedainModel
-              .entities
-              .CategoryEntity
-              .query
-              .category({ categoryId: e.categoryId })
-              .go();
-            return category;
-          })
-
-          return categories;
+          return bookmarkCategories.map(e => e.categoryId);
         }
       })
+
+      // categories: t.field({
+      //   type: [CategoryType],
+      //   resolve: async (parent) => {
+      //     const bookmarkCategories = await dunedainModel
+      //       .entities
+      //       .BookmarkCategoryEntity
+      //       .query
+      //       .bookmarkCategory({ bookmarkId: parent.bookmarkId })
+      //       .go()
+      //     const categories = bookmarkCategories.map(async (e) => {
+      //       const [category] = await dunedainModel
+      //         .entities
+      //         .CategoryEntity
+      //         .query
+      //         .category({ categoryId: e.categoryId })
+      //         .go();
+      //       return category;
+      //     })
+      //     return categories;
+      //   }
+      // })
 
     })
   });
