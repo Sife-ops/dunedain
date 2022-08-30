@@ -1,10 +1,26 @@
 import { useBookmarkForm } from "./use-bookmark-form";
 import { useBookmarkCreateMutation } from "../../query/bookmark-create";
+import { useCategoriesQuery } from "../../query/categories";
 
 export const BookmarkForm = () => {
   const bookmarkForm = useBookmarkForm();
 
   const [_, bookmarkCreate] = useBookmarkCreateMutation();
+  const [categoriesQueryState] = useCategoriesQuery();
+
+  if (categoriesQueryState.fetching) {
+    <div>
+      <div>loading...</div>
+    </div>;
+  }
+
+  if (categoriesQueryState.error || !categoriesQueryState.data) {
+    return (
+      <div>
+        <div>Error...</div>
+      </div>
+    );
+  }
 
   return (
     <div>

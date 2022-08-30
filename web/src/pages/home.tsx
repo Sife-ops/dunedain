@@ -1,44 +1,56 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useBookmarksQuery } from "../query/bookmarks";
 import { BookmarkForm } from "../component/bookmark-form";
+import { Category } from "../../../graphql/genql/schema";
+import { useBookmarksQuery } from "../query/bookmarks";
+import { useCategoriesQuery } from "../query/categories";
+import { useEffect, useState } from "react";
+import { useCategories, Categories } from "../component/categories";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
-  const [bookmarksQueryState] = useBookmarksQuery();
+  // const navigate = useNavigate();
+  // const [bookmarksQueryState] = useBookmarksQuery();
 
-  // useEffect(()=>{
-  // }, [])
+  const [categoriesQueryState] = useCategoriesQuery();
 
-  if (bookmarksQueryState.fetching) {
-    return (
-      <div>
-        <div>loading...</div>
-      </div>
-    );
-  }
+  const [createMode, setCreateMode] = useState(false);
 
-  if (bookmarksQueryState.error || !bookmarksQueryState.data) {
-    return (
-      <div>
-        <div>Error...</div>
-      </div>
-    );
-  }
+  const { categories, toggleCategory, updateCategories } = useCategories();
 
-  const { bookmarks } = bookmarksQueryState.data;
+  useEffect(() => {
+    const { fetching, data } = categoriesQueryState;
+    if (!fetching && data) {
+      // @ts-ignore
+      updateCategories(data.categories);
+    }
+  }, [categoriesQueryState.fetching]);
+
+  // const { bookmarks } = bookmarksQueryState.data;
 
   return (
     <div>
-      <h3>Home</h3>
-      <BookmarkForm />
-      <div>
-        {bookmarks.map((e) => (
-          <div key={e.bookmarkId}>
-            <div>title: {e.title}</div>
-            <div>url: {e.url}</div>
-          </div>
-        ))}
-      </div>
+      {!createMode && (
+        <div>
+          <h3>Categories</h3>
+          <Categories categories={categories} toggleCategory={toggleCategory} />
+
+          <h3>Bookmarks</h3>
+          <button onClick={() => setCreateMode(true)}>New Bookmark</button>
+
+          {/* {bookmarks && bookmarks.map((e) => (
+            <div key={e.bookmarkId}>
+              <div>title: {e.title}</div>
+              <div>url: {e.url}</div>
+            </div>
+          ))} */}
+        </div>
+      )}
+      {createMode && (
+        <div>
+          <h3>New Bookmark</h3>
+          <BookmarkForm />
+          <button onClick={() => setCreateMode(false)}>cancel</button>
+        </div>
+      )}
     </div>
   );
 };
