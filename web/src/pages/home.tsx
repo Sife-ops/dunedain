@@ -1,5 +1,6 @@
 import { Bookmark } from "../../../graphql/genql/schema";
 import { BookmarkForm } from "../component/bookmark-form";
+import { CategoryForm } from "../component/category-form";
 import { useBookmarkDeleteMutation } from "../query/bookmark-delete";
 import { useBookmarksQuery } from "../query/bookmarks";
 import { useCategories, Categories } from "../component/categories";
@@ -16,6 +17,7 @@ export const Home = () => {
   const [_, bookmarkDelete] = useBookmarkDeleteMutation();
 
   const [createBookmarkMode, setCreateBookmarkMode] = useState(false);
+  const [createCategoryMode, setCreateCategoryMode] = useState(false);
   const [modalMode, setModalMode] = useState(false);
   const [modalComponent, setModalComponent] = useState<JSX.Element>(<></>);
 
@@ -46,8 +48,16 @@ export const Home = () => {
         <BookmarkForm
           categories={categories}
           setEnabled={setCreateBookmarkMode}
-          type={"create"}
         />
+      </div>
+    );
+  }
+
+  if (createCategoryMode) {
+    return (
+      <div>
+        <h3>New Category</h3>
+        <CategoryForm setEnabled={setCreateCategoryMode} />
       </div>
     );
   }
@@ -56,7 +66,9 @@ export const Home = () => {
     <div>
       <div>
         <h3>Categories</h3>
-        <button onClick={() => {}}>New Category</button>
+        <button onClick={() => setCreateCategoryMode(true)}>
+          New Category
+        </button>
         <button onClick={() => {}}>Edit Categories</button>
         <Categories categories={categories} toggleCategory={toggleCategory} />
 
@@ -87,7 +99,6 @@ export const Home = () => {
                         bookmark={e}
                         categories={categories}
                         setEnabled={setModalMode}
-                        type={"edit"}
                       />
                     </div>
                   );

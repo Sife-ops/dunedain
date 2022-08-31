@@ -9,7 +9,6 @@ export const BookmarkForm: React.FC<{
   bookmark?: Bookmark;
   categories: SelectableCategory[];
   setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-  type: "create" | "edit";
 }> = (props) => {
   const bookmarkForm = useBookmarkForm();
 
