@@ -39,14 +39,14 @@ export const BookmarkForm: React.FC<{
     if (!fetching && !error && data) {
       props.setEnabled(false);
     }
-  }, [bookmarkCreateState.fetching]);
+  }, [bookmarkCreateState.data]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkEditState;
     if (!fetching && !error && data) {
       props.setEnabled(false);
     }
-  }, [bookmarkEditState.fetching]);
+  }, [bookmarkEditState.data]);
 
   return (
     <form
