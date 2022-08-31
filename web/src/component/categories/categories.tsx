@@ -16,7 +16,12 @@ export const Categories: React.FC<Props> = (props) => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        gap: "2rem",
+      }}
+    >
       {props.categories.map((e) => (
         <Category
           key={e.categoryId}
@@ -34,12 +39,14 @@ export const Category: React.FC<{
 }> = (props) => {
   return (
     <div>
-      <input
-        type={"checkbox"}
-        checked={props.category.selected}
-        onClick={() => props.toggleCategory(props.category)}
-      />
-      <div>{props.category.title}</div>
+      <label>
+        <input
+          type={"checkbox"}
+          checked={props.category.selected}
+          onChange={() => props.toggleCategory(props.category)}
+        />
+        {props.category.title}
+      </label>
     </div>
   );
 };

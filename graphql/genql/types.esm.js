@@ -2,7 +2,7 @@ export default {
     "scalars": [
         1,
         2,
-        8
+        9
     ],
     "types": {
         "Article": {
@@ -68,6 +68,15 @@ export default {
                     ]
                 }
             ],
+            "bookmarkEdit": [
+                3,
+                {
+                    "input": [
+                        8,
+                        "bookmarkUpdateInput!"
+                    ]
+                }
+            ],
             "createArticle": [
                 0,
                 {
@@ -103,6 +112,23 @@ export default {
             ]
         },
         "bookmarkCreateInput": {
+            "categoryIds": [
+                2
+            ],
+            "title": [
+                2
+            ],
+            "url": [
+                2
+            ],
+            "__typename": [
+                2
+            ]
+        },
+        "bookmarkUpdateInput": {
+            "bookmarkId": [
+                2
+            ],
             "categoryIds": [
                 2
             ],

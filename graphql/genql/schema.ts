@@ -32,6 +32,7 @@ export interface Category {
 
 export interface Mutation {
     bookmarkCreate: Bookmark
+    bookmarkEdit: Bookmark
     createArticle: Article
     __typename: 'Mutation'
 }
@@ -73,6 +74,7 @@ export interface CategoryRequest{
 
 export interface MutationRequest{
     bookmarkCreate?: [{input: bookmarkCreateInput},BookmarkRequest]
+    bookmarkEdit?: [{input: bookmarkUpdateInput},BookmarkRequest]
     createArticle?: [{title: Scalars['String'],url: Scalars['String']},ArticleRequest]
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -88,6 +90,8 @@ export interface QueryRequest{
 }
 
 export interface bookmarkCreateInput {categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
+
+export interface bookmarkUpdateInput {bookmarkId: Scalars['String'],categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
 
 
 const Article_possibleTypes: string[] = ['Article']
@@ -173,11 +177,13 @@ export interface CategoryObservableChain{
 
 export interface MutationPromiseChain{
     bookmarkCreate: ((args: {input: bookmarkCreateInput}) => BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
+    bookmarkEdit: ((args: {input: bookmarkUpdateInput}) => BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
     createArticle: ((args: {title: Scalars['String'],url: Scalars['String']}) => ArticlePromiseChain & {get: <R extends ArticleRequest>(request: R, defaultValue?: FieldsSelection<Article, R>) => Promise<FieldsSelection<Article, R>>})
 }
 
 export interface MutationObservableChain{
     bookmarkCreate: ((args: {input: bookmarkCreateInput}) => BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
+    bookmarkEdit: ((args: {input: bookmarkUpdateInput}) => BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
     createArticle: ((args: {title: Scalars['String'],url: Scalars['String']}) => ArticleObservableChain & {get: <R extends ArticleRequest>(request: R, defaultValue?: FieldsSelection<Article, R>) => Observable<FieldsSelection<Article, R>>})
 }
 

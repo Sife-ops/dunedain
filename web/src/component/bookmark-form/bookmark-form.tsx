@@ -1,17 +1,22 @@
 import React, { useEffect } from "react";
+import { Bookmark } from "../../../../graphql/genql/schema";
 import { SelectableCategory, useCategories, Categories } from "../categories";
 import { useBookmarkCreateMutation } from "../../query/bookmark-create";
+import { useBookmarkEditMutation } from "../../query/bookmark-edit";
 import { useBookmarkForm } from "./use-bookmark-form";
 
 export const BookmarkForm: React.FC<{
+  bookmark?: Bookmark;
   categories: SelectableCategory[];
-  setCreateMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
+  type: "create" | "edit";
 }> = (props) => {
   const bookmarkForm = useBookmarkForm();
 
   const { categories, toggleCategory, setCategories } = useCategories();
 
   const [bookmarkCreateState, bookmarkCreate] = useBookmarkCreateMutation();
+  const [bookmarkEditState, bookmarkEdit] = useBookmarkEditMutation();
 
   // todo: merge if bookmark prop passed
   useEffect(() => {
@@ -21,39 +26,68 @@ export const BookmarkForm: React.FC<{
         selected: false,
       }))
     );
+
+    if (props.bookmark) {
+      console.log(props.bookmark);
+      bookmarkForm.formSet.setUrl(props.bookmark.url);
+      bookmarkForm.formSet.setTitle(props.bookmark.title);
+      props.bookmark.categories.map((e) => toggleCategory(e));
+    }
   }, []);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkCreateState;
     if (!fetching && !error && data) {
-      props.setCreateMode(false);
+      props.setEnabled(false);
     }
   }, [bookmarkCreateState.fetching]);
+
+  useEffect(() => {
+    const { fetching, data, error } = bookmarkEditState;
+    if (!fetching && !error && data) {
+      props.setEnabled(false);
+    }
+  }, [bookmarkEditState.fetching]);
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         const { title, url } = bookmarkForm.formState;
-        bookmarkCreate({
-          input: {
-            title,
-            url,
-            categoryIds: categories
-              .filter((e) => e.selected)
-              .map((e) => e.categoryId),
-          },
-        });
+        const categoryIds = categories
+          .filter((e) => e.selected)
+          .map((e) => e.categoryId);
+
+        if (props.bookmark) {
+          bookmarkEdit({
+            input: {
+              bookmarkId: props.bookmark.bookmarkId,
+              categoryIds,
+              title,
+              url,
+            },
+          });
+        } else {
+          bookmarkCreate({
+            input: {
+              categoryIds,
+              title,
+              url,
+            },
+          });
+        }
       }}
     >
       <input
-        placeholder="url"
         onChange={(e) => bookmarkForm.formSet.setUrl(e.target.value)}
+        placeholder="url"
+        value={bookmarkForm.formState.url}
       />
 
       <input
-        placeholder="title"
         onChange={(e) => bookmarkForm.formSet.setTitle(e.target.value)}
+        placeholder="title"
+        value={bookmarkForm.formState.title}
       />
 
       <Categories categories={categories} toggleCategory={toggleCategory} />
@@ -64,7 +98,7 @@ export const BookmarkForm: React.FC<{
       <button
         onClick={(e) => {
           e.preventDefault();
-          props.setCreateMode(false);
+          props.setEnabled(false);
         }}
       >
         Cancel

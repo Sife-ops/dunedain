@@ -24,7 +24,7 @@ export const useCategories = () => {
     });
   };
 
-  const toggleCategory = (category: SelectableCategory) => {
+  const toggleCategory = (category: Category) => {
     setCategories((s) => {
       return s.map((c) => {
         if (c.categoryId === category.categoryId) {

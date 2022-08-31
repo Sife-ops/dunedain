@@ -21,6 +21,7 @@ type Category {
 
 type Mutation {
   bookmarkCreate(input: bookmarkCreateInput!): Bookmark!
+  bookmarkEdit(input: bookmarkUpdateInput!): Bookmark!
   createArticle(title: String!, url: String!): Article!
 }
 
@@ -32,6 +33,13 @@ type Query {
 }
 
 input bookmarkCreateInput {
+  categoryIds: [String!]!
+  title: String!
+  url: String!
+}
+
+input bookmarkUpdateInput {
+  bookmarkId: String!
   categoryIds: [String!]!
   title: String!
   url: String!
