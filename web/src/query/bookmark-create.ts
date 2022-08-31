@@ -1,7 +1,6 @@
 import { useTypedMutation } from "../urql";
 
 export const useBookmarkCreateMutation = () => {
-  //   return useTypedMutation((vars: { title: string; url: string }) => {
   return useTypedMutation(
     (vars: {
       input: {

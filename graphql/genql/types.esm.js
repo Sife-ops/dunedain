@@ -95,6 +95,15 @@ export default {
                     ]
                 }
             ],
+            "categoryDelete": [
+                4,
+                {
+                    "categoryId": [
+                        2,
+                        "String!"
+                    ]
+                }
+            ],
             "categoryEdit": [
                 4,
                 {

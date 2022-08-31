@@ -32,6 +32,21 @@ builder.mutationFields((t) => ({
     resolve: async (_, args) => Article.create(args.title, args.url),
   }),
 
+  categoryDelete: t.field({
+    type: CategoryType,
+    args: {
+      categoryId: t.arg.string({ required: true }),
+    },
+    resolve: async (_, { categoryId }, { user: { userId } }) => {
+      const category = await dunedainModel.entities.CategoryEntity.remove({
+        categoryId,
+        userId,
+      }).go();
+
+      return category;
+    },
+  }),
+
   categoryEdit: t.field({
     type: CategoryType,
     args: {

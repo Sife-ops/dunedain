@@ -24,6 +24,7 @@ type Mutation {
   bookmarkDelete(bookmarkId: String!): Bookmark!
   bookmarkEdit(input: bookmarkUpdateInput!): Bookmark!
   categoryCreate(title: String!): Category!
+  categoryDelete(categoryId: String!): Category!
   categoryEdit(categoryId: String!, title: String!): Category!
   createArticle(title: String!, url: String!): Article!
 }
