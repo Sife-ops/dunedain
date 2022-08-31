@@ -68,12 +68,43 @@ export default {
                     ]
                 }
             ],
+            "bookmarkDelete": [
+                3,
+                {
+                    "bookmarkId": [
+                        2,
+                        "String!"
+                    ]
+                }
+            ],
             "bookmarkEdit": [
                 3,
                 {
                     "input": [
                         8,
                         "bookmarkUpdateInput!"
+                    ]
+                }
+            ],
+            "categoryCreate": [
+                4,
+                {
+                    "title": [
+                        2,
+                        "String!"
+                    ]
+                }
+            ],
+            "categoryEdit": [
+                4,
+                {
+                    "categoryId": [
+                        2,
+                        "String!"
+                    ],
+                    "title": [
+                        2,
+                        "String!"
                     ]
                 }
             ],

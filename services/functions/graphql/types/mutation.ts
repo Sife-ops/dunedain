@@ -1,8 +1,9 @@
 import { Article } from "@dunedain/core/article";
-import { dunedainModel } from "@dunedain/core/model";
-import { BookmarkType } from "./bookmark";
 import { ArticleType } from "./article";
+import { BookmarkType } from "./bookmark";
+import { CategoryType } from "./category";
 import { builder } from "../builder";
+import { dunedainModel } from "@dunedain/core/model";
 
 const bookmarkCreateInput = builder.inputType("bookmarkCreateInput", {
   fields: (t) => ({
@@ -29,6 +30,63 @@ builder.mutationFields((t) => ({
       url: t.arg.string({ required: true }),
     },
     resolve: async (_, args) => Article.create(args.title, args.url),
+  }),
+
+  categoryEdit: t.field({
+    type: CategoryType,
+    args: {
+      title: t.arg.string({ required: true }),
+      categoryId: t.arg.string({ required: true }),
+    },
+    resolve: async (_, { categoryId, title }, { user: { userId } }) => {
+      await dunedainModel.entities.CategoryEntity.update({
+        categoryId,
+        userId,
+      })
+        .set({
+          title,
+        })
+        .go();
+
+      const [category] = await dunedainModel.entities.CategoryEntity.query
+        .user({
+          userId,
+          categoryId,
+        })
+        .go();
+
+      return category;
+    },
+  }),
+
+  categoryCreate: t.field({
+    type: CategoryType,
+    args: {
+      title: t.arg.string({ required: true }),
+    },
+    resolve: async (_, { title }, { user: { userId } }) => {
+      const category = await dunedainModel.entities.CategoryEntity.create({
+        userId,
+        title,
+      }).go();
+
+      return category;
+    },
+  }),
+
+  bookmarkDelete: t.field({
+    type: BookmarkType,
+    args: {
+      bookmarkId: t.arg.string({ required: true }),
+    },
+    resolve: async (_, { bookmarkId }, { user: { userId } }) => {
+      const bookmark = await dunedainModel.entities.BookmarkEntity.remove({
+        bookmarkId,
+        userId,
+      }).go();
+
+      return bookmark;
+    },
   }),
 
   bookmarkEdit: t.field({

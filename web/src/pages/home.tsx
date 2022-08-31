@@ -27,7 +27,6 @@ export const Home = () => {
   useEffect(() => {
     const { fetching, data } = bookmarksQueryState;
     if (!fetching && data) {
-      console.log("set bookmarks");
       // @ts-ignore
       setBookmarks(data.bookmarks);
     }
@@ -71,10 +70,6 @@ export const Home = () => {
               justifyContent: "space-between",
             }}
           >
-            {/* <div>
-              <div>title: {e.title}</div>
-              <div>url: {e.url}</div>
-            </div> */}
             <div>{e.title}</div>
             <div>{e.url}</div>
             <div>
