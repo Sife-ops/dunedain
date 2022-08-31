@@ -1,9 +1,10 @@
-import { BookmarkForm } from "../component/bookmark-form";
 import { Bookmark } from "../../../graphql/genql/schema";
+import { BookmarkForm } from "../component/bookmark-form";
+import { useBookmarkDeleteMutation } from "../query/bookmark-delete";
 import { useBookmarksQuery } from "../query/bookmarks";
+import { useCategories, Categories } from "../component/categories";
 import { useCategoriesQuery } from "../query/categories";
 import { useEffect, useState } from "react";
-import { useCategories, Categories } from "../component/categories";
 
 export const Home = () => {
   const [categoriesQueryState] = useCategoriesQuery();
@@ -12,9 +13,11 @@ export const Home = () => {
   const [bookmarksQueryState] = useBookmarksQuery();
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 
-  const [createMode, setCreateMode] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [editComponent, setEditComponent] = useState<JSX.Element>(<></>);
+  const [_, bookmarkDelete] = useBookmarkDeleteMutation();
+
+  const [createBookmarkMode, setCreateBookmarkMode] = useState(false);
+  const [modalMode, setModalMode] = useState(false);
+  const [modalComponent, setModalComponent] = useState<JSX.Element>(<></>);
 
   useEffect(() => {
     const { fetching, data } = categoriesQueryState;
@@ -32,21 +35,21 @@ export const Home = () => {
     }
   }, [bookmarksQueryState.data]);
 
-  if (createMode) {
+  if (modalMode) {
+    return modalComponent;
+  }
+
+  if (createBookmarkMode) {
     return (
       <div>
         <h3>New Bookmark</h3>
         <BookmarkForm
           categories={categories}
-          setEnabled={setCreateMode}
+          setEnabled={setCreateBookmarkMode}
           type={"create"}
         />
       </div>
     );
-  }
-
-  if (editMode) {
-    return editComponent;
   }
 
   return (
@@ -58,7 +61,9 @@ export const Home = () => {
         <Categories categories={categories} toggleCategory={toggleCategory} />
 
         <h3>Bookmarks</h3>
-        <button onClick={() => setCreateMode(true)}>New Bookmark</button>
+        <button onClick={() => setCreateBookmarkMode(true)}>
+          New Bookmark
+        </button>
         <br />
         <br />
 
@@ -75,23 +80,46 @@ export const Home = () => {
             <div>
               <button
                 onClick={() => {
-                  setEditComponent(
+                  setModalComponent(
                     <div>
                       <h3>Edit Bookmark</h3>
                       <BookmarkForm
                         bookmark={e}
                         categories={categories}
-                        setEnabled={setEditMode}
+                        setEnabled={setModalMode}
                         type={"edit"}
                       />
                     </div>
                   );
-                  setEditMode(true);
+                  setModalMode(true);
                 }}
               >
                 Edit
               </button>
-              <button>Delete</button>
+              <button
+                onClick={() => {
+                  setModalComponent(
+                    <div>
+                      <h3>Are you sure?</h3>
+                      <button
+                        onClick={() => {
+                          // todo: re-exec bookmarksQuery
+                          bookmarkDelete({
+                            bookmarkId: e.bookmarkId,
+                          });
+                          setModalMode(false);
+                        }}
+                      >
+                        Yes
+                      </button>
+                      <button onClick={() => setModalMode(false)}>No</button>
+                    </div>
+                  );
+                  setModalMode(true);
+                }}
+              >
+                Delete
+              </button>
             </div>
           </div>
         ))}
