@@ -1,16 +1,32 @@
 import React from "react";
+import { useBookmarksQuery } from "../../query/bookmarks";
 import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
-import { BookmarkDelete } from "./bookmark-delete";
-import { BookmarkForm } from "../bookmark-form";
-import { SelectableCategory } from "../categories";
+import { useNavigate } from "react-router-dom";
 
-export const Bookmarks: React.FC<{
-  bookmarks: BookmarkType[];
-  categories: SelectableCategory[];
-  setModalComponent: React.Dispatch<React.SetStateAction<JSX.Element>>;
-  setModalMode: React.Dispatch<React.SetStateAction<boolean>>;
-}> = (props) => {
-  if (props.bookmarks.length < 1) {
+export const Bookmarks: React.FC = () => {
+  const [bookmarksQueryState] = useBookmarksQuery();
+
+  const { fetching, data, error } = bookmarksQueryState;
+
+  if (fetching) {
+    return (
+      <div>
+        <div>loading...</div>
+      </div>
+    );
+  }
+
+  if (!data || error) {
+    return (
+      <div>
+        <div>oops</div>
+      </div>
+    );
+  }
+
+  const bookmarks = data.bookmarks as BookmarkType[];
+
+  if (bookmarks.length < 1) {
     return (
       <div>
         <div>no bookmarks</div>
@@ -20,14 +36,8 @@ export const Bookmarks: React.FC<{
 
   return (
     <div>
-      {props.bookmarks.map((e) => (
-        <Bookmark
-          key={e.bookmarkId}
-          bookmark={e}
-          categories={props.categories}
-          setModalComponent={props.setModalComponent}
-          setModalMode={props.setModalMode}
-        />
+      {bookmarks.map((e) => (
+        <Bookmark key={e.bookmarkId} bookmark={e} />
       ))}
     </div>
   );
@@ -35,10 +45,9 @@ export const Bookmarks: React.FC<{
 
 const Bookmark: React.FC<{
   bookmark: BookmarkType;
-  categories: SelectableCategory[];
-  setModalComponent: React.Dispatch<React.SetStateAction<JSX.Element>>;
-  setModalMode: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
+  const navigate = useNavigate();
+
   return (
     <div
       key={props.bookmark.bookmarkId}
@@ -50,26 +59,26 @@ const Bookmark: React.FC<{
       <div>{props.bookmark.title}</div>
       <div>{props.bookmark.url}</div>
 
-      <div>
-        <button
-          onClick={() => {
-            props.setModalComponent(
-              <div>
-                <h3>Edit Bookmark</h3>
-                <BookmarkForm
-                  bookmark={props.bookmark}
-                  categories={props.categories}
-                  setEnabled={props.setModalMode}
-                />
-              </div>
-            );
-            props.setModalMode(true);
-          }}
-        >
-          Edit
-        </button>
+      <button
+        onClick={() => {
+          navigate(`bookmark/${props.bookmark.bookmarkId}`);
+          // props.setModalComponent(
+          //   <div>
+          //     <h3>Edit Bookmark</h3>
+          //     <BookmarkForm
+          //       bookmark={props.bookmark}
+          //       categories={props.categories}
+          //       setEnabled={props.setModalMode}
+          //     />
+          //   </div>
+          // );
+          // props.setModalMode(true);
+        }}
+      >
+        Details
+      </button>
 
-        <button
+      {/* <button
           onClick={() => {
             props.setModalComponent(
               <div>
@@ -84,8 +93,7 @@ const Bookmark: React.FC<{
           }}
         >
           Delete
-        </button>
-      </div>
+        </button> */}
     </div>
   );
 };

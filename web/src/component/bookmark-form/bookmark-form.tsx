@@ -4,12 +4,13 @@ import { SelectableCategory, useCategories, Categories } from "../categories";
 import { useBookmarkCreateMutation } from "../../query/bookmark-create";
 import { useBookmarkEditMutation } from "../../query/bookmark-edit";
 import { useBookmarkForm } from "./use-bookmark-form";
+import { useNavigate } from "react-router-dom";
 
 export const BookmarkForm: React.FC<{
   bookmark?: Bookmark;
-  categories: SelectableCategory[];
-  setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
+  const navigate = useNavigate();
+
   const bookmarkForm = useBookmarkForm();
 
   const { categories, toggleCategory, setCategories } = useCategories();
@@ -19,12 +20,12 @@ export const BookmarkForm: React.FC<{
 
   // todo: merge if bookmark prop passed
   useEffect(() => {
-    setCategories(
-      props.categories.map((c) => ({
-        ...c,
-        selected: false,
-      }))
-    );
+    // setCategories(
+    //   props.categories.map((c) => ({
+    //     ...c,
+    //     selected: false,
+    //   }))
+    // );
 
     if (props.bookmark) {
       bookmarkForm.formSet.setUrl(props.bookmark.url);
@@ -36,14 +37,14 @@ export const BookmarkForm: React.FC<{
   useEffect(() => {
     const { fetching, data, error } = bookmarkCreateState;
     if (!fetching && !error && data) {
-      props.setEnabled(false);
+      navigate("/");
     }
   }, [bookmarkCreateState.data]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkEditState;
     if (!fetching && !error && data) {
-      props.setEnabled(false);
+      // props.setEnabled(false);
     }
   }, [bookmarkEditState.data]);
 
@@ -96,7 +97,7 @@ export const BookmarkForm: React.FC<{
       <button
         onClick={(e) => {
           e.preventDefault();
-          props.setEnabled(false);
+          navigate("/");
         }}
       >
         Cancel

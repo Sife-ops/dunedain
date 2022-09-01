@@ -1,4 +1,6 @@
 import { Category } from "../../../../graphql/genql/schema";
+import { useCategoriesQuery } from "../../query/categories";
+import { useEffect } from "react";
 import { useState } from "react";
 
 export type SelectableCategory = Category & {
@@ -6,7 +8,17 @@ export type SelectableCategory = Category & {
 };
 
 export const useCategories = () => {
+  const [categoriesQueryState] = useCategoriesQuery();
+
   const [categories, setCategories] = useState<SelectableCategory[]>([]);
+
+  useEffect(() => {
+    const { fetching, data } = categoriesQueryState;
+    if (!fetching && data) {
+      // @ts-ignore
+      updateCategories(data.categories);
+    }
+  }, [categoriesQueryState.data]);
 
   const updateCategories = (categories: SelectableCategory[]) => {
     setCategories((s) => {
