@@ -12,6 +12,7 @@ export const CategoryForm: React.FC<{
   const [title, setTitle] = useState("");
 
   const [categoryCreateState, categoryCreate] = useCategoryCreateMutation();
+  const [categoryDeleteState, categoryDelete] = useCategoryDeleteMutation();
   const [categoryEditState, categoryEdit] = useCategoryEditMutation();
 
   useEffect(() => {
@@ -27,6 +28,13 @@ export const CategoryForm: React.FC<{
       props.setEnabled(false);
     }
   }, [categoryEditState.data]);
+
+  useEffect(() => {
+    const { fetching, data, error } = categoryDeleteState;
+    if (!fetching && !error && data) {
+      props.setEnabled(false);
+    }
+  }, [categoryDeleteState.data]);
 
   useEffect(() => {
     if (props.category) {
@@ -55,22 +63,47 @@ export const CategoryForm: React.FC<{
         value={title}
       />
 
-      <button type={"submit"} disabled={title.length < 1}>
-        Save
-      </button>
-
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          if (props.setModalMode) {
-            props.setModalMode(false);
-          } else {
-            props.setEnabled(false);
-          }
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        Cancel
-      </button>
+        <div>
+          <button type={"submit"} disabled={title.length < 1}>
+            Save
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              if (props.setModalMode) {
+                props.setModalMode(false);
+              } else {
+                props.setEnabled(false);
+              }
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+
+        {props.category && (
+          <div>
+            <button
+              onClick={(e) => {
+                //
+                e.preventDefault();
+                categoryDelete({
+                  categoryId: props.category?.categoryId!,
+                });
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        )}
+      </div>
     </form>
   );
 };

@@ -53,11 +53,14 @@ const Category: React.FC<{
         <button
           onClick={() => {
             props.setModalComponent!(
-              <CategoryForm
-                category={props.category}
-                setEnabled={props.setModalMode!}
-                setModalMode={props.setModalMode}
-              />
+              <div>
+                <h3>Edit Category</h3>
+                <CategoryForm
+                  category={props.category}
+                  setEnabled={props.setModalMode!}
+                  setModalMode={props.setModalMode}
+                />
+              </div>
             );
             props.setModalMode!(true);
           }}

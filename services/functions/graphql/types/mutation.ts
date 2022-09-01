@@ -151,6 +151,7 @@ builder.mutationFields((t) => ({
             bookmarkId,
           })
           .go();
+
         return bookmark;
       }
     },

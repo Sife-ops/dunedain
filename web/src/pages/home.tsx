@@ -26,8 +26,6 @@ export const Home = () => {
     if (!fetching && data) {
       // @ts-ignore
       updateCategories(data.categories);
-      console.log('this is gay')
-      console.log('your gay')
     }
   }, [categoriesQueryState.data]);
 
@@ -63,9 +61,6 @@ export const Home = () => {
       </div>
     );
   }
-
-  // todo: edit category
-  // todo: delete category
 
   return (
     <div>
