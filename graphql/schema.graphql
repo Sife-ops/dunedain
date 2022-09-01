@@ -1,9 +1,3 @@
-type Article {
-  id: ID!
-  title: String!
-  url: String!
-}
-
 type Bookmark {
   bookmarkId: String!
   categories: [Category!]!
@@ -26,11 +20,9 @@ type Mutation {
   categoryCreate(title: String!): Category!
   categoryDelete(categoryId: String!): Category!
   categoryEdit(categoryId: String!, title: String!): Category!
-  createArticle(title: String!, url: String!): Article!
 }
 
 type Query {
-  articles: [Article!]!
   bookmark: Bookmark!
   bookmarks: [Bookmark!]!
   categories: [Category!]!

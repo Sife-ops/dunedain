@@ -1,16 +1,8 @@
 import {FieldsSelection,Observable} from '@genql/runtime'
 
 export type Scalars = {
-    ID: string,
     String: string,
     Boolean: boolean,
-}
-
-export interface Article {
-    id: Scalars['ID']
-    title: Scalars['String']
-    url: Scalars['String']
-    __typename: 'Article'
 }
 
 export interface Bookmark {
@@ -37,24 +29,14 @@ export interface Mutation {
     categoryCreate: Category
     categoryDelete: Category
     categoryEdit: Category
-    createArticle: Article
     __typename: 'Mutation'
 }
 
 export interface Query {
-    articles: Article[]
     bookmark: Bookmark
     bookmarks: Bookmark[]
     categories: Category[]
     __typename: 'Query'
-}
-
-export interface ArticleRequest{
-    id?: boolean | number
-    title?: boolean | number
-    url?: boolean | number
-    __typename?: boolean | number
-    __scalar?: boolean | number
 }
 
 export interface BookmarkRequest{
@@ -83,13 +65,11 @@ export interface MutationRequest{
     categoryCreate?: [{title: Scalars['String']},CategoryRequest]
     categoryDelete?: [{categoryId: Scalars['String']},CategoryRequest]
     categoryEdit?: [{categoryId: Scalars['String'],title: Scalars['String']},CategoryRequest]
-    createArticle?: [{title: Scalars['String'],url: Scalars['String']},ArticleRequest]
     __typename?: boolean | number
     __scalar?: boolean | number
 }
 
 export interface QueryRequest{
-    articles?: ArticleRequest
     bookmark?: BookmarkRequest
     bookmarks?: BookmarkRequest
     categories?: CategoryRequest
@@ -100,14 +80,6 @@ export interface QueryRequest{
 export interface bookmarkCreateInput {categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
 
 export interface bookmarkUpdateInput {bookmarkId: Scalars['String'],categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
-
-
-const Article_possibleTypes: string[] = ['Article']
-export const isArticle = (obj?: { __typename?: any } | null): obj is Article => {
-  if (!obj?.__typename) throw new Error('__typename is missing in "isArticle"')
-  return Article_possibleTypes.includes(obj.__typename)
-}
-
 
 
 const Bookmark_possibleTypes: string[] = ['Bookmark']
@@ -140,18 +112,6 @@ export const isQuery = (obj?: { __typename?: any } | null): obj is Query => {
   return Query_possibleTypes.includes(obj.__typename)
 }
 
-
-export interface ArticlePromiseChain{
-    id: ({get: (request?: boolean|number, defaultValue?: Scalars['ID']) => Promise<Scalars['ID']>}),
-    title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
-    url: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>})
-}
-
-export interface ArticleObservableChain{
-    id: ({get: (request?: boolean|number, defaultValue?: Scalars['ID']) => Observable<Scalars['ID']>}),
-    title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
-    url: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>})
-}
 
 export interface BookmarkPromiseChain{
     bookmarkId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
@@ -189,8 +149,7 @@ export interface MutationPromiseChain{
     bookmarkEdit: ((args: {input: bookmarkUpdateInput}) => BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
     categoryCreate: ((args: {title: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
     categoryDelete: ((args: {categoryId: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
-    categoryEdit: ((args: {categoryId: Scalars['String'],title: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
-    createArticle: ((args: {title: Scalars['String'],url: Scalars['String']}) => ArticlePromiseChain & {get: <R extends ArticleRequest>(request: R, defaultValue?: FieldsSelection<Article, R>) => Promise<FieldsSelection<Article, R>>})
+    categoryEdit: ((args: {categoryId: Scalars['String'],title: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>})
 }
 
 export interface MutationObservableChain{
@@ -199,19 +158,16 @@ export interface MutationObservableChain{
     bookmarkEdit: ((args: {input: bookmarkUpdateInput}) => BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
     categoryCreate: ((args: {title: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
     categoryDelete: ((args: {categoryId: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
-    categoryEdit: ((args: {categoryId: Scalars['String'],title: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
-    createArticle: ((args: {title: Scalars['String'],url: Scalars['String']}) => ArticleObservableChain & {get: <R extends ArticleRequest>(request: R, defaultValue?: FieldsSelection<Article, R>) => Observable<FieldsSelection<Article, R>>})
+    categoryEdit: ((args: {categoryId: Scalars['String'],title: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>})
 }
 
 export interface QueryPromiseChain{
-    articles: ({get: <R extends ArticleRequest>(request: R, defaultValue?: FieldsSelection<Article, R>[]) => Promise<FieldsSelection<Article, R>[]>}),
     bookmark: (BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
     bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Promise<FieldsSelection<Bookmark, R>[]>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Promise<FieldsSelection<Category, R>[]>})
 }
 
 export interface QueryObservableChain{
-    articles: ({get: <R extends ArticleRequest>(request: R, defaultValue?: FieldsSelection<Article, R>[]) => Observable<FieldsSelection<Article, R>[]>}),
     bookmark: (BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
     bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Observable<FieldsSelection<Bookmark, R>[]>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Observable<FieldsSelection<Category, R>[]>})

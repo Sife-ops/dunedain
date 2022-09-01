@@ -1,185 +1,153 @@
 export default {
     "scalars": [
         1,
-        2,
-        9
+        7
     ],
     "types": {
-        "Article": {
-            "id": [
+        "Bookmark": {
+            "bookmarkId": [
+                1
+            ],
+            "categories": [
+                2
+            ],
+            "title": [
+                1
+            ],
+            "url": [
+                1
+            ],
+            "userId": [
+                1
+            ],
+            "__typename": [
+                1
+            ]
+        },
+        "String": {},
+        "Category": {
+            "bookmarks": [
+                0
+            ],
+            "categoryId": [
                 1
             ],
             "title": [
-                2
-            ],
-            "url": [
-                2
-            ],
-            "__typename": [
-                2
-            ]
-        },
-        "ID": {},
-        "String": {},
-        "Bookmark": {
-            "bookmarkId": [
-                2
-            ],
-            "categories": [
-                4
-            ],
-            "title": [
-                2
-            ],
-            "url": [
-                2
+                1
             ],
             "userId": [
-                2
+                1
             ],
             "__typename": [
-                2
-            ]
-        },
-        "Category": {
-            "bookmarks": [
-                3
-            ],
-            "categoryId": [
-                2
-            ],
-            "title": [
-                2
-            ],
-            "userId": [
-                2
-            ],
-            "__typename": [
-                2
+                1
             ]
         },
         "Mutation": {
             "bookmarkCreate": [
-                3,
+                0,
                 {
                     "input": [
-                        7,
+                        5,
                         "bookmarkCreateInput!"
                     ]
                 }
             ],
             "bookmarkDelete": [
-                3,
+                0,
                 {
                     "bookmarkId": [
-                        2,
+                        1,
                         "String!"
                     ]
                 }
             ],
             "bookmarkEdit": [
-                3,
+                0,
                 {
                     "input": [
-                        8,
+                        6,
                         "bookmarkUpdateInput!"
                     ]
                 }
             ],
             "categoryCreate": [
-                4,
+                2,
                 {
                     "title": [
-                        2,
+                        1,
                         "String!"
                     ]
                 }
             ],
             "categoryDelete": [
-                4,
+                2,
                 {
                     "categoryId": [
-                        2,
+                        1,
                         "String!"
                     ]
                 }
             ],
             "categoryEdit": [
-                4,
+                2,
                 {
                     "categoryId": [
-                        2,
+                        1,
                         "String!"
                     ],
                     "title": [
-                        2,
-                        "String!"
-                    ]
-                }
-            ],
-            "createArticle": [
-                0,
-                {
-                    "title": [
-                        2,
-                        "String!"
-                    ],
-                    "url": [
-                        2,
+                        1,
                         "String!"
                     ]
                 }
             ],
             "__typename": [
-                2
+                1
             ]
         },
         "Query": {
-            "articles": [
+            "bookmark": [
                 0
             ],
-            "bookmark": [
-                3
-            ],
             "bookmarks": [
-                3
+                0
             ],
             "categories": [
-                4
+                2
             ],
             "__typename": [
-                2
+                1
             ]
         },
         "bookmarkCreateInput": {
             "categoryIds": [
-                2
+                1
             ],
             "title": [
-                2
+                1
             ],
             "url": [
-                2
+                1
             ],
             "__typename": [
-                2
+                1
             ]
         },
         "bookmarkUpdateInput": {
             "bookmarkId": [
-                2
+                1
             ],
             "categoryIds": [
-                2
+                1
             ],
             "title": [
-                2
+                1
             ],
             "url": [
-                2
+                1
             ],
             "__typename": [
-                2
+                1
             ]
         },
         "Boolean": {}
