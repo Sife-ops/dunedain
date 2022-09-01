@@ -38,7 +38,14 @@ builder.mutationFields((t) => ({
       categoryId: t.arg.string({ required: true }),
     },
     resolve: async (_, { categoryId }, { user: { userId } }) => {
-      const category = await dunedainModel.entities.CategoryEntity.remove({
+      const [category] = await dunedainModel.entities.CategoryEntity.query
+        .user({
+          userId,
+          categoryId,
+        })
+        .go();
+
+      await dunedainModel.entities.CategoryEntity.remove({
         categoryId,
         userId,
       }).go();
