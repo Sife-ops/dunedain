@@ -14,8 +14,10 @@ export const Home = () => {
   const [bookmarksQueryState] = useBookmarksQuery();
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 
-  const [createBookmarkMode, setCreateBookmarkMode] = useState(false);
-  const [createCategoryMode, setCreateCategoryMode] = useState(false);
+  const [bookmarkCreateMode, setBookmarkCreateMode] = useState(false);
+  const [categoryCreateMode, setCategoryCreateMode] = useState(false);
+  const [categoryEditMode, setCategoryEditMode] = useState(false);
+
   const [modalMode, setModalMode] = useState(false);
   const [modalComponent, setModalComponent] = useState<JSX.Element>(<></>);
 
@@ -24,6 +26,8 @@ export const Home = () => {
     if (!fetching && data) {
       // @ts-ignore
       updateCategories(data.categories);
+      console.log('this is gay')
+      console.log('your gay')
     }
   }, [categoriesQueryState.data]);
 
@@ -39,36 +43,59 @@ export const Home = () => {
     return modalComponent;
   }
 
-  if (createBookmarkMode) {
+  if (bookmarkCreateMode) {
     return (
       <div>
         <h3>New Bookmark</h3>
         <BookmarkForm
           categories={categories}
-          setEnabled={setCreateBookmarkMode}
+          setEnabled={setBookmarkCreateMode}
         />
       </div>
     );
   }
 
-  if (createCategoryMode) {
+  if (categoryCreateMode) {
     return (
       <div>
         <h3>New Category</h3>
-        <CategoryForm setEnabled={setCreateCategoryMode} />
+        <CategoryForm setEnabled={setCategoryCreateMode} />
       </div>
     );
   }
 
+  // todo: edit category
+  // todo: delete category
+
   return (
     <div>
       <h3>Categories</h3>
-      <button onClick={() => setCreateCategoryMode(true)}>New Category</button>
-      <button onClick={() => {}}>Edit Categories</button>
-      <Categories categories={categories} toggleCategory={toggleCategory} />
+      {categoryEditMode ? (
+        <div>
+          <button onClick={() => setCategoryEditMode(false)}>Cancel</button>
+        </div>
+      ) : (
+        <div>
+          <button onClick={() => setCategoryCreateMode(true)}>
+            New Category
+          </button>
+          <button onClick={() => setCategoryEditMode(true)}>
+            Edit Categories
+          </button>
+        </div>
+      )}
+      <br />
+
+      <Categories
+        categories={categories}
+        categoryEditMode={categoryEditMode}
+        setModalComponent={setModalComponent}
+        setModalMode={setModalMode}
+        toggleCategory={toggleCategory}
+      />
 
       <h3>Bookmarks</h3>
-      <button onClick={() => setCreateBookmarkMode(true)}>New Bookmark</button>
+      <button onClick={() => setBookmarkCreateMode(true)}>New Bookmark</button>
       <br />
       <br />
 

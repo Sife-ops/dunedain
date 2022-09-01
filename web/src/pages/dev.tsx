@@ -56,7 +56,7 @@ export const Dev = () => {
       <List />
 
       <h3>bookmark form</h3>
-      <BookmarkForm />
+      {/* <BookmarkForm /> */}
 
       <h3>bookmark query</h3>
     </div>

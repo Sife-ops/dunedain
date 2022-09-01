@@ -1,8 +1,12 @@
 import React from "react";
+import { CategoryForm } from "../category-form";
 import { SelectableCategory } from "./use-categories";
 
 interface Props {
   categories: SelectableCategory[];
+  categoryEditMode?: boolean;
+  setModalComponent?: React.Dispatch<React.SetStateAction<JSX.Element>>;
+  setModalMode?: React.Dispatch<React.SetStateAction<boolean>>;
   toggleCategory: (category: SelectableCategory) => void;
 }
 
@@ -26,6 +30,9 @@ export const Categories: React.FC<Props> = (props) => {
         <Category
           key={e.categoryId}
           category={e}
+          categoryEditMode={props.categoryEditMode}
+          setModalComponent={props.setModalComponent}
+          setModalMode={props.setModalMode}
           toggleCategory={props.toggleCategory}
         />
       ))}
@@ -33,17 +40,41 @@ export const Categories: React.FC<Props> = (props) => {
   );
 };
 
-export const Category: React.FC<{
+const Category: React.FC<{
   category: SelectableCategory;
+  categoryEditMode?: boolean;
+  setModalComponent?: React.Dispatch<React.SetStateAction<JSX.Element>>;
+  setModalMode?: React.Dispatch<React.SetStateAction<boolean>>;
   toggleCategory: (category: SelectableCategory) => void;
 }> = (props) => {
+  if (props.categoryEditMode !== undefined && props.categoryEditMode === true) {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            props.setModalComponent!(
+              <CategoryForm
+                category={props.category}
+                setEnabled={props.setModalMode!}
+                setModalMode={props.setModalMode}
+              />
+            );
+            props.setModalMode!(true);
+          }}
+        >
+          {props.category.title}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
       <label>
         <input
-          type={"checkbox"}
           checked={props.category.selected}
           onChange={() => props.toggleCategory(props.category)}
+          type={"checkbox"}
         />
         {props.category.title}
       </label>

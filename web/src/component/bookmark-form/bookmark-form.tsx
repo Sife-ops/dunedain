@@ -27,7 +27,6 @@ export const BookmarkForm: React.FC<{
     );
 
     if (props.bookmark) {
-      console.log(props.bookmark);
       bookmarkForm.formSet.setUrl(props.bookmark.url);
       bookmarkForm.formSet.setTitle(props.bookmark.title);
       props.bookmark.categories.map((e) => toggleCategory(e));
