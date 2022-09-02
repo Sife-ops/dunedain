@@ -53,6 +53,7 @@ export const useCategories = () => {
 
   return {
     categories,
+    categoriesQueryState,
     setCategories,
     toggleCategory,
     updateCategories,

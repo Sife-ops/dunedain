@@ -19,7 +19,7 @@ export const Bookmarks: React.FC = () => {
   if (!data || error) {
     return (
       <div>
-        <div>oops</div>
+        <div>error</div>
       </div>
     );
   }

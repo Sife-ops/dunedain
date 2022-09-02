@@ -107,7 +107,13 @@ export default {
         },
         "Query": {
             "bookmark": [
-                0
+                0,
+                {
+                    "bookmarkId": [
+                        1,
+                        "String!"
+                    ]
+                }
             ],
             "bookmarks": [
                 0

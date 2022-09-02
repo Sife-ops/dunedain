@@ -24,20 +24,17 @@ builder.queryFields((t) => ({
 
   bookmark: t.field({
     type: BookmarkType,
-    resolve: async () => {
-      return {
-        userId: "a",
-        bookmarkId: "a",
-        url: "a",
-        title: "a",
-        categories: [
-          {
-            userId: "a",
-            categoryId: "a",
-            title: "a",
-          },
-        ],
-      };
+    args: {
+      bookmarkId: t.arg.string({ required: true }),
+    },
+    resolve: async (_, { bookmarkId }, { user: { userId } }) => {
+      const [
+        bookmark,
+      ] = await dunedainModel.entities.BookmarkEntity.query
+        .user({ userId, bookmarkId })
+        .go();
+
+      return bookmark;
     },
   }),
 }));
