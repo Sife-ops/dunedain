@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Bookmark } from "../../../../graphql/genql/schema";
 import { Categories } from "../categories";
 import { useBookmarkForm } from "./use-bookmark-form";
@@ -61,18 +61,43 @@ export const BookmarkForm: React.FC<{
         />
       )}
 
-      <button type={"submit"} disabled={!bookmarkForm.state.isValidForm}>
-        Submit
-      </button>
-
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          navigate("/");
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        Cancel
-      </button>
+        <div>
+          <button type={"submit"} disabled={!bookmarkForm.state.isValidForm}>
+            {props.bookmark ? "Save" : "Submit"}
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/");
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+
+        <div>
+          {/* todo: confirm delete */}
+          {props.bookmark && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                bookmarkForm.mutation.bookmarkDelete({
+                  bookmarkId: props.bookmark!.bookmarkId,
+                });
+              }}
+            >
+              Delete
+            </button>
+          )}
+        </div>
+      </div>
     </form>
   );
 };

@@ -1,5 +1,6 @@
 import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
 import { useBookmarkCreateMutation } from "../../query/bookmark-create";
+import { useBookmarkDeleteMutation } from "../../query/bookmark-delete";
 import { useBookmarkEditMutation } from "../../query/bookmark-edit";
 import { useCategories } from "../categories";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +26,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
 
   const [bookmarkCreateState, bookmarkCreate] = useBookmarkCreateMutation();
   const [bookmarkEditState, bookmarkEdit] = useBookmarkEditMutation();
+  const [bookmarkDeleteState, bookmarkDelete] = useBookmarkDeleteMutation();
 
   useEffect(() => {
     if (bookmark) {
@@ -75,6 +77,13 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     }
   }, [bookmarkEditState.data]);
 
+  useEffect(() => {
+    const { fetching, data, error } = bookmarkDeleteState;
+    if (!fetching && !error && data) {
+      navigate("/");
+    }
+  }, [bookmarkDeleteState.data]);
+
   return {
     state: {
       categories,
@@ -88,6 +97,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
 
       bookmarkCreateState,
       bookmarkEditState,
+      bookmarkDeleteState,
     },
     set: {
       setCategories,
@@ -99,6 +109,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     },
     mutation: {
       bookmarkCreate,
+      bookmarkDelete,
       bookmarkEdit,
     },
   };
