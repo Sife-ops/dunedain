@@ -1,24 +1,14 @@
 import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
-import { Bookmark } from "../../graphql/genql/schema";
 import { BookmarkDetails } from "./pages/bookmark-details";
 import { BookmarkNew } from "./pages/bookmark-new";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
 import { SignIn } from "./pages/sign-in";
 import { SignUp } from "./pages/sign-up";
-import { useBookmarksQuery } from "./query/bookmarks";
-import { useCategories, Categories } from "./component/categories";
 import { useEffect, useState } from "react";
-
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
 
 Auth.configure({
   Auth: {

@@ -1,10 +1,11 @@
+import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
 import { useBookmarkCreateMutation } from "../../query/bookmark-create";
 import { useBookmarkEditMutation } from "../../query/bookmark-edit";
 import { useCategories } from "../categories";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export const useBookmarkForm = () => {
+export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
   const {
@@ -13,7 +14,7 @@ export const useBookmarkForm = () => {
     setCategories,
     toggleCategory,
     updateCategories,
-  } = useCategories();
+  } = useCategories(bookmark);
 
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -24,6 +25,13 @@ export const useBookmarkForm = () => {
 
   const [bookmarkCreateState, bookmarkCreate] = useBookmarkCreateMutation();
   const [bookmarkEditState, bookmarkEdit] = useBookmarkEditMutation();
+
+  useEffect(() => {
+    if (bookmark) {
+      setUrl(bookmark.url);
+      setTitle(bookmark.title);
+    }
+  }, []);
 
   useEffect(() => {
     const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
@@ -55,6 +63,7 @@ export const useBookmarkForm = () => {
   useEffect(() => {
     const { fetching, data, error } = bookmarkCreateState;
     if (!fetching && !error && data) {
+      // todo: navigate cancels reexec causing 'NS_BINDING_ABORTED'
       navigate("/");
     }
   }, [bookmarkCreateState.data]);

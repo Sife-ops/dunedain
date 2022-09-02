@@ -9,21 +9,7 @@ export const BookmarkForm: React.FC<{
 }> = (props) => {
   const navigate = useNavigate();
 
-  const bookmarkForm = useBookmarkForm();
-
-  useEffect(() => {
-    if (props.bookmark) {
-      bookmarkForm.set.setUrl(props.bookmark.url);
-      bookmarkForm.set.setTitle(props.bookmark.title);
-    }
-  }, []);
-
-  useEffect(() => {
-    const { fetching, data, error } = bookmarkForm.state.categoriesQueryState;
-    if (props.bookmark && !fetching && data && !error) {
-      props.bookmark.categories.map((e) => bookmarkForm.set.toggleCategory(e));
-    }
-  }, [bookmarkForm.state.categoriesQueryState.data]);
+  const bookmarkForm = useBookmarkForm(props.bookmark);
 
   return (
     <form

@@ -1,3 +1,4 @@
+import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
 import { Category } from "../../../../graphql/genql/schema";
 import { useCategoriesQuery } from "../../query/categories";
 import { useEffect } from "react";
@@ -7,16 +8,19 @@ export type SelectableCategory = Category & {
   selected: boolean;
 };
 
-export const useCategories = () => {
+export const useCategories = (bookmark?: BookmarkType) => {
   const [categoriesQueryState] = useCategoriesQuery();
 
   const [categories, setCategories] = useState<SelectableCategory[]>([]);
 
   useEffect(() => {
-    const { fetching, data } = categoriesQueryState;
-    if (!fetching && data) {
+    const { fetching, data, error } = categoriesQueryState;
+    if (!fetching && data && !error) {
       // @ts-ignore
       updateCategories(data.categories);
+      if (bookmark) {
+        bookmark.categories.map((e) => toggleCategory(e));
+      }
     }
   }, [categoriesQueryState.data]);
 
