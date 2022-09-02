@@ -1,66 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useCategoryForm } from "./use-category-form";
 import { SelectableCategory } from "../categories/use-categories";
-import { useCategoryCreateMutation } from "../../query/category-create";
-import { useCategoryDeleteMutation } from "../../query/category-delete";
-import { useCategoryEditMutation } from "../../query/category-edit";
+import { useNavigate } from "react-router-dom";
 
 export const CategoryForm: React.FC<{
   category?: SelectableCategory;
-  setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-  setModalMode?: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
-  const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
-  const [categoryCreateState, categoryCreate] = useCategoryCreateMutation();
-  const [categoryDeleteState, categoryDelete] = useCategoryDeleteMutation();
-  const [categoryEditState, categoryEdit] = useCategoryEditMutation();
-
-  useEffect(() => {
-    const { fetching, data, error } = categoryCreateState;
-    if (!fetching && !error && data) {
-      props.setEnabled(false);
-    }
-  }, [categoryCreateState.data]);
-
-  useEffect(() => {
-    const { fetching, data, error } = categoryEditState;
-    if (!fetching && !error && data) {
-      props.setEnabled(false);
-    }
-  }, [categoryEditState.data]);
-
-  useEffect(() => {
-    const { fetching, data, error } = categoryDeleteState;
-    if (!fetching && !error && data) {
-      props.setEnabled(false);
-    }
-  }, [categoryDeleteState.data]);
-
-  useEffect(() => {
-    if (props.category) {
-      setTitle(props.category.title);
-    }
-  }, []);
+  const categoryForm = useCategoryForm();
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         if (props.category) {
-          // todo: doesn't reexec, wtf
-          categoryEdit({
+          categoryForm.mutation.categoryEdit({
             categoryId: props.category.categoryId,
-            title,
+            title: categoryForm.state.title,
           });
         } else {
-          categoryCreate({ title });
+          categoryForm.mutation.categoryCreate({
+            title: categoryForm.state.title,
+          });
         }
       }}
     >
       <input
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => categoryForm.set.setTitle(e.target.value)}
         placeholder="title"
-        value={title}
+        value={categoryForm.state.title}
       />
 
       <div
@@ -70,18 +39,17 @@ export const CategoryForm: React.FC<{
         }}
       >
         <div>
-          <button type={"submit"} disabled={title.length < 1}>
-            Save
+          <button
+            type={"submit"}
+            disabled={categoryForm.state.title.length < 1}
+          >
+            {props.category ? "Save" : "Submit"}
           </button>
 
           <button
             onClick={(e) => {
               e.preventDefault();
-              if (props.setModalMode) {
-                props.setModalMode(false);
-              } else {
-                props.setEnabled(false);
-              }
+              navigate("/");
             }}
           >
             Cancel
@@ -92,9 +60,8 @@ export const CategoryForm: React.FC<{
           <div>
             <button
               onClick={(e) => {
-                //
                 e.preventDefault();
-                categoryDelete({
+                categoryForm.mutation.categoryDelete({
                   categoryId: props.category?.categoryId!,
                 });
               }}

@@ -9,6 +9,10 @@ export const Home = () => {
     <div>
       <h3>Categories</h3>
 
+      <button onClick={() => navigate("category/new")}>New Category</button>
+      <br />
+      <br />
+
       <CategoriesContainer />
 
       <h3>Bookmarks</h3>

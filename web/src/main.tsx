@@ -2,7 +2,9 @@ import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
 import { BookmarkDetails } from "./pages/bookmark-details";
 import { BookmarkNew } from "./pages/bookmark-new";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import { Categories } from "./pages/categories";
+import { CategoryNew } from "./pages/category-new";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
@@ -63,10 +65,30 @@ function App() {
   if (signedIn) {
     return (
       <BrowserRouter>
+        <nav
+          style={{
+            display: "flex",
+            gap: "1rem",
+          }}
+        >
+          <Link to="/">Home</Link>
+          <Link to="/categories">Categories</Link>
+          <button
+            onClick={() => {
+              localStorage.removeItem("accessToken");
+              window.location.reload();
+            }}
+          >
+            Sign Out
+          </button>
+        </nav>
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/bookmark/new" element={<BookmarkNew />} />
           <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/category/new" element={<CategoryNew />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </BrowserRouter>
