@@ -4,6 +4,7 @@ import { BookmarkDetails } from "./pages/bookmark-details";
 import { BookmarkNew } from "./pages/bookmark-new";
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import { Categories } from "./pages/categories";
+import { CategoryDetails } from "./pages/category-details";
 import { CategoryNew } from "./pages/category-new";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
@@ -89,6 +90,7 @@ function App() {
           <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/new" element={<CategoryNew />} />
+          <Route path="/category/:categoryId" element={<CategoryDetails />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </BrowserRouter>
