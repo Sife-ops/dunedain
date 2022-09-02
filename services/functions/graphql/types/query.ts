@@ -22,6 +22,20 @@ builder.queryFields((t) => ({
     },
   }),
 
+  category: t.field({
+    type: CategoryType,
+    args: {
+      categoryId: t.arg.string({ required: true })
+    },
+    resolve: async (_, { categoryId }, { user: { userId } }) => {
+      const [category] = await dunedainModel.entities.CategoryEntity.query
+        .user({ userId, categoryId })
+        .go();
+
+      return category;
+    },
+  }),
+
   bookmark: t.field({
     type: BookmarkType,
     args: {

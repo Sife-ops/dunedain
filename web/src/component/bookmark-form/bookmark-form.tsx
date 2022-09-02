@@ -40,6 +40,15 @@ export const BookmarkForm: React.FC<{
         }
       }}
     >
+      {bookmarkForm.state.categoriesQueryState.fetching ? (
+        <div>loading...</div>
+      ) : (
+        <Categories
+          categories={bookmarkForm.state.categories}
+          toggleCategory={bookmarkForm.set.toggleCategory}
+        />
+      )}
+
       <input
         onChange={(e) => bookmarkForm.set.setUrl(e.target.value)}
         placeholder="url"
@@ -51,15 +60,6 @@ export const BookmarkForm: React.FC<{
         placeholder="title"
         value={bookmarkForm.state.title}
       />
-
-      {bookmarkForm.state.categoriesQueryState.fetching ? (
-        <div>loading...</div>
-      ) : (
-        <Categories
-          categories={bookmarkForm.state.categories}
-          toggleCategory={bookmarkForm.set.toggleCategory}
-        />
-      )}
 
       <div
         style={{

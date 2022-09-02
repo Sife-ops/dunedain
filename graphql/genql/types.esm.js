@@ -121,6 +121,15 @@ export default {
             "categories": [
                 2
             ],
+            "category": [
+                2,
+                {
+                    "categoryId": [
+                        1,
+                        "String!"
+                    ]
+                }
+            ],
             "__typename": [
                 1
             ]

@@ -1,14 +1,14 @@
 import React from "react";
+import { Category as CategoryType } from "../../../../graphql/genql/schema";
 import { useCategoryForm } from "./use-category-form";
-import { SelectableCategory } from "../categories/use-categories";
 import { useNavigate } from "react-router-dom";
 
 export const CategoryForm: React.FC<{
-  category?: SelectableCategory;
+  category?: CategoryType;
 }> = (props) => {
   const navigate = useNavigate();
 
-  const categoryForm = useCategoryForm();
+  const categoryForm = useCategoryForm(props.category);
 
   return (
     <form
@@ -49,7 +49,7 @@ export const CategoryForm: React.FC<{
           <button
             onClick={(e) => {
               e.preventDefault();
-              navigate("/");
+              navigate(-1);
             }}
           >
             Cancel

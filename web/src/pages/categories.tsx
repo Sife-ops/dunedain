@@ -4,6 +4,8 @@ import { useCategoriesQuery } from "../query/categories";
 import { useNavigate } from "react-router-dom";
 
 export const Categories: React.FC = () => {
+  const navigate = useNavigate();
+
   const [categoriesQueryState] = useCategoriesQuery();
 
   const { fetching, data, error } = categoriesQueryState;
@@ -28,6 +30,12 @@ export const Categories: React.FC = () => {
 
   return (
     <div>
+      <h3>Categories</h3>
+
+      <button onClick={() => navigate("/category/new")}>New Category</button>
+      <br />
+      <br />
+
       <CategoryList categories={categories} />
     </div>
   );
@@ -51,7 +59,12 @@ const Category: React.FC<{
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
       <div>{props.category.title}</div>
       <button
         onClick={(e) => {

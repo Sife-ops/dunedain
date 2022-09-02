@@ -26,6 +26,7 @@ type Query {
   bookmark(bookmarkId: String!): Bookmark!
   bookmarks: [Bookmark!]!
   categories: [Category!]!
+  category(categoryId: String!): Category!
 }
 
 input bookmarkCreateInput {

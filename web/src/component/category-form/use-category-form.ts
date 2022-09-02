@@ -17,21 +17,21 @@ export const useCategoryForm = (category?: CategoryType) => {
   useEffect(() => {
     const { fetching, data, error } = categoryCreateState;
     if (!fetching && !error && data) {
-      navigate("/");
+      navigate(-1);
     }
   }, [categoryCreateState.data]);
 
   useEffect(() => {
     const { fetching, data, error } = categoryEditState;
     if (!fetching && !error && data) {
-      navigate("/");
+      navigate(-1);
     }
   }, [categoryEditState.data]);
 
   useEffect(() => {
     const { fetching, data, error } = categoryDeleteState;
     if (!fetching && !error && data) {
-      navigate("/");
+      navigate(-1);
     }
   }, [categoryDeleteState.data]);
 

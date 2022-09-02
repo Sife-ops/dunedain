@@ -66,21 +66,21 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     const { fetching, data, error } = bookmarkCreateState;
     if (!fetching && !error && data) {
       // todo: navigate cancels reexec causing 'NS_BINDING_ABORTED'
-      navigate("/");
+      navigate(-1);
     }
   }, [bookmarkCreateState.data]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkEditState;
     if (!fetching && !error && data) {
-      navigate("/");
+      navigate(-1);
     }
   }, [bookmarkEditState.data]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkDeleteState;
     if (!fetching && !error && data) {
-      navigate("/");
+      navigate(-1);
     }
   }, [bookmarkDeleteState.data]);
 
