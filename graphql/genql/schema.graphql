@@ -17,6 +17,7 @@ type Mutation {
   bookmarkCreate(input: bookmarkCreateInput!): Bookmark!
   bookmarkDelete(bookmarkId: String!): Bookmark!
   bookmarkEdit(input: bookmarkUpdateInput!): Bookmark!
+  bookmarkSearch(input: bookmarkSearchInput!): [Bookmark!]!
   categoryCreate(title: String!): Category!
   categoryDelete(categoryId: String!): Category!
   categoryEdit(categoryId: String!, title: String!): Category!
@@ -33,6 +34,11 @@ input bookmarkCreateInput {
   categoryIds: [String!]!
   title: String!
   url: String!
+}
+
+input bookmarkSearchInput {
+  categoryIds: [String!]!
+  search: String!
 }
 
 input bookmarkUpdateInput {

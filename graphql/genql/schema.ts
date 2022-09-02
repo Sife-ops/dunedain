@@ -26,6 +26,7 @@ export interface Mutation {
     bookmarkCreate: Bookmark
     bookmarkDelete: Bookmark
     bookmarkEdit: Bookmark
+    bookmarkSearch: Bookmark[]
     categoryCreate: Category
     categoryDelete: Category
     categoryEdit: Category
@@ -63,6 +64,7 @@ export interface MutationRequest{
     bookmarkCreate?: [{input: bookmarkCreateInput},BookmarkRequest]
     bookmarkDelete?: [{bookmarkId: Scalars['String']},BookmarkRequest]
     bookmarkEdit?: [{input: bookmarkUpdateInput},BookmarkRequest]
+    bookmarkSearch?: [{input: bookmarkSearchInput},BookmarkRequest]
     categoryCreate?: [{title: Scalars['String']},CategoryRequest]
     categoryDelete?: [{categoryId: Scalars['String']},CategoryRequest]
     categoryEdit?: [{categoryId: Scalars['String'],title: Scalars['String']},CategoryRequest]
@@ -80,6 +82,8 @@ export interface QueryRequest{
 }
 
 export interface bookmarkCreateInput {categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
+
+export interface bookmarkSearchInput {categoryIds: Scalars['String'][],search: Scalars['String']}
 
 export interface bookmarkUpdateInput {bookmarkId: Scalars['String'],categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
 
@@ -149,6 +153,7 @@ export interface MutationPromiseChain{
     bookmarkCreate: ((args: {input: bookmarkCreateInput}) => BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
     bookmarkDelete: ((args: {bookmarkId: Scalars['String']}) => BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
     bookmarkEdit: ((args: {input: bookmarkUpdateInput}) => BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
+    bookmarkSearch: ((args: {input: bookmarkSearchInput}) => {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Promise<FieldsSelection<Bookmark, R>[]>}),
     categoryCreate: ((args: {title: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
     categoryDelete: ((args: {categoryId: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
     categoryEdit: ((args: {categoryId: Scalars['String'],title: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>})
@@ -158,6 +163,7 @@ export interface MutationObservableChain{
     bookmarkCreate: ((args: {input: bookmarkCreateInput}) => BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
     bookmarkDelete: ((args: {bookmarkId: Scalars['String']}) => BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
     bookmarkEdit: ((args: {input: bookmarkUpdateInput}) => BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
+    bookmarkSearch: ((args: {input: bookmarkSearchInput}) => {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Observable<FieldsSelection<Bookmark, R>[]>}),
     categoryCreate: ((args: {title: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
     categoryDelete: ((args: {categoryId: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
     categoryEdit: ((args: {categoryId: Scalars['String'],title: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>})

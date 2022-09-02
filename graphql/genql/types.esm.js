@@ -1,7 +1,7 @@
 export default {
     "scalars": [
         1,
-        7
+        8
     ],
     "types": {
         "Bookmark": {
@@ -65,8 +65,17 @@ export default {
                 0,
                 {
                     "input": [
-                        6,
+                        7,
                         "bookmarkUpdateInput!"
+                    ]
+                }
+            ],
+            "bookmarkSearch": [
+                0,
+                {
+                    "input": [
+                        6,
+                        "bookmarkSearchInput!"
                     ]
                 }
             ],
@@ -142,6 +151,17 @@ export default {
                 1
             ],
             "url": [
+                1
+            ],
+            "__typename": [
+                1
+            ]
+        },
+        "bookmarkSearchInput": {
+            "categoryIds": [
+                1
+            ],
+            "search": [
                 1
             ],
             "__typename": [

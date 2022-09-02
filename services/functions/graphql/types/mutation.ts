@@ -20,6 +20,13 @@ const bookmarkUpdateInput = builder.inputType("bookmarkUpdateInput", {
   }),
 });
 
+const bookmarkSearchInput = builder.inputType("bookmarkSearchInput", {
+  fields: (t) => ({
+    search: t.string({ required: true }),
+    categoryIds: t.stringList({ required: true }),
+  }),
+});
+
 builder.mutationFields((t) => ({
   categoryDelete: t.field({
     type: CategoryType,
@@ -180,4 +187,24 @@ builder.mutationFields((t) => ({
       return bookmark;
     },
   }),
+
+  bookmarkSearch: t.field({
+    type: [BookmarkType],
+    args: {
+      input: t.arg({ type: bookmarkSearchInput, required: true })
+    },
+    resolve: async (_, { input }, { user: { userId } }) => {
+      const bookmarks = await dunedainModel.entities.BookmarkEntity.query.user({
+        userId
+      }).go()
+
+      const { search, categoryIds } = input;
+
+      if (!search && categoryIds.length < 1) {
+        return bookmarks;
+      }
+
+      return bookmarks.filter(e => e.title.includes(search));
+    }
+  })
 }));
