@@ -15,6 +15,7 @@ export const useBookmarkFilter = () => {
 
   const [search, setSearch] = useState("");
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
+  const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkSearchState;
@@ -25,13 +26,18 @@ export const useBookmarkFilter = () => {
   }, [bookmarkSearchState.data]);
 
   useEffect(() => {
-    setCategoryIds(categories.categories?.map((e) => e.categoryId) || []);
+    setCategoryIds(
+      categories.categories
+        ?.filter((e) => e.selected)
+        .map((e) => e.categoryId) || []
+    );
   }, [categories.categories]);
 
   const searchDefault = () => {
     bookmarkSearchMutation({
       input: {
         categoryIds: [],
+        categoryOpt,
         search: "",
       },
     });
@@ -41,6 +47,7 @@ export const useBookmarkFilter = () => {
     bookmarkSearchMutation({
       input: {
         categoryIds,
+        categoryOpt,
         search,
       },
     });
@@ -51,6 +58,8 @@ export const useBookmarkFilter = () => {
       categoryIds,
       search,
       setSearch,
+      categoryOpt,
+      setCategoryOpt,
     },
 
     bookmarks: {

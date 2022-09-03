@@ -1,9 +1,9 @@
 import React from "react";
-import { Bookmark } from "../../../../graphql/genql/schema";
+import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
 import { useNavigate } from "react-router-dom";
 
 export const Bookmarks: React.FC<{
-  bookmarks: Bookmark[] | null;
+  bookmarks: BookmarkType[] | null;
 }> = (props) => {
   if (props.bookmarks === null) {
     return (
@@ -31,7 +31,7 @@ export const Bookmarks: React.FC<{
 };
 
 const Bookmark: React.FC<{
-  bookmark: Bookmark;
+  bookmark: BookmarkType;
 }> = (props) => {
   const navigate = useNavigate();
 

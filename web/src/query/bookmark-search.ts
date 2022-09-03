@@ -6,6 +6,7 @@ export const useBookmarkSearchMutation = () => {
       input: {
         search: string;
         categoryIds: string[];
+        categoryOpt: "And" | "Or";
       };
     }) => {
       return {
@@ -20,10 +21,10 @@ export const useBookmarkSearchMutation = () => {
 
             categories: {
               __typename: true,
-            userId: true,
-            categoryId: true,
-            title: true,
-            }
+              userId: true,
+              categoryId: true,
+              title: true,
+            },
           },
         ],
       };

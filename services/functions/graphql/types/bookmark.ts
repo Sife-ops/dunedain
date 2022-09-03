@@ -16,6 +16,7 @@ BookmarkType.implement({
 
     categories: t.loadableList({
       type: CategoryType,
+      resolve: (parent) => parent.bookmarkId,
       load: async (bookmarkIds: string[], { user: { userId } }) => {
         const {
           BookmarkCategoryEntity,
@@ -35,7 +36,6 @@ BookmarkType.implement({
           );
         });
       },
-      resolve: (parent) => parent.bookmarkId,
     }),
   }),
 });

@@ -52,3 +52,8 @@ export type MutationResult<fields extends MutationRequest> = FieldsSelection<
 export declare const generateMutationOp: (
   fields: MutationRequest & { __name?: string },
 ) => GraphqlOperation
+
+export declare const enumCategoryEnum: {
+  readonly And: 'And'
+  readonly Or: 'Or'
+}

@@ -25,6 +25,11 @@ export var createClient = function(options) {
   return createClientOriginal(optionsCopy)
 }
 
+export const enumCategoryEnum = {
+  And: 'And',
+  Or: 'Or',
+}
+
 export var generateQueryOp = function(fields) {
   return generateGraphqlOperation('query', typeMap.Query, fields)
 }

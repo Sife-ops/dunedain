@@ -1,7 +1,8 @@
 export default {
     "scalars": [
         1,
-        8
+        3,
+        9
     ],
     "types": {
         "Bookmark": {
@@ -42,12 +43,13 @@ export default {
                 1
             ]
         },
+        "CategoryEnum": {},
         "Mutation": {
             "bookmarkCreate": [
                 0,
                 {
                     "input": [
-                        5,
+                        6,
                         "bookmarkCreateInput!"
                     ]
                 }
@@ -65,7 +67,7 @@ export default {
                 0,
                 {
                     "input": [
-                        7,
+                        8,
                         "bookmarkUpdateInput!"
                     ]
                 }
@@ -74,7 +76,7 @@ export default {
                 0,
                 {
                     "input": [
-                        6,
+                        7,
                         "bookmarkSearchInput!"
                     ]
                 }
@@ -160,6 +162,9 @@ export default {
         "bookmarkSearchInput": {
             "categoryIds": [
                 1
+            ],
+            "categoryOpt": [
+                3
             ],
             "search": [
                 1

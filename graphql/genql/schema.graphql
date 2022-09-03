@@ -13,6 +13,11 @@ type Category {
   userId: String!
 }
 
+enum CategoryEnum {
+  And
+  Or
+}
+
 type Mutation {
   bookmarkCreate(input: bookmarkCreateInput!): Bookmark!
   bookmarkDelete(bookmarkId: String!): Bookmark!
@@ -38,6 +43,7 @@ input bookmarkCreateInput {
 
 input bookmarkSearchInput {
   categoryIds: [String!]!
+  categoryOpt: CategoryEnum!
   search: String!
 }
 

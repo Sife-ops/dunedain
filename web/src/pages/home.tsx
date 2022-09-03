@@ -15,7 +15,8 @@ export const Home = () => {
 
   return (
     <div>
-      <h3>Search</h3>
+      {/* <h3>Search</h3> */}
+      <br />
 
       <form
         onSubmit={(e) => {
@@ -29,18 +30,28 @@ export const Home = () => {
           onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
         />
         <button type={"submit"}>search</button>
+
+        {/* <h3>Categories</h3> */}
+
+        {/* <button onClick={() => navigate("/category/new")}>New Category</button> */}
+        <br />
+        <br />
+
+        <Categories
+          categories={bookmarkFilter.categories.categories}
+          toggleCategory={bookmarkFilter.categories.toggleCategory}
+        />
+
+        <select
+          onChange={(e) => {
+            // @ts-ignore
+            bookmarkFilter.input.setCategoryOpt(e.target.value);
+          }}
+        >
+          <option>And</option>
+          <option>Or</option>
+        </select>
       </form>
-
-      <h3>Categories</h3>
-
-      <button onClick={() => navigate("/category/new")}>New Category</button>
-      <br />
-      <br />
-
-      <Categories
-        categories={bookmarkFilter.categories.categories}
-        toggleCategory={bookmarkFilter.categories.toggleCategory}
-      />
 
       <h3>Bookmarks</h3>
 
