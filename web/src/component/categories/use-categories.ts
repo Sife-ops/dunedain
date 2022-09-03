@@ -43,20 +43,22 @@ export const useCategories = (bookmark?: Bookmark) => {
   };
 
   const toggleCategory = (category: Category) => {
+    const toggleMapFn = (c: SelectableCategory) => {
+      if (c.categoryId === category.categoryId) {
+        return {
+          ...c,
+          selected: !c.selected,
+        };
+      } else {
+        return c;
+      }
+    };
+
     setCategories((s) => {
-      return (
-        s?.map((c) => {
-          if (c.categoryId === category.categoryId) {
-            return {
-              ...c,
-              selected: !c.selected,
-            };
-          } else {
-            return c;
-          }
-        }) || null
-      );
+      return s?.map(toggleMapFn) || null;
     });
+
+    return categories?.map(toggleMapFn);
   };
 
   const resetCategories = () => {

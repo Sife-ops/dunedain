@@ -1,6 +1,8 @@
-import { Bookmark } from "../../../../graphql/genql/schema";
+import { Bookmark } from "@dunedain/graphql/genql/schema";
+import { Category } from "../../../../graphql/genql/schema";
 import { useBookmarkSearchMutation } from "../../query/bookmark-search";
 import { useCategories } from "../categories/use-categories";
+import { useDebounce } from "use-debounce";
 import { useEffect, useState } from "react";
 
 // todo: autosearch debounce
@@ -13,9 +15,17 @@ export const useBookmarkFilter = () => {
 
   const categories = useCategories();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string | null>(null);
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
+
+  const [searchD] = useDebounce(search, 500);
+
+  useEffect(() => {
+    if (search !== null) {
+      searchFn();
+    }
+  }, [searchD]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkSearchState;
@@ -43,14 +53,36 @@ export const useBookmarkFilter = () => {
     });
   };
 
-  const searchFn = () => {
+  const searchFn = (args?: {
+    categoryIds?: string[];
+    categoryOpt?: "And" | "Or";
+  }) => {
+    const options = {
+      categoryIds,
+      categoryOpt,
+      ...args,
+    };
+
     bookmarkSearchMutation({
       input: {
-        categoryIds,
-        categoryOpt,
-        search,
+        categoryIds: options.categoryIds,
+        categoryOpt: options.categoryOpt,
+        search: search || "",
       },
     });
+  };
+
+  const toggleCategory = (category: Category) => {
+    const toggled = categories.toggleCategory(category);
+
+    searchFn({
+      categoryIds: toggled?.filter((e) => e.selected).map((e) => e.categoryId),
+    });
+  };
+
+  const resetCategories = () => {
+    categories.resetCategories();
+    searchFn({ categoryIds: [] });
   };
 
   return {
@@ -72,6 +104,10 @@ export const useBookmarkFilter = () => {
       //   setBookmarks,
     },
 
-    categories,
+    categories: {
+      ...categories,
+      toggleCategory: toggleCategory,
+      resetCategories: resetCategories,
+    },
   };
 };

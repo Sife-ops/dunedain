@@ -1,7 +1,7 @@
-import { useEffect } from "react";
 import { Bookmarks } from "../component/bookmarks";
 import { Categories } from "../component/categories";
 import { useBookmarkFilter } from "../component/bookmark-search";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
@@ -15,24 +15,20 @@ export const Home = () => {
 
   return (
     <div>
-      {/* <h3>Search</h3> */}
-
       <form
         onSubmit={(e) => {
           e.preventDefault();
           bookmarkFilter.bookmarks.search();
         }}
       >
+        {/* todo: fuzzy search */}
         <input
           placeholder="filter"
-          value={bookmarkFilter.input.search}
+          value={bookmarkFilter.input.search || ""}
           onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
         />
         <button type={"submit"}>search</button>
 
-        {/* <h3>Categories</h3> */}
-
-        {/* <button onClick={() => navigate("/category/new")}>New Category</button> */}
         <br />
         <br />
 
@@ -43,8 +39,9 @@ export const Home = () => {
 
         <select
           onChange={(e) => {
-            // @ts-ignore
-            bookmarkFilter.input.setCategoryOpt(e.target.value);
+            const categoryOpt = e.target.value as "And" | "Or";
+            bookmarkFilter.input.setCategoryOpt(categoryOpt);
+            bookmarkFilter.bookmarks.search({ categoryOpt });
           }}
         >
           <option>And</option>
@@ -61,10 +58,10 @@ export const Home = () => {
         </button>
       </form>
 
-      {/* <h3>Bookmarks</h3> */}
       <br />
 
       <button onClick={() => navigate("/bookmark/new")}>New Bookmark</button>
+
       <br />
       <br />
 
