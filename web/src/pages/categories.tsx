@@ -30,7 +30,7 @@ export const Categories: React.FC = () => {
 
   return (
     <div>
-      <h3>Categories</h3>
+      {/* <h3>Categories</h3> */}
 
       <button onClick={() => navigate("/category/new")}>New Category</button>
       <br />

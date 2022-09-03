@@ -16,7 +16,6 @@ export const Home = () => {
   return (
     <div>
       {/* <h3>Search</h3> */}
-      <br />
 
       <form
         onSubmit={(e) => {
@@ -51,9 +50,19 @@ export const Home = () => {
           <option>And</option>
           <option>Or</option>
         </select>
+
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            bookmarkFilter.categories.resetCategories();
+          }}
+        >
+          Reset
+        </button>
       </form>
 
-      <h3>Bookmarks</h3>
+      {/* <h3>Bookmarks</h3> */}
+      <br />
 
       <button onClick={() => navigate("/bookmark/new")}>New Bookmark</button>
       <br />

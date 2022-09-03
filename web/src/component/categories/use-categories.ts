@@ -59,8 +59,20 @@ export const useCategories = (bookmark?: Bookmark) => {
     });
   };
 
+  const resetCategories = () => {
+    setCategories((s) => {
+      return (
+        s?.map((e) => ({
+          ...e,
+          selected: false,
+        })) || null
+      );
+    });
+  };
+
   return {
     categories,
+    resetCategories,
     toggleCategory,
     updateCategories,
 
