@@ -16,9 +16,10 @@ export const BookmarkForm: React.FC<{
       onSubmit={(e) => {
         e.preventDefault();
         const { title, url } = bookmarkForm.state;
-        const categoryIds = bookmarkForm.state.categories
-          .filter((e) => e.selected)
-          .map((e) => e.categoryId);
+        const categoryIds =
+          bookmarkForm.state.categories
+            ?.filter((e) => e.selected)
+            .map((e) => e.categoryId) || [];
 
         if (props.bookmark) {
           bookmarkForm.mutation.bookmarkEdit({
