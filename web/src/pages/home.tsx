@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Bookmarks } from "../component/bookmarks";
-import { useNavigate } from "react-router-dom";
-
+import { Categories } from "../component/categories";
 import { useBookmarkFilter } from "../component/bookmark-search";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -33,15 +33,18 @@ export const Home = () => {
 
       <h3>Categories</h3>
 
-      <button onClick={() => navigate("category/new")}>New Category</button>
+      <button onClick={() => navigate("/category/new")}>New Category</button>
       <br />
       <br />
 
-      {/* <CategoriesContainer /> */}
+      <Categories
+        categories={bookmarkFilter.categories.categories}
+        toggleCategory={bookmarkFilter.categories.toggleCategory}
+      />
 
       <h3>Bookmarks</h3>
 
-      <button onClick={() => navigate("bookmark/new")}>New Bookmark</button>
+      <button onClick={() => navigate("/bookmark/new")}>New Bookmark</button>
       <br />
       <br />
 

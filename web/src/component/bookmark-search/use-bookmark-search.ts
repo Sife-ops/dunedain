@@ -3,6 +3,7 @@ import { useBookmarkSearchMutation } from "../../query/bookmark-search";
 import { useCategories } from "../categories/use-categories";
 import { useEffect, useState } from "react";
 
+// todo: autosearch debounce
 export const useBookmarkFilter = () => {
   const [
     bookmarkSearchState,
@@ -24,7 +25,7 @@ export const useBookmarkFilter = () => {
   }, [bookmarkSearchState.data]);
 
   useEffect(() => {
-    setCategoryIds(categories.categories.map((e) => e.categoryId));
+    setCategoryIds(categories.categories?.map((e) => e.categoryId) || []);
   }, [categories.categories]);
 
   const searchDefault = () => {

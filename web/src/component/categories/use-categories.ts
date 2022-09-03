@@ -11,7 +11,9 @@ export type SelectableCategory = Category & {
 export const useCategories = (bookmark?: Bookmark) => {
   const [categoriesQueryState] = useCategoriesQuery();
 
-  const [categories, setCategories] = useState<SelectableCategory[]>([]);
+  const [categories, setCategories] = useState<SelectableCategory[] | null>(
+    null
+  );
 
   useEffect(() => {
     const { fetching, data, error } = categoriesQueryState;
@@ -27,7 +29,7 @@ export const useCategories = (bookmark?: Bookmark) => {
   const updateCategories = (categories: SelectableCategory[]) => {
     setCategories((s) => {
       return categories.map((c) => {
-        const found = s.find((e) => e.categoryId === c.categoryId);
+        const found = s?.find((e) => e.categoryId === c.categoryId);
         if (found) {
           return found;
         } else {
@@ -42,16 +44,18 @@ export const useCategories = (bookmark?: Bookmark) => {
 
   const toggleCategory = (category: Category) => {
     setCategories((s) => {
-      return s.map((c) => {
-        if (c.categoryId === category.categoryId) {
-          return {
-            ...c,
-            selected: !c.selected,
-          };
-        } else {
-          return c;
-        }
-      });
+      return (
+        s?.map((c) => {
+          if (c.categoryId === category.categoryId) {
+            return {
+              ...c,
+              selected: !c.selected,
+            };
+          } else {
+            return c;
+          }
+        }) || null
+      );
     });
   };
 

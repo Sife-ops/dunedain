@@ -1,12 +1,18 @@
 import React from "react";
 import { SelectableCategory } from "./use-categories";
 
-interface Props {
-  categories: SelectableCategory[];
+export const Categories: React.FC<{
+  categories: SelectableCategory[] | null;
   toggleCategory: (category: SelectableCategory) => void;
-}
+}> = (props) => {
+  if (props.categories === null) {
+    return (
+      <div>
+        <div>loading...</div>
+      </div>
+    );
+  }
 
-export const Categories: React.FC<Props> = (props) => {
   if (props.categories.length < 1) {
     return (
       <div>
