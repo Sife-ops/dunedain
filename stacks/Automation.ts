@@ -1,4 +1,3 @@
-// import { Auth } from "./Auth";
 import { Database } from "./Database";
 import { StackContext, use, Function, Bucket, Config } from "@serverless-stack/resources";
 
