@@ -53,7 +53,7 @@ export declare const generateMutationOp: (
   fields: MutationRequest & { __name?: string },
 ) => GraphqlOperation
 
-export declare const enumCategoryEnum: {
+export declare const enumCategoryOptEnum: {
   readonly And: 'And'
   readonly Or: 'Or'
 }

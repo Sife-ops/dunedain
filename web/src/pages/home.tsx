@@ -21,13 +21,11 @@ export const Home = () => {
           bookmarkFilter.bookmarks.search();
         }}
       >
-        {/* todo: fuzzy search */}
         <input
           placeholder="filter"
           value={bookmarkFilter.input.search || ""}
           onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
         />
-        {/* <button type={"submit"}>search</button> */}
 
         <br />
         <br />

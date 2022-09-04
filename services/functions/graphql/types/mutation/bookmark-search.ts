@@ -2,16 +2,15 @@ import { BookmarkType } from "../bookmark";
 import { builder } from "../../builder";
 import { dunedainModel } from "@dunedain/core/model";
 
-const CategoryEnum = builder.enumType('CategoryEnum', {
+const CategoryOptEnum = builder.enumType('CategoryOptEnum', {
   values: { And: {}, Or: {} },
 });
 
 const bookmarkSearchInput = builder.inputType("bookmarkSearchInput", {
   fields: (t) => ({
-    search: t.string({ required: true }),
     categoryIds: t.stringList({ required: true }),
     categoryOpt: t.field({
-      type: CategoryEnum,
+      type: CategoryOptEnum,
       required: true
     })
   }),
@@ -23,14 +22,10 @@ builder.mutationFields((t) => ({
     args: {
       input: t.arg({ type: bookmarkSearchInput, required: true })
     },
-    resolve: async (_, { input: { categoryIds, search, categoryOpt } }, { user: { userId } }) => {
+    resolve: async (_, { input: { categoryIds, categoryOpt } }, { user: { userId } }) => {
       let bookmarks = await dunedainModel.entities.BookmarkEntity.query.user({
         userId
       }).go()
-
-      if (search) {
-        bookmarks = bookmarks.filter(e => e.title.includes(search));
-      }
 
       if (categoryIds.length > 0) {
         const bookmarkCategories = await dunedainModel
@@ -38,7 +33,7 @@ builder.mutationFields((t) => ({
           .BookmarkCategoryEntity
           .query
           .user({ userId })
-          .go()
+          .go();
 
         if (categoryOpt === 'And') {
           bookmarks = bookmarks.filter(b => {

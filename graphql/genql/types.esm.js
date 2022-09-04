@@ -43,7 +43,7 @@ export default {
                 1
             ]
         },
-        "CategoryEnum": {},
+        "CategoryOptEnum": {},
         "Mutation": {
             "bookmarkCreate": [
                 0,
@@ -165,9 +165,6 @@ export default {
             ],
             "categoryOpt": [
                 3
-            ],
-            "search": [
-                1
             ],
             "__typename": [
                 1

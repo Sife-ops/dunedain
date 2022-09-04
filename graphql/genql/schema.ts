@@ -22,7 +22,7 @@ export interface Category {
     __typename: 'Category'
 }
 
-export type CategoryEnum = 'And' | 'Or'
+export type CategoryOptEnum = 'And' | 'Or'
 
 export interface Mutation {
     bookmarkCreate: Bookmark
@@ -85,7 +85,7 @@ export interface QueryRequest{
 
 export interface bookmarkCreateInput {categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
 
-export interface bookmarkSearchInput {categoryIds: Scalars['String'][],categoryOpt: CategoryEnum,search: Scalars['String']}
+export interface bookmarkSearchInput {categoryIds: Scalars['String'][],categoryOpt: CategoryOptEnum}
 
 export interface bookmarkUpdateInput {bookmarkId: Scalars['String'],categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
 

@@ -2,17 +2,16 @@ import { Bookmark } from "@dunedain/graphql/genql/schema";
 import { Category } from "../../../../graphql/genql/schema";
 import { useBookmarkSearchMutation } from "../../query/bookmark-search";
 import { useCategories } from "../categories/use-categories";
-import { useDebounce } from "use-debounce";
 import { useEffect, useState } from "react";
 
-// todo: autosearch debounce
+// todo: fuse.js
+
 export const useBookmarkFilter = () => {
   const categories = useCategories();
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
 
   const [search, setSearch] = useState<string | null>(null);
-  // const [searchD] = useDebounce(search, 500);
 
   const [
     bookmarkSearchState,
@@ -20,11 +19,19 @@ export const useBookmarkFilter = () => {
   ] = useBookmarkSearchMutation();
   const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
 
-  // useEffect(() => {
-  //   if (search !== null) {
-  //     searchFn();
-  //   }
-  // }, [searchD]);
+  useEffect(() => {
+    const { data } = bookmarkSearchState;
+    if (data?.bookmarkSearch) {
+      const bookmarks = data.bookmarkSearch as Bookmark[];
+      if (search) {
+        setBookmarks(
+          bookmarks.filter((bookmark) => bookmark.title.includes(search))
+        );
+      } else {
+        setBookmarks(bookmarks);
+      }
+    }
+  }, [search]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkSearchState;
@@ -47,7 +54,6 @@ export const useBookmarkFilter = () => {
       input: {
         categoryIds: [],
         categoryOpt,
-        search: "",
       },
     });
   };
@@ -66,8 +72,6 @@ export const useBookmarkFilter = () => {
       input: {
         categoryIds: options.categoryIds,
         categoryOpt: options.categoryOpt,
-        // search: search || "",
-        search: "",
       },
     });
   };
@@ -98,10 +102,6 @@ export const useBookmarkFilter = () => {
       bookmarks,
       searchDefault,
       search: searchFn,
-
-      //   bookmarkSearchMutation,
-      //   bookmarkSearchState,
-      //   setBookmarks,
     },
 
     categories: {

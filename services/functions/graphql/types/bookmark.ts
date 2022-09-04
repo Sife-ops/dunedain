@@ -25,7 +25,6 @@ BookmarkType.implement({
           .userBookmarkCategory({ userId })
           .go();
 
-        // todo: need sort?
         return bookmarkIds.map((bookmarkId) => {
           const categoryIds = BookmarkCategoryEntity.filter(
             (e) => e.bookmarkId === bookmarkId

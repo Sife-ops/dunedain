@@ -13,7 +13,7 @@ type Category {
   userId: String!
 }
 
-enum CategoryEnum {
+enum CategoryOptEnum {
   And
   Or
 }
@@ -43,8 +43,7 @@ input bookmarkCreateInput {
 
 input bookmarkSearchInput {
   categoryIds: [String!]!
-  categoryOpt: CategoryEnum!
-  search: String!
+  categoryOpt: CategoryOptEnum!
 }
 
 input bookmarkUpdateInput {

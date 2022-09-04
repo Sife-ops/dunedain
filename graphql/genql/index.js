@@ -25,7 +25,7 @@ export var createClient = function(options) {
   return createClientOriginal(optionsCopy)
 }
 
-export const enumCategoryEnum = {
+export const enumCategoryOptEnum = {
   And: 'And',
   Or: 'Or',
 }
