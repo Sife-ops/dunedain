@@ -9,7 +9,8 @@ export const useBookmarkFilter = () => {
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
 
-  const [filter, setSearch] = useState<string>("");
+  const [filter, setFilter] = useState<string>("");
+  const [filterOpt, setFilterOpt] = useState<"title" | "URL" | "both">("title");
 
   const [
     bookmarkSearchState,
@@ -17,11 +18,22 @@ export const useBookmarkFilter = () => {
   ] = useBookmarkSearchMutation();
   const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
 
-  const searchEffect = (bookmarks: Bookmark[]) => {
+  const filterEffect = (bookmarks: Bookmark[]) => {
     if (filter) {
       const fuse = new Fuse(bookmarks, {
         includeScore: true,
-        keys: ["title"],
+        keys: (() => {
+          switch (filterOpt) {
+            case "title":
+              return ["title"];
+            case "URL":
+              return ["url"];
+            case "both":
+              return ["title", "url"];
+            default:
+              return ["title"];
+          }
+        })(),
       });
       const result = fuse.search(filter);
 
@@ -35,15 +47,15 @@ export const useBookmarkFilter = () => {
     const { data } = bookmarkSearchState;
     if (data?.bookmarkSearch) {
       const bookmarks = data.bookmarkSearch as Bookmark[];
-      searchEffect(bookmarks);
+      filterEffect(bookmarks);
     }
-  }, [filter]);
+  }, [filter, filterOpt]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkSearchState;
     if (!fetching && !error && data) {
       const bookmarks = data.bookmarkSearch as Bookmark[];
-      searchEffect(bookmarks);
+      filterEffect(bookmarks);
     }
   }, [bookmarkSearchState.data]);
 
@@ -93,7 +105,8 @@ export const useBookmarkFilter = () => {
       categoryOpt,
       filter,
       setCategoryOpt,
-      setSearch,
+      setFilter,
+      setFilterOpt,
     },
 
     bookmarks: {

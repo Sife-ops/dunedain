@@ -18,8 +18,19 @@ export const Home = () => {
       <input
         placeholder="filter"
         value={bookmarkFilter.input.filter}
-        onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
+        onChange={(e) => bookmarkFilter.input.setFilter(e.target.value)}
       />
+
+      <select
+        onChange={(e) => {
+          const filterOpt = e.target.value as "title" | "URL" | "both";
+          bookmarkFilter.input.setFilterOpt(filterOpt);
+        }}
+      >
+        <option>title</option>
+        <option>URL</option>
+        <option>both</option>
+      </select>
 
       <br />
       <br />
