@@ -7,25 +7,24 @@ import { useEffect, useState } from "react";
 
 // todo: autosearch debounce
 export const useBookmarkFilter = () => {
+  const categories = useCategories();
+  const [categoryIds, setCategoryIds] = useState<string[]>([]);
+  const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
+
+  const [search, setSearch] = useState<string | null>(null);
+  // const [searchD] = useDebounce(search, 500);
+
   const [
     bookmarkSearchState,
     bookmarkSearchMutation,
   ] = useBookmarkSearchMutation();
   const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
 
-  const categories = useCategories();
-
-  const [search, setSearch] = useState<string | null>(null);
-  const [categoryIds, setCategoryIds] = useState<string[]>([]);
-  const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
-
-  const [searchD] = useDebounce(search, 500);
-
-  useEffect(() => {
-    if (search !== null) {
-      searchFn();
-    }
-  }, [searchD]);
+  // useEffect(() => {
+  //   if (search !== null) {
+  //     searchFn();
+  //   }
+  // }, [searchD]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkSearchState;
@@ -67,7 +66,8 @@ export const useBookmarkFilter = () => {
       input: {
         categoryIds: options.categoryIds,
         categoryOpt: options.categoryOpt,
-        search: search || "",
+        // search: search || "",
+        search: "",
       },
     });
   };

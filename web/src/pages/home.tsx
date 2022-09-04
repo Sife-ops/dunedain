@@ -27,7 +27,7 @@ export const Home = () => {
           value={bookmarkFilter.input.search || ""}
           onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
         />
-        <button type={"submit"}>search</button>
+        {/* <button type={"submit"}>search</button> */}
 
         <br />
         <br />
