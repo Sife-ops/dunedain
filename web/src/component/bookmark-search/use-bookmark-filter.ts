@@ -11,7 +11,7 @@ export const useBookmarkFilter = () => {
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
 
-  const [search, setSearch] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>("");
 
   const [
     bookmarkSearchState,
@@ -19,17 +19,21 @@ export const useBookmarkFilter = () => {
   ] = useBookmarkSearchMutation();
   const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
 
+  const searchEffect = (bookmarks: Bookmark[]) => {
+    if (search) {
+      setBookmarks(
+        bookmarks.filter((bookmark) => bookmark.title.includes(search))
+      );
+    } else {
+      setBookmarks(bookmarks);
+    }
+  };
+
   useEffect(() => {
     const { data } = bookmarkSearchState;
     if (data?.bookmarkSearch) {
       const bookmarks = data.bookmarkSearch as Bookmark[];
-      if (search) {
-        setBookmarks(
-          bookmarks.filter((bookmark) => bookmark.title.includes(search))
-        );
-      } else {
-        setBookmarks(bookmarks);
-      }
+      searchEffect(bookmarks);
     }
   }, [search]);
 
@@ -37,7 +41,7 @@ export const useBookmarkFilter = () => {
     const { fetching, data, error } = bookmarkSearchState;
     if (!fetching && !error && data) {
       const bookmarks = data.bookmarkSearch as Bookmark[];
-      setBookmarks(bookmarks);
+      searchEffect(bookmarks);
     }
   }, [bookmarkSearchState.data]);
 
@@ -79,6 +83,7 @@ export const useBookmarkFilter = () => {
   const toggleCategory = (category: Category) => {
     const toggled = categories.toggleCategory(category);
 
+    // todo: remove autosearch
     searchFn({
       categoryIds: toggled?.filter((e) => e.selected).map((e) => e.categoryId),
     });
