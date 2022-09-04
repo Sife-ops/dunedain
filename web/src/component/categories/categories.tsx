@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, ButtonProps } from "@chakra-ui/react";
 import { SelectableCategory } from "./use-categories";
 
 export const Categories: React.FC<{
@@ -35,6 +36,16 @@ export const Categories: React.FC<{
           toggleCategory={props.toggleCategory}
         />
       ))}
+
+      {/* {props.categories.map((e) => (
+        <Button
+          //
+          key={e.categoryId}
+          onClick={() => props.toggleCategory(e)}
+        >
+          {e.title}
+        </Button>
+      ))} */}
     </div>
   );
 };

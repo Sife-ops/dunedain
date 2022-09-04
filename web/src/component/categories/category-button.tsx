@@ -1,7 +1,16 @@
 import React from "react";
-import { useCheckbox, chakra, Flex, Text, Box } from "@chakra-ui/react";
+import {
+  useCheckbox,
+  chakra,
+  Flex,
+  Text,
+  Box,
+  UseCheckboxProps,
+} from "@chakra-ui/react";
 
-export const CategoryButton: React.FC = (props) => {
+export const CategoryButton: React.FC<UseCheckboxProps & {
+  children: string;
+}> = (props) => {
   const {
     state,
     getCheckboxProps,
@@ -39,7 +48,7 @@ export const CategoryButton: React.FC = (props) => {
         {state.isChecked && <Box w={2} h={2} bg="green.500" />}
       </Flex>
       <Text color="gray.700" {...getLabelProps()}>
-        Click me
+        {props.children}
       </Text>
     </chakra.label>
   );
