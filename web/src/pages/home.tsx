@@ -17,7 +17,7 @@ export const Home = () => {
     <div>
       <input
         placeholder="filter"
-        value={bookmarkFilter.input.search || ""}
+        value={bookmarkFilter.input.filter}
         onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
       />
 

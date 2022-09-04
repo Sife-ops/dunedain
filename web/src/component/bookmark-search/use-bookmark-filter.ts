@@ -1,16 +1,15 @@
+import Fuse from "fuse.js";
 import { Bookmark } from "@dunedain/graphql/genql/schema";
 import { useBookmarkSearchMutation } from "../../query/bookmark-search";
 import { useCategories } from "../categories/use-categories";
 import { useEffect, useState } from "react";
-
-// todo: fuse.js
 
 export const useBookmarkFilter = () => {
   const categories = useCategories();
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
 
-  const [search, setSearch] = useState<string>("");
+  const [filter, setSearch] = useState<string>("");
 
   const [
     bookmarkSearchState,
@@ -19,10 +18,14 @@ export const useBookmarkFilter = () => {
   const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
 
   const searchEffect = (bookmarks: Bookmark[]) => {
-    if (search) {
-      setBookmarks(
-        bookmarks.filter((bookmark) => bookmark.title.includes(search))
-      );
+    if (filter) {
+      const fuse = new Fuse(bookmarks, {
+        includeScore: true,
+        keys: ["title"],
+      });
+      const result = fuse.search(filter);
+
+      setBookmarks(result.map((e) => e.item));
     } else {
       setBookmarks(bookmarks);
     }
@@ -34,7 +37,7 @@ export const useBookmarkFilter = () => {
       const bookmarks = data.bookmarkSearch as Bookmark[];
       searchEffect(bookmarks);
     }
-  }, [search]);
+  }, [filter]);
 
   useEffect(() => {
     const { fetching, data, error } = bookmarkSearchState;
@@ -87,10 +90,10 @@ export const useBookmarkFilter = () => {
   return {
     input: {
       categoryIds,
-      search,
-      setSearch,
       categoryOpt,
+      filter,
       setCategoryOpt,
+      setSearch,
     },
 
     bookmarks: {
