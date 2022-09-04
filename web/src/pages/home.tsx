@@ -35,40 +35,39 @@ export const Home = () => {
       <br />
       <br />
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
+      <Categories
+        categories={bookmarkFilter.categories.categories}
+        toggleCategory={bookmarkFilter.categories.toggleCategory}
+      />
+
+      <select
+        onChange={(e) => {
+          const categoryOpt = e.target.value as "And" | "Or";
+          bookmarkFilter.input.setCategoryOpt(categoryOpt);
+          bookmarkFilter.bookmarks.search({ categoryOpt });
+        }}
+      >
+        <option>And</option>
+        <option>Or</option>
+      </select>
+
+      <button
+        onClick={() => {
           bookmarkFilter.bookmarks.search();
         }}
       >
-        <Categories
-          categories={bookmarkFilter.categories.categories}
-          toggleCategory={bookmarkFilter.categories.toggleCategory}
-        />
+        filter
+      </button>
 
-        <select
-          onChange={(e) => {
-            const categoryOpt = e.target.value as "And" | "Or";
-            bookmarkFilter.input.setCategoryOpt(categoryOpt);
-            bookmarkFilter.bookmarks.search({ categoryOpt });
-          }}
-        >
-          <option>And</option>
-          <option>Or</option>
-        </select>
+      <button
+        onClick={(e) => {
+          bookmarkFilter.categories.resetCategories();
+        }}
+      >
+        Reset
+      </button>
 
-        <button type={"submit"}>filter</button>
-
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            bookmarkFilter.categories.resetCategories();
-          }}
-        >
-          Reset
-        </button>
-      </form>
-
+      <br />
       <br />
 
       <button onClick={() => navigate("/bookmark/new")}>New Bookmark</button>
@@ -76,11 +75,7 @@ export const Home = () => {
       <br />
       <br />
 
-      {bookmarkFilter.bookmarks.bookmarks === null ? (
-        <div>loading...</div>
-      ) : (
-        <Bookmarks bookmarks={bookmarkFilter.bookmarks.bookmarks} />
-      )}
+      <Bookmarks bookmarks={bookmarkFilter.bookmarks.bookmarks} />
     </div>
   );
 };
