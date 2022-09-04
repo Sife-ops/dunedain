@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import { Categories } from "./pages/categories";
 import { CategoryDetails } from "./pages/category-details";
 import { CategoryNew } from "./pages/category-new";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
@@ -46,7 +47,9 @@ const urql = createClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <UrqlProvider value={urql}>
-    <App />
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </UrqlProvider>
   // </React.StrictMode>
 );
