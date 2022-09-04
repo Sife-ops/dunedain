@@ -1,3 +1,4 @@
+import './index.css';
 import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
 import { BookmarkDetails } from "./pages/bookmark-details";
