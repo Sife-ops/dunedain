@@ -15,21 +15,21 @@ export const Home = () => {
 
   return (
     <div>
+      <input
+        placeholder="filter"
+        value={bookmarkFilter.input.search || ""}
+        onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
+      />
+
+      <br />
+      <br />
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
           bookmarkFilter.bookmarks.search();
         }}
       >
-        <input
-          placeholder="filter"
-          value={bookmarkFilter.input.search || ""}
-          onChange={(e) => bookmarkFilter.input.setSearch(e.target.value)}
-        />
-
-        <br />
-        <br />
-
         <Categories
           categories={bookmarkFilter.categories.categories}
           toggleCategory={bookmarkFilter.categories.toggleCategory}
@@ -45,6 +45,8 @@ export const Home = () => {
           <option>And</option>
           <option>Or</option>
         </select>
+
+        <button type={"submit"}>filter</button>
 
         <button
           onClick={(e) => {

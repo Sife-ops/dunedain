@@ -1,5 +1,4 @@
 import { Bookmark } from "@dunedain/graphql/genql/schema";
-import { Category } from "../../../../graphql/genql/schema";
 import { useBookmarkSearchMutation } from "../../query/bookmark-search";
 import { useCategories } from "../categories/use-categories";
 import { useEffect, useState } from "react";
@@ -80,15 +79,6 @@ export const useBookmarkFilter = () => {
     });
   };
 
-  const toggleCategory = (category: Category) => {
-    const toggled = categories.toggleCategory(category);
-
-    // todo: remove autosearch
-    searchFn({
-      categoryIds: toggled?.filter((e) => e.selected).map((e) => e.categoryId),
-    });
-  };
-
   const resetCategories = () => {
     categories.resetCategories();
     searchFn({ categoryIds: [] });
@@ -111,7 +101,6 @@ export const useBookmarkFilter = () => {
 
     categories: {
       ...categories,
-      toggleCategory: toggleCategory,
       resetCategories: resetCategories,
     },
   };
