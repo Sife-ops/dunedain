@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ButtonProps } from "@chakra-ui/react";
+import { CategoryButton } from "./category-button";
 import { SelectableCategory } from "./use-categories";
 
 export const Categories: React.FC<{
@@ -23,47 +23,15 @@ export const Categories: React.FC<{
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "2rem",
-      }}
-    >
+    <div className="flex flex-wrap gap-1">
       {props.categories.map((e) => (
-        <Category
+        <CategoryButton
           key={e.categoryId}
-          category={e}
-          toggleCategory={props.toggleCategory}
-        />
-      ))}
-
-      {/* {props.categories.map((e) => (
-        <Button
-          //
-          key={e.categoryId}
-          onClick={() => props.toggleCategory(e)}
+          onChange={() => props.toggleCategory(e)}
         >
           {e.title}
-        </Button>
-      ))} */}
-    </div>
-  );
-};
-
-const Category: React.FC<{
-  category: SelectableCategory;
-  toggleCategory: (category: SelectableCategory) => void;
-}> = (props) => {
-  return (
-    <div>
-      <label>
-        <input
-          checked={props.category.selected}
-          onChange={() => props.toggleCategory(props.category)}
-          type={"checkbox"}
-        />
-        {props.category.title}
-      </label>
+        </CategoryButton>
+      ))}
     </div>
   );
 };
