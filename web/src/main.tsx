@@ -1,9 +1,10 @@
-import './index.css';
+import "./index.css";
 import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
 import { BookmarkDetails } from "./pages/bookmark-details";
 import { BookmarkNew } from "./pages/bookmark-new";
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
 import { Categories } from "./pages/categories";
 import { CategoryDetails } from "./pages/category-details";
 import { CategoryNew } from "./pages/category-new";
@@ -54,8 +55,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   // </React.StrictMode>
 );
 
+// todo: state change breaks routes
 function App() {
-  // todo: state change breaks routes
   const [signedIn, setSignedIn] = useState(true);
 
   useEffect(() => {
@@ -70,33 +71,33 @@ function App() {
   if (signedIn) {
     return (
       <BrowserRouter>
-        <nav
-          style={{
-            display: "flex",
-            gap: "1rem",
-          }}
-        >
-          <Link to="/">Home</Link>
-          <Link to="/categories">Categories</Link>
-          <button
+        <nav className="flex justify-between mb-1">
+          <div className="flex gap-1">
+            <Link to="/">
+              <Button>Home</Button>
+            </Link>
+            <Link to="/categories">
+              <Button>Categories</Button>
+            </Link>
+          </div>
+          <Button
             onClick={() => {
               localStorage.removeItem("accessToken");
               window.location.reload();
             }}
           >
             Sign Out
-          </button>
+          </Button>
         </nav>
-        <br />
 
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/bookmark/new" element={<BookmarkNew />} />
-          <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/category/new" element={<CategoryNew />} />
-          <Route path="/category/:categoryId" element={<CategoryDetails />} />
-          <Route path="*" element={<Navigate replace to="/" />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/bookmark/new" element={<BookmarkNew />} />
+            <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/category/new" element={<CategoryNew />} />
+            <Route path="/category/:categoryId" element={<CategoryDetails />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </BrowserRouter>
     );

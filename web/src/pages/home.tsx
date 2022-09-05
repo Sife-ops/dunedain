@@ -4,7 +4,7 @@ import { Categories } from "../component/categories";
 import { Input } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/react";
 import { useBookmarkFilter } from "../component/bookmark-search";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
@@ -12,49 +12,23 @@ export const Home = () => {
 
   const bookmarkFilter = useBookmarkFilter();
 
+  const [showCategories, setShowCategories] = useState<boolean>(false);
+
   useEffect(() => {
     bookmarkFilter.bookmarks.searchDefault();
   }, []);
 
   return (
     <div>
-      <Categories
-        categories={bookmarkFilter.categories.categories}
-        toggleCategory={bookmarkFilter.categories.toggleCategory}
-      />
-
-      <select
-        onChange={(e) => {
-          const categoryOpt = e.target.value as "And" | "Or";
-          bookmarkFilter.input.setCategoryOpt(categoryOpt);
-          bookmarkFilter.bookmarks.search({ categoryOpt });
-        }}
-      >
-        <option>And</option>
-        <option>Or</option>
-      </select>
-
-      <button
-        onClick={() => {
-          bookmarkFilter.bookmarks.search();
-        }}
-      >
-        filter
-      </button>
-
-      <button
-        onClick={(e) => {
-          bookmarkFilter.categories.resetCategories();
-        }}
-      >
-        Reset
-      </button>
-
-      <br />
-      <br />
-
-      <div className="flex gap-1">
-        <Button colorScheme={'green'} onClick={() => navigate("/bookmark/new")}>New</Button>
+      <div className="flex gap-1 mb-1">
+        <Button
+          colorScheme={"teal"}
+          fontSize={"4xl"}
+          onClick={() => navigate("/bookmark/new")}
+          width={'64px'}
+        >
+          +
+        </Button>
         <Input
           onChange={(e) => bookmarkFilter.input.setFilter(e.target.value)}
           placeholder="filter"
@@ -72,7 +46,28 @@ export const Home = () => {
           <option>URL</option>
           <option>both</option>
         </Select>
+
+        <Button
+          colorScheme={"teal"}
+          variant={showCategories ? "outline" : "solid"}
+          onClick={() => setShowCategories((s) => !s)}
+        >
+          Categories
+        </Button>
       </div>
+
+      {showCategories && (
+        <Categories
+          className="mb-1"
+          categories={bookmarkFilter.categories.categories}
+          toggleCategory={bookmarkFilter.categories.toggleCategory}
+          filterProps={{
+            resetCategories: bookmarkFilter.categories.resetCategories,
+            search: bookmarkFilter.bookmarks.search,
+            setCategoryOpt: bookmarkFilter.input.setCategoryOpt,
+          }}
+        />
+      )}
 
       <Bookmarks bookmarks={bookmarkFilter.bookmarks.bookmarks} />
     </div>
