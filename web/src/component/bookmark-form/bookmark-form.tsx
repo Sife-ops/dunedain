@@ -81,7 +81,7 @@ export const BookmarkForm: React.FC<{
           <Button
             onClick={(e) => {
               e.preventDefault();
-              navigate("/");
+              navigate(-1);
             }}
           >
             Cancel
