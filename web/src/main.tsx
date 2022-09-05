@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Categories } from "./pages/categories";
 import { CategoryDetails } from "./pages/category-details";
 import { CategoryNew } from "./pages/category-new";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Navigation } from "./component/navigation";
@@ -59,6 +59,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 function App() {
   const [signedIn, setSignedIn] = useState(true);
 
+  const { setColorMode } = useColorMode();
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -66,6 +68,8 @@ function App() {
     } else {
       setSignedIn(false);
     }
+
+    setColorMode("dark");
   }, []);
 
   return (
