@@ -10,4 +10,8 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+  <script>
+    // Fix `global is not defined` error when using amplify
+    global = window;
+  </script>
 </html>
