@@ -1,5 +1,6 @@
 import React from "react";
 import { Bookmark } from "../../../../graphql/genql/schema";
+import { Button, Input, Text } from "@chakra-ui/react";
 import { Categories } from "../categories";
 import { useBookmarkForm } from "./use-bookmark-form";
 import { useNavigate } from "react-router-dom";
@@ -41,63 +42,66 @@ export const BookmarkForm: React.FC<{
         }
       }}
     >
-      {bookmarkForm.state.categoriesQueryState.fetching ? (
-        <div>loading...</div>
-      ) : (
+      <div className="mb-1">
+        <Text>Title:</Text>
+        <Input
+          onChange={(e) => bookmarkForm.set.setTitle(e.target.value)}
+          placeholder="title"
+          value={bookmarkForm.state.title}
+        />
+      </div>
+
+      <div className="mb-1">
+        <Text>URL:</Text>
+        <Input
+          onChange={(e) => bookmarkForm.set.setUrl(e.target.value)}
+          placeholder="url"
+          value={bookmarkForm.state.url}
+        />
+      </div>
+
+      <div className="mb-1">
+        <Text>Categories:</Text>
         <Categories
           categories={bookmarkForm.state.categories}
           toggleCategory={bookmarkForm.set.toggleCategory}
         />
-      )}
+      </div>
 
-      <input
-        onChange={(e) => bookmarkForm.set.setUrl(e.target.value)}
-        placeholder="url"
-        value={bookmarkForm.state.url}
-      />
-
-      <input
-        onChange={(e) => bookmarkForm.set.setTitle(e.target.value)}
-        placeholder="title"
-        value={bookmarkForm.state.title}
-      />
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <div>
-          <button type={"submit"} disabled={!bookmarkForm.state.isValidForm}>
+      <div className="flex justify-between">
+        <div className="flex gap-1">
+          <Button
+            colorScheme={"teal"}
+            type={"submit"}
+            disabled={!bookmarkForm.state.isValidForm}
+          >
             {props.bookmark ? "Save" : "Submit"}
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={(e) => {
               e.preventDefault();
               navigate("/");
             }}
           >
             Cancel
-          </button>
+          </Button>
         </div>
 
-        <div>
-          {/* todo: confirm delete */}
-          {props.bookmark && (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                bookmarkForm.mutation.bookmarkDelete({
-                  bookmarkId: props.bookmark!.bookmarkId,
-                });
-              }}
-            >
-              Delete
-            </button>
-          )}
-        </div>
+        {/* todo: confirm delete */}
+        {props.bookmark && (
+          <Button
+            colorScheme={"red"}
+            onClick={(e) => {
+              e.preventDefault();
+              bookmarkForm.mutation.bookmarkDelete({
+                bookmarkId: props.bookmark!.bookmarkId,
+              });
+            }}
+          >
+            Delete
+          </Button>
+        )}
       </div>
     </form>
   );

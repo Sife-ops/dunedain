@@ -1,6 +1,7 @@
 import React from "react";
 import { Bookmark as BookmarkType } from "../../../graphql/genql/schema";
 import { BookmarkForm } from "../component/bookmark-form";
+import { Spinner, Heading } from "@chakra-ui/react";
 import { useBookmarkQuery } from "../query/bookmark";
 import { useParams } from "react-router-dom";
 
@@ -13,8 +14,8 @@ export const BookmarkDetails: React.FC = () => {
 
   if (fetching) {
     return (
-      <div>
-        <div>loading...</div>
+      <div className="flex justify-center">
+        <Spinner />
       </div>
     );
   }
@@ -31,7 +32,7 @@ export const BookmarkDetails: React.FC = () => {
 
   return (
     <div>
-      <h3>Edit Bookmark</h3>
+      <Heading>Edit Bookmark</Heading>
       <BookmarkForm bookmark={bookmark} />
     </div>
   );

@@ -32,6 +32,7 @@ export const Home = () => {
         >
           <HiPlus size={32} />
         </Button>
+
         <Input
           onChange={(e) => bookmarkFilter.input.setFilter(e.target.value)}
           placeholder="filter"
@@ -82,6 +83,7 @@ export const Home = () => {
               >
                 Filter
               </Button>
+
               <Button
                 className="grow"
                 colorScheme={"gray"}
@@ -92,6 +94,7 @@ export const Home = () => {
                 Reset
               </Button>
             </ButtonGroup>
+
             <Select
               w={"96px"}
               minW={"96px"}
@@ -108,7 +111,10 @@ export const Home = () => {
         </>
       )}
 
-      <Bookmarks bookmarks={bookmarkFilter.bookmarks.bookmarks} />
+      <Bookmarks
+        bookmarks={bookmarkFilter.bookmarks.bookmarks}
+        fetching={bookmarkFilter.bookmarks.bookmarkSearchState.fetching}
+      />
     </div>
   );
 };

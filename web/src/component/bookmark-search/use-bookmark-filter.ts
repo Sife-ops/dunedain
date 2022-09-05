@@ -111,6 +111,7 @@ export const useBookmarkFilter = () => {
 
     bookmarks: {
       bookmarks,
+      bookmarkSearchState,
       searchDefault,
       search: searchFn,
     },
