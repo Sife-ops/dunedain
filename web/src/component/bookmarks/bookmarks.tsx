@@ -19,8 +19,18 @@ export const Bookmarks: React.FC<{
         <Tbody>
           {props.bookmarks?.map((e) => (
             <Tr key={e.bookmarkId}>
-              <Td>{e.title}</Td>
-              {isDesktop && <Td>{e.url}</Td>}
+              <Td>
+                <a href={e.url} target="_blank">
+                  {e.title}
+                </a>
+              </Td>
+              {isDesktop && (
+                <Td>
+                  <a href={e.url} target="_blank">
+                    {e.url}
+                  </a>
+                </Td>
+              )}
               <Td width={"64px"}>
                 <button
                   onClick={() => {
