@@ -3,14 +3,14 @@ import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
 import { BookmarkDetails } from "./pages/bookmark-details";
 import { BookmarkNew } from "./pages/bookmark-new";
-import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Categories } from "./pages/categories";
 import { CategoryDetails } from "./pages/category-details";
 import { CategoryNew } from "./pages/category-new";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
+import { Navigation } from "./component/navigation";
 import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
 import { SignIn } from "./pages/sign-in";
 import { SignUp } from "./pages/sign-up";
@@ -70,47 +70,35 @@ function App() {
 
   return (
     <div className="m-1">
-      {signedIn ? (
-        <BrowserRouter>
-          <nav className="flex justify-between mb-1">
-            <div className="flex gap-1">
-              <Link to="/">
-                <Button>Home</Button>
-              </Link>
-              <Link to="/categories">
-                <Button>Categories</Button>
-              </Link>
-            </div>
-            <Button
-              onClick={() => {
-                localStorage.removeItem("accessToken");
-                window.location.reload();
-              }}
-            >
-              Sign Out
-            </Button>
-          </nav>
-
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/bookmark/new" element={<BookmarkNew />} />
-            <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/category/new" element={<CategoryNew />} />
-            <Route path="/category/:categoryId" element={<CategoryDetails />} />
-            <Route path="*" element={<Navigate replace to="/" />} />
-          </Routes>
-        </BrowserRouter>
-      ) : (
-        <BrowserRouter>
+      <BrowserRouter>
+        {signedIn ? (
+          <>
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/bookmark/new" element={<BookmarkNew />} />
+              <Route
+                path="/bookmark/:bookmarkId"
+                element={<BookmarkDetails />}
+              />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/category/new" element={<CategoryNew />} />
+              <Route
+                path="/category/:categoryId"
+                element={<CategoryDetails />}
+              />
+              <Route path="*" element={<Navigate replace to="/" />} />
+            </Routes>
+          </>
+        ) : (
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
-        </BrowserRouter>
-      )}
+        )}
+      </BrowserRouter>
     </div>
   );
 }
