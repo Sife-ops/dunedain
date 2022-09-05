@@ -1,8 +1,9 @@
 import "./style.css";
 import React from "react";
+import { BiCog } from "react-icons/bi";
 import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
-import { useNavigate } from "react-router-dom";
 import { TableContainer, Table, Tbody, Tr, Td } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export const Bookmarks: React.FC<{
   bookmarks: BookmarkType[] | null;
@@ -18,13 +19,13 @@ export const Bookmarks: React.FC<{
               <Tr key={e.bookmarkId}>
                 <Td>{e.title}</Td>
                 <Td>{e.url}</Td>
-                <Td width={"96px"}>
+                <Td width={"64px"}>
                   <button
                     onClick={() => {
                       navigate(`bookmark/${e.bookmarkId}`);
                     }}
                   >
-                    Edit
+                    <BiCog />
                   </button>
                 </Td>
               </Tr>
