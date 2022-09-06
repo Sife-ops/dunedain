@@ -1,11 +1,16 @@
 import Fuse from "fuse.js";
 import { Bookmark } from "@dunedain/graphql/genql/schema";
 import { useBookmarkSearchMutation } from "../../query/bookmark-search";
-import { useCategories } from "../categories/use-categories";
+import { useCategoriesQuery } from "../../query/categories";
 import { useEffect, useState } from "react";
+import { useSelectableCategories } from "../../hook/selectable-categories";
 
 export const useBookmarkFilter = () => {
-  const categories = useCategories();
+  const useCategoriesResponse = useCategoriesQuery();
+  const useSelectableCategories_ = useSelectableCategories({
+    useCategoriesResponse,
+  });
+
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
 
@@ -16,6 +21,7 @@ export const useBookmarkFilter = () => {
     bookmarkSearchState,
     bookmarkSearchMutation,
   ] = useBookmarkSearchMutation();
+
   const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
 
   const filterEffect = (bookmarks: Bookmark[]) => {
@@ -61,11 +67,11 @@ export const useBookmarkFilter = () => {
 
   useEffect(() => {
     setCategoryIds(
-      categories.categories
+      useSelectableCategories_.selectableCategories
         ?.filter((e) => e.selected)
         .map((e) => e.categoryId) || []
     );
-  }, [categories.categories]);
+  }, [useSelectableCategories_.selectableCategories]);
 
   const searchDefault = () => {
     bookmarkSearchMutation({
@@ -95,7 +101,7 @@ export const useBookmarkFilter = () => {
   };
 
   const resetCategories = () => {
-    categories.resetCategories();
+    useSelectableCategories_.resetCategories();
     searchFn({ categoryIds: [] });
   };
 
@@ -117,8 +123,11 @@ export const useBookmarkFilter = () => {
     },
 
     categories: {
-      ...categories,
-      resetCategories: resetCategories,
+      useCategoriesResponse,
+      useSelectableCategories: {
+        ...useSelectableCategories_,
+        resetCategories,
+      },
     },
   };
 };

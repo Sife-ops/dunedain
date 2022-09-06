@@ -6,11 +6,9 @@ export const Categories: React.FC = () => {
   const useCategoriesResponse = useCategoriesQuery();
 
   return (
-    <div>
-      <CategoriesComponent
-        buttonNew
-        useCategoriesResponse={useCategoriesResponse}
-      />
-    </div>
+    <CategoriesComponent
+      buttonNew
+      useCategoriesResponse={useCategoriesResponse}
+    />
   );
 };

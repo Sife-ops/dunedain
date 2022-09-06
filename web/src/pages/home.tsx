@@ -1,6 +1,6 @@
 import { Bookmarks } from "../component/bookmarks";
 import { Button, ButtonGroup } from "@chakra-ui/react";
-import { Categories } from "../component/categories";
+import { Categories } from "../component/categories/categories-2";
 import { Input } from "@chakra-ui/react";
 import { Select } from "@chakra-ui/react";
 import { useBookmarkFilter } from "../component/bookmark-search";
@@ -66,10 +66,13 @@ export const Home = () => {
       {showCategories && (
         <>
           <Categories
-            className="mb-1"
-            categories={bookmarkFilter.categories.categories}
-            toggleCategory={bookmarkFilter.categories.toggleCategory}
-            variant={"filter"}
+            buttonNew
+            useCategoriesResponse={
+              bookmarkFilter.categories.useCategoriesResponse
+            }
+            useSelectableCategories={
+              bookmarkFilter.categories.useSelectableCategories
+            }
           />
 
           <div className="flex gap-1 mb-1">
@@ -87,9 +90,13 @@ export const Home = () => {
               <Button
                 className="grow"
                 colorScheme={"gray"}
-                onClick={(e) => {
-                  bookmarkFilter.categories.resetCategories();
-                }}
+                // onClick={(e) =>
+                //   bookmarkFilter.categories.useSelectableCategories.resetCategories()
+                // }
+                onClick={
+                  bookmarkFilter.categories.useSelectableCategories
+                    .resetCategories
+                }
               >
                 Reset
               </Button>
