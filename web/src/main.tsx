@@ -59,19 +59,16 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
 // todo: state change breaks routes
 function App() {
-  const [signedIn, setSignedIn] = useState(true);
-
   const { setColorMode } = useColorMode();
+
+  const [signedIn, setSignedIn] = useState(true);
 
   useEffect(() => {
     setColorMode("dark");
 
     const token = localStorage.getItem("accessToken");
-    if (token) {
-      setSignedIn(true);
-    } else {
-      setSignedIn(false);
-    }
+    if (token) setSignedIn(true);
+    else setSignedIn(false);
   }, []);
 
   return (
