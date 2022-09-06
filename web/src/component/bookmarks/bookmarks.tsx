@@ -23,7 +23,7 @@ export const Bookmarks: React.FC<{
   const navigate = useNavigate();
 
   const { isDesktop } = useBreakpoint();
-  const [{ fetching, data }] = props.useBookmarkSearchMutation;
+  const [{ fetching }] = props.useBookmarkSearchMutation;
 
   // todo: 'no bookmarks' condition
   return (
