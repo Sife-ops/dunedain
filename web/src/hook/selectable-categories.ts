@@ -1,33 +1,38 @@
+import { AnyVariables, UseQueryResponse } from "urql";
 import { Bookmark, Category } from "@dunedain/graphql/genql/schema";
-import { useCategoriesQuery } from "../../query/categories";
 import { useEffect, useState } from "react";
-import { AnyVariables, UseQueryState } from "urql";
 
 export type SelectableCategory = Category & {
   selected: boolean;
 };
 
-export const useCategories = (bookmark?: Bookmark) => {
-  const [categoriesQueryState] = useCategoriesQuery();
+export const useSelectableCategories = (args: {
+  bookmark?: Bookmark;
+  useCategoriesResponse: UseQueryResponse<
+    { categories: Category[] },
+    AnyVariables
+  >;
+}) => {
+  const [categoriesQueryState] = args.useCategoriesResponse;
 
-  const [categories, setCategories] = useState<SelectableCategory[] | null>(
-    null
-  );
+  const [selectableCategories, setSelectableCategories] = useState<
+    SelectableCategory[] | null
+  >(null);
 
   useEffect(() => {
     const { fetching, data, error } = categoriesQueryState;
     if (!fetching && data && !error) {
       // @ts-ignore
       updateCategories(data.categories);
-      if (bookmark) {
-        bookmark.categories.map((e) => toggleCategory(e));
+      if (args.bookmark) {
+        args.bookmark.categories.map((e) => toggleCategory(e));
       }
     }
   }, [categoriesQueryState.data]);
 
-  const updateCategories = (categories: SelectableCategory[]) => {
-    setCategories((s) => {
-      return categories.map((c) => {
+  const updateCategories = (selectableCategories: SelectableCategory[]) => {
+    setSelectableCategories((s) => {
+      return selectableCategories.map((c) => {
         const found = s?.find((e) => e.categoryId === c.categoryId);
         if (found) {
           return found;
@@ -53,15 +58,15 @@ export const useCategories = (bookmark?: Bookmark) => {
       }
     };
 
-    setCategories((s) => {
+    setSelectableCategories((s) => {
       return s?.map(toggleMapFn) || null;
     });
 
-    return categories?.map(toggleMapFn);
+    return selectableCategories?.map(toggleMapFn);
   };
 
   const resetCategories = () => {
-    setCategories((s) => {
+    setSelectableCategories((s) => {
       return (
         s?.map((e) => ({
           ...e,
@@ -72,12 +77,12 @@ export const useCategories = (bookmark?: Bookmark) => {
   };
 
   return {
-    categories,
+    selectableCategories,
     resetCategories,
     toggleCategory,
     updateCategories,
 
-    categoriesQueryState,
-    setCategories,
+    // categoriesQueryState,
+    // setSelectableCategories,
   };
 };

@@ -8,6 +8,7 @@ import { Categories } from "./pages/categories";
 import { CategoryDetails } from "./pages/category-details";
 import { CategoryNew } from "./pages/category-new";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
+import { Error } from "./pages/error";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Navigation } from "./component/navigation";
@@ -91,6 +92,7 @@ function App() {
                 path="/category/:categoryId"
                 element={<CategoryDetails />}
               />
+              <Route path="/error" element={<Error />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </Routes>
           </>
