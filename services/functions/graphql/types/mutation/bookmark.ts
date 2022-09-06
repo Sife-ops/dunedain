@@ -26,6 +26,7 @@ builder.mutationFields((t) => ({
       bookmarkId: t.arg.string({ required: true }),
     },
     resolve: async (_, { bookmarkId }, { user: { userId } }) => {
+      // remove bookmark
       const [bookmark] = await dunedainModel.entities.BookmarkEntity.query
         .user({
           bookmarkId,
@@ -37,6 +38,17 @@ builder.mutationFields((t) => ({
         bookmarkId,
         userId,
       }).go();
+
+      // remove bookmark categories
+      const bookmarkCategories = await dunedainModel.entities
+        .BookmarkCategoryEntity
+        .query
+        .bookmarkCategory({ bookmarkId })
+        .go();
+
+      await dunedainModel.entities.BookmarkCategoryEntity
+        .delete(bookmarkCategories)
+        .go();
 
       return bookmark;
     },
