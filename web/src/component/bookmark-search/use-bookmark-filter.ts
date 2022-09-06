@@ -23,7 +23,7 @@ export const useBookmarkFilter = () => {
     bookmarkSearchMutation,
   ] = useBookmarkSearchMutation_;
 
-  const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>();
 
   const filterEffect = (bookmarks: Bookmark[]) => {
     if (filter) {

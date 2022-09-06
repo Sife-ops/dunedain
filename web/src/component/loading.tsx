@@ -4,12 +4,21 @@ import { Spinner } from "@chakra-ui/react";
 import { UseMutationState, UseQueryState } from "urql";
 
 export const Loading: React.FC<{
-  operationState: UseMutationState | UseQueryState;
+  // operationState: UseMutationState | UseQueryState;
+  data: any;
   children: JSX.Element;
 }> = (props) => {
-  const { fetching, error } = props.operationState;
+  // const { error } = props.operationState;
 
-  if (fetching) {
+  const [data, setData] = React.useState(props.data);
+
+  React.useEffect(() => {
+    if (props.data) {
+      setData(props.data);
+    }
+  }, [props.data]);
+
+  if (!data) {
     return (
       <div className="flex justify-center">
         <Spinner />
@@ -17,9 +26,9 @@ export const Loading: React.FC<{
     );
   }
 
-  if (error) {
-    return <Navigate replace to="/error" />;
-  }
+  // if (error) {
+  //   return <Navigate replace to="/error" />;
+  // }
 
   return props.children;
 };

@@ -23,7 +23,7 @@ export const Categories: React.FC<{
   const [useCategoriesState] = props.useCategoriesResponse;
 
   return (
-    <Loading operationState={useCategoriesState}>
+    <Loading data={useCategoriesState.data}>
       <div className={"grid gap-1 grid-cols-5 " + props.className}>
         {props.useSelectableCategories
           ? props.useSelectableCategories.selectableCategories?.map((e) => (
