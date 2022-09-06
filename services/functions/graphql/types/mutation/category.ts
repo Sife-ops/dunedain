@@ -9,6 +9,7 @@ builder.mutationFields((t) => ({
       categoryId: t.arg.string({ required: true }),
     },
     resolve: async (_, { categoryId }, { user: { userId } }) => {
+      // remove category
       const [category] = await dunedainModel.entities.CategoryEntity.query
         .user({
           userId,
@@ -20,6 +21,17 @@ builder.mutationFields((t) => ({
         categoryId,
         userId,
       }).go();
+
+      // remove category bookmarks
+      const categoryBookmarks = await dunedainModel.entities
+        .BookmarkCategoryEntity
+        .query
+        .categoryBookmark({ categoryId })
+        .go()
+
+      await dunedainModel.entities.BookmarkCategoryEntity
+        .delete(categoryBookmarks)
+        .go()
 
       return category;
     },

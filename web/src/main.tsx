@@ -63,14 +63,14 @@ function App() {
   const { setColorMode } = useColorMode();
 
   useEffect(() => {
+    setColorMode("dark");
+
     const token = localStorage.getItem("accessToken");
     if (token) {
       setSignedIn(true);
     } else {
       setSignedIn(false);
     }
-
-    setColorMode("dark");
   }, []);
 
   return (

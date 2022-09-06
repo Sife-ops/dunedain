@@ -18,6 +18,7 @@ export const Loading: React.FC<{
     }
   }, [props.data]);
 
+  // todo: center spinner
   if (!data) {
     return (
       <div className="flex justify-center">
