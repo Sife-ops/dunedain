@@ -5,7 +5,7 @@ import { UseMutationState, UseQueryState } from "urql";
 
 export const Loading: React.FC<{
   // operationState: UseMutationState | UseQueryState;
-  data: any;
+  data?: any;
   children: JSX.Element;
 }> = (props) => {
   // const { error } = props.operationState;
