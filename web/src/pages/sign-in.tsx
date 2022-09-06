@@ -13,6 +13,7 @@ export const SignIn = () => {
           e.preventDefault();
           try {
             const res = await Auth.signIn(email, password);
+            console.log(res);
             localStorage.setItem(
               "accessToken",
               res.signInUserSession.accessToken.jwtToken

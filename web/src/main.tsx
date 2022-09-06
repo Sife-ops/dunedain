@@ -12,10 +12,20 @@ import { Error } from "./pages/error";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Navigation } from "./component/navigation";
-import { Provider as UrqlProvider, createClient, defaultExchanges } from "urql";
 import { SignIn } from "./pages/sign-in";
 import { SignUp } from "./pages/sign-up";
+import { authConfig } from "./urql";
+import { authExchange } from "@urql/exchange-auth";
 import { useEffect, useState } from "react";
+
+import {
+  Provider as UrqlProvider,
+  createClient,
+  dedupExchange,
+  cacheExchange,
+  fetchExchange,
+  makeOperation,
+} from "urql";
 
 Auth.configure({
   Auth: {
@@ -31,19 +41,12 @@ Auth.configure({
 // todo: authExchange
 const urql = createClient({
   url: import.meta.env.VITE_GRAPHQL_URL,
-  exchanges: defaultExchanges,
-  fetchOptions: () => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      return {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      };
-    } else {
-      return {};
-    }
-  },
+  exchanges: [
+    dedupExchange,
+    cacheExchange,
+    authExchange(authConfig),
+    fetchExchange,
+  ],
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
