@@ -17,10 +17,11 @@ export const useBookmarkFilter = () => {
   const [filter, setFilter] = useState<string>("");
   const [filterOpt, setFilterOpt] = useState<"title" | "URL" | "both">("title");
 
+  const useBookmarkSearchMutation_ = useBookmarkSearchMutation();
   const [
     bookmarkSearchState,
     bookmarkSearchMutation,
-  ] = useBookmarkSearchMutation();
+  ] = useBookmarkSearchMutation_;
 
   const [bookmarks, setBookmarks] = useState<Bookmark[] | null>(null);
 
@@ -117,9 +118,9 @@ export const useBookmarkFilter = () => {
 
     bookmarks: {
       bookmarks,
-      bookmarkSearchState,
       searchDefault,
       search: searchFn,
+      useBookmarkSearchMutation: useBookmarkSearchMutation_,
     },
 
     categories: {

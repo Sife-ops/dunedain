@@ -16,14 +16,14 @@ export const BookmarkForm: React.FC<{
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        const { title, url } = bookmarkForm.state;
+        const { title, url } = bookmarkForm.input;
         const categoryIds =
-          bookmarkForm.state.categories
+          bookmarkForm.categories.selectableCategories.selectableCategories
             ?.filter((e) => e.selected)
             .map((e) => e.categoryId) || [];
 
         if (props.bookmark) {
-          bookmarkForm.mutation.bookmarkEdit({
+          bookmarkForm.operation.bookmarkEdit.mutation({
             input: {
               bookmarkId: props.bookmark.bookmarkId,
               categoryIds,
@@ -32,7 +32,7 @@ export const BookmarkForm: React.FC<{
             },
           });
         } else {
-          bookmarkForm.mutation.bookmarkCreate({
+          bookmarkForm.operation.bookmarkCreate.mutation({
             input: {
               categoryIds,
               title,
@@ -45,26 +45,26 @@ export const BookmarkForm: React.FC<{
       <div className="mb-1">
         <Text>Title:</Text>
         <Input
-          onChange={(e) => bookmarkForm.set.setTitle(e.target.value)}
+          onChange={(e) => bookmarkForm.input.setTitle(e.target.value)}
           placeholder="title"
-          value={bookmarkForm.state.title}
+          value={bookmarkForm.input.title}
         />
       </div>
 
       <div className="mb-1">
         <Text>URL:</Text>
         <Input
-          onChange={(e) => bookmarkForm.set.setUrl(e.target.value)}
+          onChange={(e) => bookmarkForm.input.setUrl(e.target.value)}
           placeholder="url"
-          value={bookmarkForm.state.url}
+          value={bookmarkForm.input.url}
         />
       </div>
 
       <div className="mb-1">
         <Text>Categories:</Text>
         <Categories
-          categories={bookmarkForm.state.categories}
-          toggleCategory={bookmarkForm.set.toggleCategory}
+          useCategoriesResponse={bookmarkForm.categories.useCategoriesResponse}
+          useSelectableCategories={bookmarkForm.categories.selectableCategories}
         />
       </div>
 
@@ -73,7 +73,7 @@ export const BookmarkForm: React.FC<{
           <Button
             colorScheme={"teal"}
             type={"submit"}
-            disabled={!bookmarkForm.state.isValidForm}
+            disabled={!bookmarkForm.input.isValidForm}
           >
             {props.bookmark ? "Save" : "Submit"}
           </Button>
@@ -94,7 +94,7 @@ export const BookmarkForm: React.FC<{
             colorScheme={"red"}
             onClick={(e) => {
               e.preventDefault();
-              bookmarkForm.mutation.bookmarkDelete({
+              bookmarkForm.operation.bookmarkDelete.mutation({
                 bookmarkId: props.bookmark!.bookmarkId,
               });
             }}

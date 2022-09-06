@@ -2,6 +2,10 @@ import { Category } from "@dunedain/graphql/genql";
 import { AnyVariables, UseQueryResponse } from "urql";
 import { useTypedQuery } from "../urql";
 
+// (alias) type UseQueryResponse<Data = any, Variables extends AnyVariables =
+// AnyVariables> = [UseQueryState<Data, Variables>, (opts?:
+// Partial<OperationContext>) => void]
+
 export type UseCategoriesResponse = UseQueryResponse<
   { categories: Category[] },
   AnyVariables

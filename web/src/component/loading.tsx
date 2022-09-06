@@ -1,13 +1,13 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
-import { UseQueryResponse } from "urql";
+import { UseMutationState, UseQueryState } from "urql";
 
 export const Loading: React.FC<{
-  useQueryResponse: UseQueryResponse;
+  operationState: UseMutationState | UseQueryState;
   children: JSX.Element;
 }> = (props) => {
-  const [{ fetching, error }] = props.useQueryResponse;
+  const { fetching, error } = props.operationState;
 
   if (fetching) {
     return (

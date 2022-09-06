@@ -4,6 +4,8 @@ import { BiCog } from "react-icons/bi";
 import { Bookmark as BookmarkType } from "@dunedain/graphql/genql/schema";
 import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
+import { UseBookmarkSearchMutation } from "../../query/bookmark-search";
+import { Loading } from "../loading";
 
 import {
   TableContainer,
@@ -17,57 +19,45 @@ import {
 
 export const Bookmarks: React.FC<{
   bookmarks: BookmarkType[] | null;
-  fetching: boolean;
+  useBookmarkSearchMutation: UseBookmarkSearchMutation;
 }> = (props) => {
   const { isDesktop } = useBreakpoint();
-
   const navigate = useNavigate();
-
-  if (props.fetching) {
-    return (
-      <Stack>
-        {(() => {
-          let a = [];
-          for (let i = 0; i < 14; i++) {
-            a.push(<Skeleton height={"50"} />);
-          }
-          return a;
-        })()}
-      </Stack>
-    );
-  }
+  const [useBookmarkSearchState] = props.useBookmarkSearchMutation;
 
   return (
-    <TableContainer>
-      <Table className="bookmarkTable">
-        <Tbody>
-          {props.bookmarks?.map((e) => (
-            <Tr key={e.bookmarkId}>
-              <Td>
-                <a href={e.url} target="_blank">
-                  {e.title}
-                </a>
-              </Td>
-              {isDesktop && (
+    <Loading operationState={useBookmarkSearchState}>
+      <TableContainer>
+        <Table className="bookmarkTable">
+          <Tbody>
+            {props.bookmarks?.map((e) => (
+              <Tr key={e.bookmarkId}>
                 <Td>
                   <a href={e.url} target="_blank">
-                    {e.url}
+                    {e.title}
                   </a>
                 </Td>
-              )}
-              <Td width={"64px"}>
-                <button
-                  onClick={() => {
-                    navigate(`bookmark/${e.bookmarkId}`);
-                  }}
-                >
-                  <BiCog />
-                </button>
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+                {isDesktop && (
+                  <Td>
+                    <a href={e.url} target="_blank">
+                      {e.url}
+                    </a>
+                  </Td>
+                )}
+                <Td width={"64px"}>
+                  <button
+                    onClick={() => {
+                      navigate(`bookmark/${e.bookmarkId}`);
+                    }}
+                  >
+                    <BiCog />
+                  </button>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Loading>
   );
 };

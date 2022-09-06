@@ -117,7 +117,9 @@ export const Home = () => {
 
       <Bookmarks
         bookmarks={bookmarkFilter.bookmarks.bookmarks}
-        fetching={bookmarkFilter.bookmarks.bookmarkSearchState.fetching}
+        useBookmarkSearchMutation={
+          bookmarkFilter.bookmarks.useBookmarkSearchMutation
+        }
       />
     </div>
   );

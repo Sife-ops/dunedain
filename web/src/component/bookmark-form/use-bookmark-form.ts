@@ -2,20 +2,19 @@ import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
 import { useBookmarkCreateMutation } from "../../query/bookmark-create";
 import { useBookmarkDeleteMutation } from "../../query/bookmark-delete";
 import { useBookmarkEditMutation } from "../../query/bookmark-edit";
-import { useCategories } from "../categories";
+import { useCategoriesQuery } from "../../query/categories";
 import { useNavigate } from "react-router-dom";
+import { useSelectableCategories } from "../../hook/selectable-categories";
 import { useState, useEffect } from "react";
 
 export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
-  const {
-    categories,
-    categoriesQueryState,
-    setCategories,
-    toggleCategory,
-    updateCategories,
-  } = useCategories(bookmark);
+  const useCategoriesResponse = useCategoriesQuery();
+  const selectableCategories = useSelectableCategories({
+    useCategoriesResponse,
+    bookmark,
+  });
 
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -85,32 +84,23 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
   }, [bookmarkDeleteState.data]);
 
   return {
-    state: {
-      categories,
-      categoriesQueryState,
-
-      title,
-      url,
-      isValidUrl,
-      isValidTitle,
+    input: {
       isValidForm,
-
-      bookmarkCreateState,
-      bookmarkEditState,
-      bookmarkDeleteState,
-    },
-    set: {
-      setCategories,
-      toggleCategory,
-      updateCategories,
-
+      isValidTitle,
+      isValidUrl,
       setTitle,
       setUrl,
+      title,
+      url,
     },
-    mutation: {
-      bookmarkCreate,
-      bookmarkDelete,
-      bookmarkEdit,
+    categories: {
+      useCategoriesResponse,
+      selectableCategories,
+    },
+    operation: {
+      bookmarkCreate: { state: bookmarkCreateState, mutation: bookmarkCreate },
+      bookmarkEdit: { state: bookmarkEditState, mutation: bookmarkEdit },
+      bookmarkDelete: { state: bookmarkDeleteState, mutation: bookmarkDelete },
     },
   };
 };

@@ -20,10 +20,10 @@ export const Categories: React.FC<{
 }> = (props) => {
   const navigate = useNavigate();
 
-  const [{ data }] = props.useCategoriesResponse;
+  const [useCategoriesState] = props.useCategoriesResponse;
 
   return (
-    <Loading useQueryResponse={props.useCategoriesResponse}>
+    <Loading operationState={useCategoriesState}>
       <div className={"grid gap-1 grid-cols-5 " + props.className}>
         {props.useSelectableCategories
           ? props.useSelectableCategories.selectableCategories?.map((e) => (
@@ -36,7 +36,7 @@ export const Categories: React.FC<{
                 {e.title}
               </Button>
             ))
-          : data?.categories.map((e) => (
+          : useCategoriesState.data?.categories.map((e) => (
               <Button
                 key={e.categoryId}
                 colorScheme={"blue"}
