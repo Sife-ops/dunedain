@@ -1,4 +1,18 @@
+import { Bookmark, bookmarkSearchInput } from "@dunedain/graphql/genql";
+import { UseMutationState } from "urql";
 import { useTypedMutation } from "../urql";
+
+type UseBookmarkSearchMutation = readonly [
+  UseMutationState<
+    {
+      bookmarkSearch: Bookmark[];
+    },
+    {
+      input: bookmarkSearchInput;
+    }
+  >,
+  (vars: { input: bookmarkSearchInput }) => void
+];
 
 export const useBookmarkSearchMutation = () => {
   return useTypedMutation(
@@ -12,6 +26,7 @@ export const useBookmarkSearchMutation = () => {
         bookmarkSearch: [
           vars,
           {
+            __scalar: true,
             __typename: true,
             userId: true,
             bookmarkId: true,
@@ -19,6 +34,7 @@ export const useBookmarkSearchMutation = () => {
             title: true,
 
             categories: {
+              __scalar: true,
               __typename: true,
               userId: true,
               categoryId: true,
@@ -28,5 +44,5 @@ export const useBookmarkSearchMutation = () => {
         ],
       };
     }
-  );
+  ) as UseBookmarkSearchMutation;
 };
