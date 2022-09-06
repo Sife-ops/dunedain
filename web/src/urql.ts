@@ -64,6 +64,8 @@ export const authConfig: AuthConfig<{ accessToken: string }> = {
       if (accessToken) return { accessToken };
       return null;
     }
+    localStorage.clear();
+    window.location.reload();
     return null;
   },
   addAuthToOperation: ({ authState, operation }: any) => {
@@ -86,5 +88,8 @@ export const authConfig: AuthConfig<{ accessToken: string }> = {
         },
       },
     });
+  },
+  didAuthError: ({ error }) => {
+    return error.response.status === 401;
   },
 };

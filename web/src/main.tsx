@@ -24,7 +24,6 @@ import {
   dedupExchange,
   cacheExchange,
   fetchExchange,
-  makeOperation,
 } from "urql";
 
 Auth.configure({
@@ -38,7 +37,6 @@ Auth.configure({
   },
 });
 
-// todo: authExchange
 const urql = createClient({
   url: import.meta.env.VITE_GRAPHQL_URL,
   exchanges: [

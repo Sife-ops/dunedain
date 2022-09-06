@@ -15,7 +15,7 @@ export const Navigation: React.FC = () => {
       </div>
       <Button
         onClick={() => {
-          localStorage.removeItem("accessToken");
+          localStorage.clear();
           window.location.reload();
         }}
       >
