@@ -50,7 +50,7 @@ export const SignIn: React.FC<{ auth: Authentication }> = (props) => {
         />
 
         <Button marginBottom={"1"} colorScheme={"teal"} type="submit">
-          Sign In
+          Submit
         </Button>
         <Button colorScheme={"green"} onClick={() => nav("/sign-up")}>
           Sign Up

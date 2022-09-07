@@ -10,7 +10,6 @@ import { CategoryNew } from "./pages/category-new";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { Error } from "./pages/error";
 import { Home } from "./pages/home";
-import { Landing } from "./pages/landing";
 import { Navigation } from "./component/navigation";
 import { SelectiveRoutes } from "./component/selective-routes";
 import { SignIn } from "./pages/sign-in";
@@ -82,7 +81,6 @@ function App() {
             <Route path="/error" element={<Error />} />
           </Route>
           <Route element={<SelectiveRoutes auth={auth} />}>
-            {/* <Route path="/landing" element={<Landing />} /> */}
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn auth={auth} />} />
           </Route>
