@@ -1,7 +1,8 @@
+import React, { useState } from "react";
 import { Auth } from "@aws-amplify/auth";
-import { useState } from "react";
+import { Authentication } from "../hook/authentication";
 
-export const SignIn = () => {
+export const SignIn: React.FC<{ auth: Authentication }> = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,8 +14,7 @@ export const SignIn = () => {
           e.preventDefault();
           try {
             await Auth.signIn(email, password);
-            localStorage.setItem("signedIn", "true");
-            window.location.reload();
+            props.auth.signIn();
           } catch (e) {
             console.log(e);
           }

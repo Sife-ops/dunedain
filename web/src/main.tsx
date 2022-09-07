@@ -58,19 +58,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   // </React.StrictMode>
 );
 
-// todo: state change breaks routes
 function App() {
-  const { setColorMode } = useColorMode();
-
-  // const [signedIn, setSignedIn] = useState(true);
   const auth = useAuthentication();
+  const { setColorMode } = useColorMode();
 
   useEffect(() => {
     setColorMode("dark");
-    auth.update();
-    // const token = localStorage.getItem("signedIn");
-    // if (token) setSignedIn(true);
-    // else setSignedIn(false);
   }, []);
 
   return (
@@ -100,7 +93,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-in" element={<SignIn auth={auth} />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         )}
