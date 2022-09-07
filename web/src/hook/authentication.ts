@@ -1,24 +1,20 @@
+import { Auth } from "@aws-amplify/auth";
 import { useEffect, useState } from "react";
-
-const getCookie = () => {
-  return localStorage.getItem("cookie");
-};
-
-const setCookie = () => {
-  localStorage.setItem("cookie", "cookie");
-};
-
-const clearCookie = () => {
-  // localStorage.removeItem("cookie");
-  localStorage.clear();
-};
 
 export type Authentication = {
   signedIn: boolean;
   setSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  signIn: () => void;
-  signOut: () => void;
+  signIn: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
+  signOut: () => Promise<void>;
   sync: () => boolean;
+  clearCookie: () => void;
+  setCookie: () => void;
 };
 
 export const useAuthentication = (): Authentication => {
@@ -28,14 +24,37 @@ export const useAuthentication = (): Authentication => {
     if (getCookie()) setSignedIn(true);
   }, []);
 
-  const signIn = () => {
-    setCookie();
-    setSignedIn(true);
+  const getCookie = () => {
+    return localStorage.getItem("cookie");
   };
 
-  const signOut = () => {
+  const setCookie = () => {
+    localStorage.setItem("cookie", "cookie");
+  };
+
+  const clearCookie = () => {
+    // localStorage.removeItem("cookie");
+    localStorage.clear();
+  };
+
+  const signIn = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    await Auth.signIn(email, password);
+    setCookie();
+    // setSignedIn(true);
+    window.location.reload();
+  };
+
+  const signOut = async () => {
+    await Auth.signOut();
     clearCookie();
-    setSignedIn(false);
+    // setSignedIn(false);
+    window.location.reload();
   };
 
   const sync = () => {
@@ -52,6 +71,8 @@ export const useAuthentication = (): Authentication => {
     signedIn,
     setSignedIn,
 
+    clearCookie,
+    setCookie,
     signIn,
     signOut,
     sync,

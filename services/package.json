@@ -12,10 +12,12 @@
     "aws-sdk": "^2.1204.0",
     "electrodb": "^1.11.1",
     "graphql": "^16.6.0",
+    "jsonwebtoken": "^8.5.1",
     "ulid": "^2.3.0",
     "zod": "^3.18.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.102"
+    "@types/aws-lambda": "^8.10.102",
+    "@types/jsonwebtoken": "^8.5.9"
   }
 }

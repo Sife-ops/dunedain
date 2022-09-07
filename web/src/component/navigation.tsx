@@ -15,7 +15,13 @@ export const Navigation: React.FC<{ auth: Authentication }> = (props) => {
             <Button>Categories</Button>
           </Link>
         </div>
-        <Button onClick={() => props.auth.signOut()}>Sign Out</Button>
+        <Button
+          onClick={async () => {
+            await props.auth.signOut();
+          }}
+        >
+          Sign Out
+        </Button>
       </nav>
     );
   } else {

@@ -1,6 +1,5 @@
 import Logo from "../assets/favicon.svg";
 import React, { useState } from "react";
-import { Auth } from "@aws-amplify/auth";
 import { Authentication } from "../hook/authentication";
 import { Input, Button } from "@chakra-ui/react";
 import { useBreakpoint } from "../hook/breakpoint";
@@ -22,8 +21,7 @@ export const SignIn: React.FC<{ auth: Authentication }> = (props) => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            await Auth.signIn(email, password);
-            props.auth.signIn();
+            await props.auth.signIn({ email, password });
           } catch (e) {
             console.log(e);
           }
