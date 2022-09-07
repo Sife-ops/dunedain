@@ -79,14 +79,14 @@ function App() {
             <Route path="/categories" element={<Categories />} />
             <Route path="/category/new" element={<CategoryNew />} />
             <Route path="/category/:categoryId" element={<CategoryDetails />} />
+            <Route path="/error" element={<Error />} />
           </Route>
           <Route element={<SelectiveRoutes auth={auth} />}>
-            <Route path="/landing" element={<Landing />} />
+            {/* <Route path="/landing" element={<Landing />} /> */}
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn auth={auth} />} />
           </Route>
-          <Route path="/error" element={<Error />} />
-          <Route path="*" element={<Navigate replace to="/landing" />} />
+          <Route path="*" element={<Navigate replace to="/sign-in" />} />
         </Routes>
       </BrowserRouter>
     </div>
