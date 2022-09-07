@@ -9,7 +9,8 @@ const setCookie = () => {
 };
 
 const clearCookie = () => {
-  localStorage.removeItem("cookie");
+  // localStorage.removeItem("cookie");
+  localStorage.clear();
 };
 
 export type Authentication = {
