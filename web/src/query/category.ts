@@ -12,6 +12,7 @@ export const useCategoryQuery = (categoryId: string) => {
           userId: true,
           categoryId: true,
           title: true,
+          color: true,
 
           bookmarks: {
             __typename: true,

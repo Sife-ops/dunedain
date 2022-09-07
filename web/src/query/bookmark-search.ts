@@ -36,6 +36,7 @@ export const useBookmarkSearchMutation = () => {
               userId: true,
               categoryId: true,
               title: true,
+              color: true,
             },
           },
         ],

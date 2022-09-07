@@ -33,6 +33,9 @@ export default {
             "categoryId": [
                 1
             ],
+            "color": [
+                1
+            ],
             "title": [
                 1
             ],
@@ -84,6 +87,10 @@ export default {
             "categoryCreate": [
                 2,
                 {
+                    "color": [
+                        1,
+                        "String!"
+                    ],
                     "title": [
                         1,
                         "String!"
@@ -103,6 +110,10 @@ export default {
                 2,
                 {
                     "categoryId": [
+                        1,
+                        "String!"
+                    ],
+                    "color": [
                         1,
                         "String!"
                     ],

@@ -29,7 +29,7 @@ export const Categories: React.FC<{
           ? props.useSelectableCategories.selectableCategories?.map((e) => (
               <Button
                 key={e.categoryId}
-                colorScheme={"blue"}
+                colorScheme={e.color}
                 onClick={() => props.useSelectableCategories?.toggleCategory(e)}
                 variant={e.selected ? "solid" : "outline"}
               >
@@ -39,7 +39,7 @@ export const Categories: React.FC<{
           : useCategoriesState.data?.categories.map((e) => (
               <Button
                 key={e.categoryId}
-                colorScheme={"blue"}
+                colorScheme={e.color}
                 onClick={() => navigate(`/category/${e.categoryId}`)}
               >
                 {e.title}

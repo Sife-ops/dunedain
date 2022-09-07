@@ -12,6 +12,7 @@ CategoryType.implement({
     userId: t.exposeString("userId"),
     categoryId: t.exposeString("categoryId"),
     title: t.exposeString("title"),
+    color: t.exposeString("color"),
 
     bookmarks: t.loadableList({
       type: BookmarkType,

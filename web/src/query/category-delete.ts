@@ -10,6 +10,7 @@ export const useCategoryDeleteMutation = () => {
           userId: true,
           categoryId: true,
           title: true,
+          color: true,
         },
       ],
     };

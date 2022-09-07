@@ -20,6 +20,7 @@ export const useCategoriesQuery = () => {
         userId: true,
         categoryId: true,
         title: true,
+        color: true,
 
         bookmarks: {
           __scalar: true,

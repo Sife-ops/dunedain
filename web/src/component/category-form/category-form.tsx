@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, Text } from "@chakra-ui/react";
+import { Button, Input, Text, Select } from "@chakra-ui/react";
 import { Category as CategoryType } from "@dunedain/graphql/genql/schema";
 import { useCategoryForm } from "./use-category-form";
 import { useNavigate } from "react-router-dom";
@@ -19,10 +19,12 @@ export const CategoryForm: React.FC<{
           categoryForm.mutation.categoryEdit({
             categoryId: props.category.categoryId,
             title: categoryForm.state.title,
+            color: categoryForm.state.color,
           });
         } else {
           categoryForm.mutation.categoryCreate({
             title: categoryForm.state.title,
+            color: categoryForm.state.color,
           });
         }
       }}
@@ -34,6 +36,19 @@ export const CategoryForm: React.FC<{
           placeholder="title"
           value={categoryForm.state.title}
         />
+      </div>
+
+      <div className="mb-1">
+        <Text>Color:</Text>
+        <Select
+          marginBottom={"1"}
+          onChange={(e) => categoryForm.set.setColor(e.target.value)}
+          value={categoryForm.state.color}
+        >
+          {categoryColors.map((e) => (
+            <option>{e}</option>
+          ))}
+        </Select>
       </div>
 
       <div className="flex justify-between">
@@ -75,3 +90,24 @@ export const CategoryForm: React.FC<{
     </form>
   );
 };
+
+const categoryColors = [
+  "whiteAlpha",
+  "blackAlpha",
+  "gray",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "teal",
+  "blue",
+  "cyan",
+  "purple",
+  "pink",
+  "linkedin",
+  "facebook",
+  "messenger",
+  "whatsapp",
+  "twitter",
+  "telegram",
+];

@@ -9,6 +9,7 @@ type Bookmark {
 type Category {
   bookmarks: [Bookmark!]!
   categoryId: String!
+  color: String!
   title: String!
   userId: String!
 }
@@ -23,9 +24,9 @@ type Mutation {
   bookmarkDelete(bookmarkId: String!): Bookmark!
   bookmarkEdit(input: bookmarkUpdateInput!): Bookmark!
   bookmarkSearch(input: bookmarkSearchInput!): [Bookmark!]!
-  categoryCreate(title: String!): Category!
+  categoryCreate(color: String!, title: String!): Category!
   categoryDelete(categoryId: String!): Category!
-  categoryEdit(categoryId: String!, title: String!): Category!
+  categoryEdit(categoryId: String!, color: String!, title: String!): Category!
 }
 
 type Query {

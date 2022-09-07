@@ -1,4 +1,5 @@
 import { Category as CategoryType } from "../../../../graphql/genql/schema";
+import { ThemeTypings } from "@chakra-ui/react";
 import { useCategoryCreateMutation } from "../../query/category-create";
 import { useCategoryDeleteMutation } from "../../query/category-delete";
 import { useCategoryEditMutation } from "../../query/category-edit";
@@ -9,6 +10,7 @@ export const useCategoryForm = (category?: CategoryType) => {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState<string>("");
+  const [color, setColor] = useState<ThemeTypings["colorSchemes"]>("blue");
 
   const [categoryCreateState, categoryCreate] = useCategoryCreateMutation();
   const [categoryDeleteState, categoryDelete] = useCategoryDeleteMutation();
@@ -38,12 +40,14 @@ export const useCategoryForm = (category?: CategoryType) => {
   useEffect(() => {
     if (category) {
       setTitle(category.title);
+      setColor(category.color);
     }
   }, []);
 
   return {
     state: {
       title,
+      color,
 
       categoryCreateState,
       categoryDeleteState,
@@ -56,6 +60,7 @@ export const useCategoryForm = (category?: CategoryType) => {
     },
     set: {
       setTitle,
+      setColor,
     },
   };
 };

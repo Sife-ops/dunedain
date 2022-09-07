@@ -19,6 +19,7 @@ export const useBookmarkQuery = (bookmarkId: string) => {
             userId: true,
             categoryId: true,
             title: true,
+            color: true,
           },
         },
       ],
