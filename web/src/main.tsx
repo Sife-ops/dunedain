@@ -16,6 +16,7 @@ import { SignIn } from "./pages/sign-in";
 import { SignUp } from "./pages/sign-up";
 import { authConfig } from "./urql";
 import { authExchange } from "@urql/exchange-auth";
+import { useAuthentication } from "./hook/authentication";
 import { useEffect, useState } from "react";
 
 import {
@@ -61,20 +62,21 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 function App() {
   const { setColorMode } = useColorMode();
 
-  const [signedIn, setSignedIn] = useState(true);
+  // const [signedIn, setSignedIn] = useState(true);
+  const auth = useAuthentication();
 
   useEffect(() => {
     setColorMode("dark");
-
-    const token = localStorage.getItem("accessToken");
-    if (token) setSignedIn(true);
-    else setSignedIn(false);
+    auth.update();
+    // const token = localStorage.getItem("signedIn");
+    // if (token) setSignedIn(true);
+    // else setSignedIn(false);
   }, []);
 
   return (
     <div className="m-1">
       <BrowserRouter>
-        {signedIn ? (
+        {auth.signedIn ? (
           <>
             <Navigation />
             <Routes>

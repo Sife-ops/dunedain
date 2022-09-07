@@ -12,12 +12,8 @@ export const SignIn = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            const res = await Auth.signIn(email, password);
-            console.log(res);
-            localStorage.setItem(
-              "accessToken",
-              res.signInUserSession.accessToken.jwtToken
-            );
+            await Auth.signIn(email, password);
+            localStorage.setItem("signedIn", "true");
             window.location.reload();
           } catch (e) {
             console.log(e);
