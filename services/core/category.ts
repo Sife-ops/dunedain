@@ -3,6 +3,27 @@ import { Dynamo } from "./dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
+const colors = [
+  "whiteAlpha",
+  "blackAlpha",
+  "gray",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "teal",
+  "blue",
+  "cyan",
+  "purple",
+  "pink",
+  "linkedin",
+  "facebook",
+  "messenger",
+  "whatsapp",
+  "twitter",
+  "telegram",
+];
+
 export const CategoryEntity = new Entity(
   {
     model: {
@@ -26,6 +47,10 @@ export const CategoryEntity = new Entity(
         type: "string",
         required: true,
       },
+      color: {
+        type: colors,
+        required: true,
+      }
     },
     indexes: {
 
