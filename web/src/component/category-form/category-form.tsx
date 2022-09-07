@@ -43,6 +43,7 @@ export const CategoryForm: React.FC<{
             type={"submit"}
             disabled={categoryForm.state.title.length < 1}
           >
+            {/* todo: doesn't trigger refetch */}
             {props.category ? "Save" : "Submit"}
           </Button>
 

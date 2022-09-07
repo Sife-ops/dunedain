@@ -56,7 +56,7 @@ export const Bookmarks: React.FC<{
                   <Td width={"64px"}>
                     <button
                       onClick={() => {
-                        navigate(`bookmark/${e.bookmarkId}`);
+                        navigate(`/bookmark/${e.bookmarkId}`);
                       }}
                     >
                       <BiCog />

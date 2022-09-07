@@ -5,7 +5,7 @@ import { Heading } from "@chakra-ui/react";
 export const CategoryNew: React.FC = () => {
   return (
     <div>
-      <Heading>New Category</Heading>
+      <Heading textAlign={"center"}>New Category</Heading>
       <CategoryForm />
     </div>
   );

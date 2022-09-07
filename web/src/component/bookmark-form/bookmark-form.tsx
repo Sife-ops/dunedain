@@ -11,6 +11,7 @@ export const BookmarkForm: React.FC<{
   const navigate = useNavigate();
 
   const bookmarkForm = useBookmarkForm(props.bookmark);
+  const { selectableCategories } = bookmarkForm.categories.selectableCategories;
 
   return (
     <form
@@ -60,13 +61,19 @@ export const BookmarkForm: React.FC<{
         />
       </div>
 
-      <div className="mb-1">
-        <Text>Categories:</Text>
-        <Categories
-          useCategoriesResponse={bookmarkForm.categories.useCategoriesResponse}
-          useSelectableCategories={bookmarkForm.categories.selectableCategories}
-        />
-      </div>
+      { selectableCategories && selectableCategories.length > 0 && (
+        <div className="mb-1">
+          <Text>Categories:</Text>
+          <Categories
+            useCategoriesResponse={
+              bookmarkForm.categories.useCategoriesResponse
+            }
+            useSelectableCategories={
+              bookmarkForm.categories.selectableCategories
+            }
+          />
+        </div>
+      )}
 
       <div className="flex justify-between">
         <div className="flex gap-1">

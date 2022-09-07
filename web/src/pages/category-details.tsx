@@ -14,7 +14,7 @@ export const CategoryDetails: React.FC = () => {
 
   return (
     <div>
-      <Heading>Edit Category</Heading>
+      <Heading textAlign={"center"}>Edit Category</Heading>
       <Loading data={category}>
         <CategoryForm category={category} />
       </Loading>

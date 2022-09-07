@@ -14,7 +14,7 @@ export const BookmarkDetails: React.FC = () => {
 
   return (
     <div>
-      <Heading>Edit Bookmark</Heading>
+      <Heading textAlign={"center"}>Edit Bookmark</Heading>
       <Loading data={bookmark}>
         <BookmarkForm bookmark={bookmark} />
       </Loading>

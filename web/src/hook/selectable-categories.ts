@@ -15,6 +15,7 @@ export const useSelectableCategories = (args: {
 }) => {
   const [categoriesQueryState] = args.useCategoriesResponse;
 
+  // todo: remove 'null'
   const [selectableCategories, setSelectableCategories] = useState<
     SelectableCategory[] | null
   >(null);
