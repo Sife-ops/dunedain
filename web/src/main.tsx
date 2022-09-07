@@ -12,12 +12,13 @@ import { Error } from "./pages/error";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Navigation } from "./component/navigation";
+import { SelectiveRoutes } from "./component/selective-routes";
 import { SignIn } from "./pages/sign-in";
 import { SignUp } from "./pages/sign-up";
 import { authConfig } from "./urql";
 import { authExchange } from "@urql/exchange-auth";
 import { useAuthentication } from "./hook/authentication";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import {
   Provider as UrqlProvider,
@@ -69,34 +70,24 @@ function App() {
   return (
     <div className="m-1">
       <BrowserRouter>
-        {auth.signedIn ? (
-          <>
-            <Navigation />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/bookmark/new" element={<BookmarkNew />} />
-              <Route
-                path="/bookmark/:bookmarkId"
-                element={<BookmarkDetails />}
-              />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/category/new" element={<CategoryNew />} />
-              <Route
-                path="/category/:categoryId"
-                element={<CategoryDetails />}
-              />
-              <Route path="/error" element={<Error />} />
-              <Route path="*" element={<Navigate replace to="/" />} />
-            </Routes>
-          </>
-        ) : (
-          <Routes>
-            <Route path="/" element={<Landing />} />
+        <Navigation auth={auth} />
+        <Routes>
+          <Route element={<SelectiveRoutes isPrivate auth={auth} />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/bookmark/new" element={<BookmarkNew />} />
+            <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/category/new" element={<CategoryNew />} />
+            <Route path="/category/:categoryId" element={<CategoryDetails />} />
+          </Route>
+          <Route element={<SelectiveRoutes auth={auth} />}>
+            <Route path="/landing" element={<Landing />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn auth={auth} />} />
-            <Route path="*" element={<Navigate replace to="/" />} />
-          </Routes>
-        )}
+          </Route>
+          <Route path="/error" element={<Error />} />
+          <Route path="*" element={<Navigate replace to="/landing" />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

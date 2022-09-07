@@ -6,9 +6,9 @@ export const Landing = () => {
   return (
     <div>
       <h3>Sign Up</h3>
-      <button onClick={() => navigate("sign-up")}>Sign Up</button>
+      <button onClick={() => navigate("/sign-up")}>Sign Up</button>
       <h3>Sign In</h3>
-      <button onClick={() => navigate("sign-in")}>Sign In</button>
+      <button onClick={() => navigate("/sign-in")}>Sign In</button>
     </div>
   );
 };
