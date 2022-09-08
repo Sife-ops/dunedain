@@ -46,7 +46,7 @@ export const CategoryForm: React.FC<{
           value={categoryForm.state.color}
         >
           {categoryColors.map((e) => (
-            <option>{e}</option>
+            <option key={e}>{e}</option>
           ))}
         </Select>
       </div>
