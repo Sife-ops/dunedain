@@ -19,10 +19,7 @@ export const useSelectableCategories = (args: {
 }): UseSelectableCategories => {
   const [categoriesQueryState] = args.categoriesResponse;
 
-  // todo: remove 'null'
-  const [categories, setCategories] = useState<
-    SelectableCategory[] | null
-  >(null);
+  const [categories, setCategories] = useState<SelectableCategory[]>([]);
 
   useEffect(() => {
     const { fetching, data, error } = categoriesQueryState;
