@@ -16,16 +16,13 @@ export const Dev = () => {
 const Dev2 = () => {
   const globalContext = useGlobalContext();
 
-  const [input, setInput] = React.useState("");
+  React.useEffect(() => {
+    console.log(globalContext.categoriesResponse);
+  }, []);
 
   return (
     <div>
-      <div>{globalContext.ree}</div>
-      <input onChange={(e) => setInput(e.target.value)} value={input} />
-      <br />
-      <button onClick={() => globalContext.setRee(input)}>set</button>
-      <br />
-      <button onClick={() => console.log(globalContext.ree)}>print</button>
+      <div>a</div>
     </div>
   );
 };

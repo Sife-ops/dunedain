@@ -1,4 +1,11 @@
+import { AnyVariables, UseQueryResponse } from "urql";
+import { Bookmark } from "@dunedain/graphql/genql";
 import { useTypedQuery } from "../urql";
+
+export type UseBookmarksResponse = UseQueryResponse<
+  { bookmarks: Bookmark[] },
+  AnyVariables
+>;
 
 export const useBookmarksQuery = () => {
   return useTypedQuery({
@@ -19,5 +26,5 @@ export const useBookmarksQuery = () => {
         },
       },
     },
-  });
+  }) as UseBookmarksResponse;
 };

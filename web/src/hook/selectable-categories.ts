@@ -1,18 +1,22 @@
-import { AnyVariables, UseQueryResponse } from "urql";
 import { Bookmark, Category } from "@dunedain/graphql/genql/schema";
 import { useEffect, useState } from "react";
+import { UseCategoriesResponse } from "../query/categories";
 
 export type SelectableCategory = Category & {
   selected: boolean;
 };
 
+export interface UseSelectableCategories {
+  selectableCategories: SelectableCategory[] | null;
+  resetCategories: () => void;
+  toggleCategory: (category: Category) => SelectableCategory[] | undefined;
+  updateCategories: (selectableCategories: SelectableCategory[]) => void;
+}
+
 export const useSelectableCategories = (args: {
   bookmark?: Bookmark;
-  useCategoriesResponse: UseQueryResponse<
-    { categories: Category[] },
-    AnyVariables
-  >;
-}) => {
+  useCategoriesResponse: UseCategoriesResponse;
+}): UseSelectableCategories => {
   const [categoriesQueryState] = args.useCategoriesResponse;
 
   // todo: remove 'null'
