@@ -15,9 +15,9 @@ export interface UseSelectableCategories {
 
 export const useSelectableCategories = (args: {
   bookmark?: Bookmark;
-  useCategoriesResponse: UseCategoriesResponse;
+  categoriesResponse: UseCategoriesResponse;
 }): UseSelectableCategories => {
-  const [categoriesQueryState] = args.useCategoriesResponse;
+  const [categoriesQueryState] = args.categoriesResponse;
 
   // todo: remove 'null'
   const [selectableCategories, setSelectableCategories] = useState<

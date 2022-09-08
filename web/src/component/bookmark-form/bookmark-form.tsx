@@ -65,8 +65,8 @@ export const BookmarkForm: React.FC<{
         <div className="mb-1">
           <Text>Categories:</Text>
           <Categories
-            useCategoriesResponse={
-              bookmarkForm.categories.useCategoriesResponse
+            categoriesResponse={
+              bookmarkForm.categories.categoriesResponse
             }
             useSelectableCategories={
               bookmarkForm.categories.selectableCategories

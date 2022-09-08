@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 export const Categories: React.FC<{
   buttonNew?: boolean;
   className?: string;
-  useCategoriesResponse: UseCategoriesResponse;
+  categoriesResponse: UseCategoriesResponse;
   useSelectableCategories?: {
     selectableCategories: SelectableCategory[] | null;
     resetCategories: () => void;
@@ -23,7 +23,7 @@ export const Categories: React.FC<{
 }> = (props) => {
   const navigate = useNavigate();
 
-  const [useCategoriesState] = props.useCategoriesResponse;
+  const [useCategoriesState] = props.categoriesResponse;
 
   return (
     <Loading data={useCategoriesState.data}>

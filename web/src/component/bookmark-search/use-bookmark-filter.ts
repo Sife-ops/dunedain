@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { useSelectableCategories } from "../../hook/selectable-categories";
 
 export const useBookmarkFilter = () => {
-  const useCategoriesResponse = useCategoriesQuery();
+  const categoriesResponse = useCategoriesQuery();
   const useSelectableCategories_ = useSelectableCategories({
-    useCategoriesResponse,
+    categoriesResponse,
   });
 
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
@@ -124,7 +124,7 @@ export const useBookmarkFilter = () => {
     },
 
     categories: {
-      useCategoriesResponse,
+      categoriesResponse,
       useSelectableCategories: {
         ...useSelectableCategories_,
         resetCategories,

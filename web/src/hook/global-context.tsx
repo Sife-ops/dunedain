@@ -18,7 +18,7 @@ const useContext = (): Context => {
   const categoriesResponse = useCategoriesQuery();
 
   const selectableCategories = useSelectableCategories({
-    useCategoriesResponse: categoriesResponse,
+    categoriesResponse,
   });
 
   return {

@@ -10,9 +10,9 @@ import { useState, useEffect } from "react";
 export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
-  const useCategoriesResponse = useCategoriesQuery();
+  const categoriesResponse = useCategoriesQuery();
   const selectableCategories = useSelectableCategories({
-    useCategoriesResponse,
+    categoriesResponse,
     bookmark,
   });
 
@@ -94,7 +94,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
       url,
     },
     categories: {
-      useCategoriesResponse,
+      categoriesResponse,
       selectableCategories,
     },
     operation: {

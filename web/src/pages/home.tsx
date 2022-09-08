@@ -68,8 +68,8 @@ export const Home = () => {
           <Categories
             buttonNew
             className="mb-1"
-            useCategoriesResponse={
-              bookmarkFilter.categories.useCategoriesResponse
+            categoriesResponse={
+              bookmarkFilter.categories.categoriesResponse
             }
             useSelectableCategories={
               bookmarkFilter.categories.useSelectableCategories
