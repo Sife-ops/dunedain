@@ -68,11 +68,11 @@ export const useBookmarkFilter = () => {
 
   useEffect(() => {
     setCategoryIds(
-      useSelectableCategories_.selectableCategories
+      useSelectableCategories_.categories
         ?.filter((e) => e.selected)
         .map((e) => e.categoryId) || []
     );
-  }, [useSelectableCategories_.selectableCategories]);
+  }, [useSelectableCategories_.categories]);
 
   const searchDefault = () => {
     bookmarkSearchMutation({

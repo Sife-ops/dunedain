@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useBookmarksQuery, UseBookmarksResponse } from "../query/bookmarks";
 import { useCategoriesQuery, UseCategoriesResponse } from "../query/categories";
 
@@ -10,21 +10,21 @@ import {
 type Context = {
   bookmarksResponse: UseBookmarksResponse;
   categoriesResponse: UseCategoriesResponse;
-  selectableCategories: UseSelectableCategories;
+  categories: UseSelectableCategories;
 };
 
 const useContext = (): Context => {
   const bookmarksResponse = useBookmarksQuery();
   const categoriesResponse = useCategoriesQuery();
 
-  const selectableCategories = useSelectableCategories({
+  const categories = useSelectableCategories({
     categoriesResponse,
   });
 
   return {
     bookmarksResponse,
     categoriesResponse,
-    selectableCategories,
+    categories,
   };
 };
 

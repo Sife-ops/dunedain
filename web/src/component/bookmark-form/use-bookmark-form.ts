@@ -11,7 +11,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
   const categoriesResponse = useCategoriesQuery();
-  const selectableCategories = useSelectableCategories({
+  const categories = useSelectableCategories({
     categoriesResponse,
     bookmark,
   });
@@ -95,7 +95,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     },
     categories: {
       categoriesResponse,
-      selectableCategories,
+      categories,
     },
     operation: {
       bookmarkCreate: { state: bookmarkCreateState, mutation: bookmarkCreate },

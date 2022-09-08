@@ -7,10 +7,10 @@ export type SelectableCategory = Category & {
 };
 
 export interface UseSelectableCategories {
-  selectableCategories: SelectableCategory[] | null;
+  categories: SelectableCategory[] | null;
   resetCategories: () => void;
   toggleCategory: (category: Category) => SelectableCategory[] | undefined;
-  updateCategories: (selectableCategories: SelectableCategory[]) => void;
+  updateCategories: (categories: SelectableCategory[]) => void;
 }
 
 export const useSelectableCategories = (args: {
@@ -20,7 +20,7 @@ export const useSelectableCategories = (args: {
   const [categoriesQueryState] = args.categoriesResponse;
 
   // todo: remove 'null'
-  const [selectableCategories, setSelectableCategories] = useState<
+  const [categories, setCategories] = useState<
     SelectableCategory[] | null
   >(null);
 
@@ -35,9 +35,9 @@ export const useSelectableCategories = (args: {
     }
   }, [categoriesQueryState.data]);
 
-  const updateCategories = (selectableCategories: SelectableCategory[]) => {
-    setSelectableCategories((s) => {
-      return selectableCategories.map((c) => {
+  const updateCategories = (categories: SelectableCategory[]) => {
+    setCategories((s) => {
+      return categories.map((c) => {
         const found = s?.find((e) => e.categoryId === c.categoryId);
         if (found) {
           return found;
@@ -63,15 +63,15 @@ export const useSelectableCategories = (args: {
       }
     };
 
-    setSelectableCategories((s) => {
+    setCategories((s) => {
       return s?.map(toggleMapFn) || null;
     });
 
-    return selectableCategories?.map(toggleMapFn);
+    return categories?.map(toggleMapFn);
   };
 
   const resetCategories = () => {
-    setSelectableCategories((s) => {
+    setCategories((s) => {
       return (
         s?.map((e) => ({
           ...e,
@@ -82,12 +82,12 @@ export const useSelectableCategories = (args: {
   };
 
   return {
-    selectableCategories,
+    categories,
     resetCategories,
     toggleCategory,
     updateCategories,
 
     // categoriesQueryState,
-    // setSelectableCategories,
+    // setCategories,
   };
 };

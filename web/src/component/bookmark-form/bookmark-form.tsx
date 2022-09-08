@@ -11,7 +11,7 @@ export const BookmarkForm: React.FC<{
   const navigate = useNavigate();
 
   const bookmarkForm = useBookmarkForm(props.bookmark);
-  const { selectableCategories } = bookmarkForm.categories.selectableCategories;
+  const { categories } = bookmarkForm.categories.categories;
 
   return (
     <form
@@ -19,7 +19,7 @@ export const BookmarkForm: React.FC<{
         e.preventDefault();
         const { title, url } = bookmarkForm.input;
         const categoryIds =
-          bookmarkForm.categories.selectableCategories.selectableCategories
+          bookmarkForm.categories.categories.categories
             ?.filter((e) => e.selected)
             .map((e) => e.categoryId) || [];
 
@@ -61,7 +61,7 @@ export const BookmarkForm: React.FC<{
         />
       </div>
 
-      { selectableCategories && selectableCategories.length > 0 && (
+      { categories && categories.length > 0 && (
         <div className="mb-1">
           <Text>Categories:</Text>
           <Categories
@@ -69,7 +69,7 @@ export const BookmarkForm: React.FC<{
               bookmarkForm.categories.categoriesResponse
             }
             useSelectableCategories={
-              bookmarkForm.categories.selectableCategories
+              bookmarkForm.categories.categories
             }
           />
         </div>

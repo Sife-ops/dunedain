@@ -13,12 +13,12 @@ export const Categories: React.FC<{
   className?: string;
   categoriesResponse: UseCategoriesResponse;
   useSelectableCategories?: {
-    selectableCategories: SelectableCategory[] | null;
+    categories: SelectableCategory[] | null;
     resetCategories: () => void;
     toggleCategory: (
       category: CategoryType
     ) => SelectableCategory[] | undefined;
-    updateCategories: (selectableCategories: SelectableCategory[]) => void;
+    updateCategories: (categories: SelectableCategory[]) => void;
   };
 }> = (props) => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const Categories: React.FC<{
     <Loading data={useCategoriesState.data}>
       <div className={"grid gap-1 grid-cols-5 " + props.className}>
         {props.useSelectableCategories
-          ? props.useSelectableCategories.selectableCategories?.map((e) => (
+          ? props.useSelectableCategories.categories?.map((e) => (
               <Category
                 category={e}
                 key={e.categoryId}
