@@ -1,60 +1,31 @@
-import { useEffect } from "react";
-import { useTypedMutation, useTypedQuery } from "../urql";
-import { BookmarkForm } from "../component/bookmark-form";
+import React from "react";
+
+import {
+  GlobalContextProvider,
+  useGlobalContext,
+} from "../hook/global-context";
 
 export const Dev = () => {
-  const [bookmarks] = useTypedQuery({
-    query: {
-      bookmarks: {
-        userId: true,
-        bookmarkId: true,
-        url: true,
-        title: true,
+  return (
+    <GlobalContextProvider>
+      <Dev2></Dev2>
+    </GlobalContextProvider>
+  );
+};
 
-        categories: {
-          userId: true,
-          categoryId: true,
-          title: true,
-        },
-      },
-    },
-  });
+const Dev2 = () => {
+  const globalContext = useGlobalContext();
 
-  const [categories] = useTypedQuery({
-    query: {
-      categories: {
-        userId: true,
-        categoryId: true,
-        title: true,
-
-        bookmarks: {
-          userId: true,
-          bookmarkId: true,
-          url: true,
-          title: true,
-        },
-      },
-    },
-  });
-
-  useEffect(() => {
-    if (!bookmarks.fetching && bookmarks.data) {
-      console.log(bookmarks.data);
-    }
-  }, [bookmarks.fetching]);
-
-  useEffect(() => {
-    if (!categories.fetching && categories.data) {
-      console.log(categories.data);
-    }
-  }, [categories.fetching]);
+  const [input, setInput] = React.useState("");
 
   return (
     <div>
-      <h3>bookmark form</h3>
-      {/* <BookmarkForm /> */}
-
-      <h3>bookmark query</h3>
+      <div>{globalContext.ree}</div>
+      <input onChange={(e) => setInput(e.target.value)} value={input} />
+      <br />
+      <button onClick={() => globalContext.setRee(input)}>set</button>
+      <br />
+      <button onClick={() => console.log(globalContext.ree)}>print</button>
     </div>
   );
 };
