@@ -77,12 +77,14 @@ function App() {
         <Routes>
           <Route element={<SelectiveRoutes isPrivate auth={auth} />}>
             <Route path="/home" element={<Home />} />
-            {/* <Route path="/bookmark/new" element={<BookmarkNew />} />
-            <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
             <Route path="/categories" element={<Categories />} />
+            {/*
+            <Route path="/bookmark/new" element={<BookmarkNew />} />
+            <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
             <Route path="/category/new" element={<CategoryNew />} />
             <Route path="/category/:categoryId" element={<CategoryDetails />} />
-            <Route path="/error" element={<Error />} /> */}
+            <Route path="/error" element={<Error />} />
+            */}
             <Route path="/dev" element={<Dev />} />
           </Route>
           <Route element={<SelectiveRoutes auth={auth} />}>

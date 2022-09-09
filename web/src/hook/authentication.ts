@@ -18,10 +18,11 @@ export type Authentication = {
 };
 
 export const useAuthentication = (): Authentication => {
-  const [signedIn, setSignedIn] = useState(false);
+  const [signedIn, setSignedIn] = useState(true);
 
   useEffect(() => {
-    if (getCookie()) setSignedIn(true);
+    // todo: state update breaks refresh
+    if (!getCookie()) setSignedIn(false);
   }, []);
 
   const getCookie = () => {
@@ -33,7 +34,6 @@ export const useAuthentication = (): Authentication => {
   };
 
   const clearCookie = () => {
-    // localStorage.removeItem("cookie");
     localStorage.clear();
   };
 

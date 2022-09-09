@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import { UseMutationState, UseQueryState } from "urql";
 
+// todo: spinner centered in window
 export const Loading: React.FC<{
   // operationState: UseMutationState | UseQueryState;
   data?: any;
