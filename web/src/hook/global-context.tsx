@@ -1,30 +1,15 @@
 import React from "react";
-import { useBookmarksQuery, UseBookmarksResponse } from "../query/bookmarks";
 import { useCategoriesQuery, UseCategoriesResponse } from "../query/categories";
 
-import {
-  useSelectableCategories,
-  UseSelectableCategories,
-} from "../hook/selectable-categories";
-
 type Context = {
-  bookmarksResponse: UseBookmarksResponse;
   categoriesResponse: UseCategoriesResponse;
-  categories: UseSelectableCategories;
 };
 
 const useContext = (): Context => {
-  const bookmarksResponse = useBookmarksQuery();
   const categoriesResponse = useCategoriesQuery();
 
-  const categories = useSelectableCategories({
-    categoriesResponse,
-  });
-
   return {
-    bookmarksResponse,
     categoriesResponse,
-    categories,
   };
 };
 

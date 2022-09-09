@@ -1,24 +1,31 @@
-import { Bookmarks } from "../component/bookmarks";
-import { Button, ButtonGroup } from "@chakra-ui/react";
-import { Categories } from "../component/categories";
-import { Input } from "@chakra-ui/react";
-import { Select } from "@chakra-ui/react";
-import { useBookmarkFilter } from "../component/bookmark-search";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { BiCog } from "react-icons/bi";
 import { BsFillGridFill } from "react-icons/bs";
+import { Categories } from "../component/categories";
 import { HiPlus } from "react-icons/hi";
+import { Loading } from "../component/loading";
+import { useBookmarkFilter } from "../component/bookmark-search";
+import { useBreakpoint } from "../hook/breakpoint";
+import { useNavigate } from "react-router-dom";
+
+import {
+  Button,
+  ButtonGroup,
+  Input,
+  Select,
+  Skeleton,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Tr,
+} from "@chakra-ui/react";
 
 export const Home = () => {
+  const { isDesktop } = useBreakpoint();
   const navigate = useNavigate();
 
   const bookmarkFilter = useBookmarkFilter();
-
-  const [showCategories, setShowCategories] = useState<boolean>(false);
-
-  useEffect(() => {
-    bookmarkFilter.bookmarks.searchDefault();
-  }, []);
+  const [bookmarkSearchState] = bookmarkFilter.mutation.bookmarkSearchMutation;
 
   return (
     <div>
@@ -54,8 +61,8 @@ export const Home = () => {
 
         <Button
           colorScheme={"teal"}
-          variant={showCategories ? "outline" : "solid"}
-          onClick={() => setShowCategories((s) => !s)}
+          variant={bookmarkFilter.input.showCategories ? "outline" : "solid"}
+          onClick={() => bookmarkFilter.input.setShowCategories((s) => !s)}
           w={"64px"}
           minW={"64px"}
         >
@@ -63,17 +70,12 @@ export const Home = () => {
         </Button>
       </div>
 
-      {showCategories && (
+      {bookmarkFilter.input.showCategories && (
         <>
           <Categories
             buttonNew
             className="mb-1"
-            categoriesResponse={
-              bookmarkFilter.categories.categoriesResponse
-            }
-            useSelectableCategories={
-              bookmarkFilter.categories.useSelectableCategories
-            }
+            selectableCategories={bookmarkFilter.selectableCategories}
           />
 
           <div className="flex gap-1 mb-1">
@@ -82,7 +84,7 @@ export const Home = () => {
                 className="grow"
                 colorScheme={"teal"}
                 onClick={(e) => {
-                  bookmarkFilter.bookmarks.search();
+                  bookmarkFilter.mutation.search();
                 }}
               >
                 Filter
@@ -91,8 +93,8 @@ export const Home = () => {
               <Button
                 className="grow"
                 colorScheme={"gray"}
-                onClick={(e) => {
-                  bookmarkFilter.categories.useSelectableCategories.resetCategories();
+                onClick={() => {
+                  bookmarkFilter.selectableCategories.resetCategories();
                 }}
               >
                 Reset
@@ -105,7 +107,7 @@ export const Home = () => {
               onChange={(e) => {
                 const categoryOpt = e.target.value as "And" | "Or";
                 bookmarkFilter.input.setCategoryOpt(categoryOpt);
-                bookmarkFilter.bookmarks.search({ categoryOpt });
+                bookmarkFilter.mutation.search({ categoryOpt });
               }}
             >
               <option>And</option>
@@ -115,12 +117,48 @@ export const Home = () => {
         </>
       )}
 
-      <Bookmarks
-        bookmarks={bookmarkFilter.bookmarks.bookmarks}
-        useBookmarkSearchMutation={
-          bookmarkFilter.bookmarks.useBookmarkSearchMutation
-        }
-      />
+      <Loading data={bookmarkFilter.bookmarks}>
+        <TableContainer>
+          {bookmarkFilter.bookmarks && bookmarkSearchState.fetching ? (
+            <>
+              {bookmarkFilter.bookmarks?.map(() => (
+                // todo: hardcoded height no good
+                <Skeleton marginBottom={"5px"} height={"50.5px"} />
+              ))}
+            </>
+          ) : (
+            <Table className="bookmarkTable">
+              <Tbody>
+                {bookmarkFilter.bookmarks?.map((e) => (
+                  <Tr key={e.bookmarkId}>
+                    <Td>
+                      <a href={e.url} target="_blank">
+                        {e.title}
+                      </a>
+                    </Td>
+                    {isDesktop && (
+                      <Td>
+                        <a href={e.url} target="_blank">
+                          {e.url}
+                        </a>
+                      </Td>
+                    )}
+                    <Td width={"64px"}>
+                      <button
+                        onClick={() => {
+                          navigate(`/bookmark/${e.bookmarkId}`);
+                        }}
+                      >
+                        <BiCog />
+                      </button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          )}
+        </TableContainer>
+      </Loading>
     </div>
   );
 };

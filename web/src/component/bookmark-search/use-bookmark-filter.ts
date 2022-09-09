@@ -1,27 +1,24 @@
 import Fuse from "fuse.js";
 import { Bookmark } from "@dunedain/graphql/genql/schema";
 import { useBookmarkSearchMutation } from "../../query/bookmark-search";
-import { useCategoriesQuery } from "../../query/categories";
 import { useEffect, useState } from "react";
 import { useSelectableCategories } from "../../hook/selectable-categories";
 
 export const useBookmarkFilter = () => {
-  const categoriesResponse = useCategoriesQuery();
-  const useSelectableCategories_ = useSelectableCategories({
-    categoriesResponse,
-  });
+  const selectableCategories = useSelectableCategories();
+
+  const [filter, setFilter] = useState<string>("");
+  const [filterOpt, setFilterOpt] = useState<"title" | "URL" | "both">("title");
+  const [showCategories, setShowCategories] = useState<boolean>(false);
 
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [categoryOpt, setCategoryOpt] = useState<"And" | "Or">("And");
 
-  const [filter, setFilter] = useState<string>("");
-  const [filterOpt, setFilterOpt] = useState<"title" | "URL" | "both">("title");
-
-  const useBookmarkSearchMutation_ = useBookmarkSearchMutation();
+  const bookmarkSearchMutation = useBookmarkSearchMutation();
   const [
-    bookmarkSearchState,
-    bookmarkSearchMutation,
-  ] = useBookmarkSearchMutation_;
+    bookmarkSearchResponseState,
+    bookmarkSearchRequest,
+  ] = bookmarkSearchMutation;
 
   const [bookmarks, setBookmarks] = useState<Bookmark[]>();
 
@@ -51,7 +48,11 @@ export const useBookmarkFilter = () => {
   };
 
   useEffect(() => {
-    const { data } = bookmarkSearchState;
+    searchDefault();
+  }, []);
+
+  useEffect(() => {
+    const { data } = bookmarkSearchResponseState;
     if (data?.bookmarkSearch) {
       const bookmarks = data.bookmarkSearch as Bookmark[];
       filterEffect(bookmarks);
@@ -59,23 +60,23 @@ export const useBookmarkFilter = () => {
   }, [filter, filterOpt]);
 
   useEffect(() => {
-    const { fetching, data, error } = bookmarkSearchState;
+    const { fetching, data, error } = bookmarkSearchResponseState;
     if (!fetching && !error && data) {
       const bookmarks = data.bookmarkSearch as Bookmark[];
       filterEffect(bookmarks);
     }
-  }, [bookmarkSearchState.data]);
+  }, [bookmarkSearchResponseState.data]);
 
   useEffect(() => {
     setCategoryIds(
-      useSelectableCategories_.categories
+      selectableCategories.categories
         ?.filter((e) => e.selected)
         .map((e) => e.categoryId) || []
     );
-  }, [useSelectableCategories_.categories]);
+  }, [selectableCategories.categories]);
 
   const searchDefault = () => {
-    bookmarkSearchMutation({
+    bookmarkSearchRequest({
       input: {
         categoryIds: [],
         categoryOpt,
@@ -93,7 +94,7 @@ export const useBookmarkFilter = () => {
       ...args,
     };
 
-    bookmarkSearchMutation({
+    bookmarkSearchRequest({
       input: {
         categoryIds: options.categoryIds,
         categoryOpt: options.categoryOpt,
@@ -102,7 +103,7 @@ export const useBookmarkFilter = () => {
   };
 
   const resetCategories = () => {
-    useSelectableCategories_.resetCategories();
+    selectableCategories.resetCategories();
     searchFn({ categoryIds: [] });
   };
 
@@ -114,21 +115,21 @@ export const useBookmarkFilter = () => {
       setCategoryOpt,
       setFilter,
       setFilterOpt,
+      setShowCategories,
+      showCategories,
     },
 
-    bookmarks: {
-      bookmarks,
+    mutation: {
       searchDefault,
       search: searchFn,
-      useBookmarkSearchMutation: useBookmarkSearchMutation_,
+      bookmarkSearchMutation,
     },
 
-    categories: {
-      categoriesResponse,
-      useSelectableCategories: {
-        ...useSelectableCategories_,
-        resetCategories,
-      },
+    bookmarks,
+
+    selectableCategories: {
+      ...selectableCategories,
+      resetCategories,
     },
   };
 };

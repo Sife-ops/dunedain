@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bookmarkTable {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.bookmarkTable td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

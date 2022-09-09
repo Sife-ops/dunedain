@@ -7,36 +7,32 @@ import { SelectableCategory } from "../../hook/selectable-categories";
 import { UseCategoriesResponse } from "../../query/categories";
 import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
+import { UseSelectableCategories } from "../../hook/selectable-categories";
+import { useGlobalContext } from "../../hook/global-context";
 
 export const Categories: React.FC<{
   buttonNew?: boolean;
   className?: string;
-  categoriesResponse: UseCategoriesResponse;
-  useSelectableCategories?: {
-    categories: SelectableCategory[] | null;
-    resetCategories: () => void;
-    toggleCategory: (
-      category: CategoryType
-    ) => SelectableCategory[] | undefined;
-    updateCategories: (categories: SelectableCategory[]) => void;
-  };
+  selectableCategories?: UseSelectableCategories;
 }> = (props) => {
   const navigate = useNavigate();
 
-  const [useCategoriesState] = props.categoriesResponse;
+  const {
+    categoriesResponse: [categoriesResponseState],
+  } = useGlobalContext();
 
   return (
-    <Loading data={useCategoriesState.data}>
+    <Loading data={categoriesResponseState.data}>
       <div className={"grid gap-1 grid-cols-5 " + props.className}>
-        {props.useSelectableCategories
-          ? props.useSelectableCategories.categories?.map((e) => (
+        {props.selectableCategories
+          ? props.selectableCategories.categories?.map((e) => (
               <Category
                 category={e}
                 key={e.categoryId}
-                onClick={() => props.useSelectableCategories?.toggleCategory(e)}
+                onClick={() => props.selectableCategories?.toggleCategory(e)}
               />
             ))
-          : useCategoriesState.data?.categories.map((e) => (
+          : categoriesResponseState.data?.categories.map((e) => (
               <Category
                 category={e}
                 key={e.categoryId}

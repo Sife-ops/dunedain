@@ -1,36 +1,37 @@
 import { Bookmark, Category } from "@dunedain/graphql/genql/schema";
 import { useEffect, useState } from "react";
-import { UseCategoriesResponse } from "../query/categories";
+import { useGlobalContext } from "../hook/global-context";
 
 export type SelectableCategory = Category & {
   selected: boolean;
 };
 
 export interface UseSelectableCategories {
-  categories: SelectableCategory[] | null;
+  categories: SelectableCategory[] | undefined;
   resetCategories: () => void;
   toggleCategory: (category: Category) => SelectableCategory[] | undefined;
   updateCategories: (categories: SelectableCategory[]) => void;
 }
 
-export const useSelectableCategories = (args: {
-  bookmark?: Bookmark;
-  categoriesResponse: UseCategoriesResponse;
-}): UseSelectableCategories => {
-  const [categoriesQueryState] = args.categoriesResponse;
+export const useSelectableCategories = (
+  bookmark?: Bookmark
+): UseSelectableCategories => {
+  const {
+    categoriesResponse: [categoriesResponseState],
+  } = useGlobalContext();
 
-  const [categories, setCategories] = useState<SelectableCategory[]>([]);
+  const [categories, setCategories] = useState<SelectableCategory[]>();
 
   useEffect(() => {
-    const { fetching, data, error } = categoriesQueryState;
+    const { fetching, data, error } = categoriesResponseState;
     if (!fetching && data && !error) {
       // @ts-ignore
       updateCategories(data.categories);
-      if (args.bookmark) {
-        args.bookmark.categories.map((e) => toggleCategory(e));
+      if (bookmark) {
+        bookmark.categories.map((e) => toggleCategory(e));
       }
     }
-  }, [categoriesQueryState.data]);
+  }, [categoriesResponseState.data]);
 
   const updateCategories = (categories: SelectableCategory[]) => {
     setCategories((s) => {
@@ -61,7 +62,7 @@ export const useSelectableCategories = (args: {
     };
 
     setCategories((s) => {
-      return s?.map(toggleMapFn) || null;
+      return s?.map(toggleMapFn);
     });
 
     return categories?.map(toggleMapFn);
@@ -69,12 +70,10 @@ export const useSelectableCategories = (args: {
 
   const resetCategories = () => {
     setCategories((s) => {
-      return (
-        s?.map((e) => ({
-          ...e,
-          selected: false,
-        })) || null
-      );
+      return s?.map((e) => ({
+        ...e,
+        selected: false,
+      }));
     });
   };
 
