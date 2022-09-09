@@ -76,20 +76,18 @@ function App() {
         <Navigation auth={auth} />
         <Routes>
           <Route element={<SelectiveRoutes isPrivate auth={auth} />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/categories" element={<Categories />} />
-            {/*
-            <Route path="/bookmark/new" element={<BookmarkNew />} />
             <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
-            <Route path="/category/new" element={<CategoryNew />} />
+            <Route path="/bookmark/new" element={<BookmarkNew />} />
+            <Route path="/categories" element={<Categories />} />
             <Route path="/category/:categoryId" element={<CategoryDetails />} />
+            <Route path="/category/new" element={<CategoryNew />} />
             <Route path="/error" element={<Error />} />
-            */}
-            <Route path="/dev" element={<Dev />} />
+            <Route path="/home" element={<Home />} />
+            {/* <Route path="/dev" element={<Dev />} /> */}
           </Route>
           <Route element={<SelectiveRoutes auth={auth} />}>
-            <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn auth={auth} />} />
+            <Route path="/sign-up" element={<SignUp />} />
           </Route>
           <Route path="*" element={<Navigate replace to="/sign-in" />} />
         </Routes>

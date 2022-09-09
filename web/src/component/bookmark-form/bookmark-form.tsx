@@ -11,36 +11,16 @@ export const BookmarkForm: React.FC<{
   const navigate = useNavigate();
 
   const bookmarkForm = useBookmarkForm(props.bookmark);
-  const { categories } = bookmarkForm.categories.categories;
+  const {
+    selectableCategories: { categories },
+  } = bookmarkForm;
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        const { title, url } = bookmarkForm.input;
-        const categoryIds =
-          bookmarkForm.categories.categories.categories
-            ?.filter((e) => e.selected)
-            .map((e) => e.categoryId) || [];
-
-        if (props.bookmark) {
-          bookmarkForm.operation.bookmarkEdit.mutation({
-            input: {
-              bookmarkId: props.bookmark.bookmarkId,
-              categoryIds,
-              title,
-              url,
-            },
-          });
-        } else {
-          bookmarkForm.operation.bookmarkCreate.mutation({
-            input: {
-              categoryIds,
-              title,
-              url,
-            },
-          });
-        }
+        if (props.bookmark) bookmarkForm.action.edit();
+        else bookmarkForm.action.create();
       }}
     >
       <div className="mb-1">
@@ -61,16 +41,12 @@ export const BookmarkForm: React.FC<{
         />
       </div>
 
-      { categories && categories.length > 0 && (
+      {/* todo: loading spinner */}
+      {categories && categories.length > 0 && (
         <div className="mb-1">
           <Text>Categories:</Text>
           <Categories
-            categoriesResponse={
-              bookmarkForm.categories.categoriesResponse
-            }
-            useSelectableCategories={
-              bookmarkForm.categories.categories
-            }
+            selectableCategories={bookmarkForm.selectableCategories}
           />
         </div>
       )}
@@ -101,9 +77,7 @@ export const BookmarkForm: React.FC<{
             colorScheme={"red"}
             onClick={(e) => {
               e.preventDefault();
-              bookmarkForm.operation.bookmarkDelete.mutation({
-                bookmarkId: props.bookmark!.bookmarkId,
-              });
+              bookmarkForm.action.delete();
             }}
           >
             Delete

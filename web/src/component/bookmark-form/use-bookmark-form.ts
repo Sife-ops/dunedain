@@ -10,11 +10,7 @@ import { useState, useEffect } from "react";
 export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
-  const categoriesResponse = useCategoriesQuery();
-  const categories = useSelectableCategories({
-    categoriesResponse,
-    bookmark,
-  });
+  const selectableCategories = useSelectableCategories(bookmark);
 
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -83,6 +79,41 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     }
   }, [bookmarkDeleteState.data]);
 
+  const create = () => {
+    bookmarkCreate({
+      input: {
+        categoryIds:
+          selectableCategories.categories
+            ?.filter((e) => e.selected)
+            .map((e) => e.categoryId) || [],
+        title,
+        url,
+      },
+    });
+  };
+
+  const edit = () => {
+    if (bookmark) {
+      bookmarkEdit({
+        input: {
+          bookmarkId: bookmark.bookmarkId,
+          categoryIds:
+            selectableCategories.categories
+              ?.filter((e) => e.selected)
+              .map((e) => e.categoryId) || [],
+          title,
+          url,
+        },
+      });
+    }
+  };
+
+  const delete_ = () => {
+    if (bookmark) {
+      bookmarkDelete({ bookmarkId: bookmark.bookmarkId });
+    }
+  };
+
   return {
     input: {
       isValidForm,
@@ -93,14 +124,11 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
       title,
       url,
     },
-    categories: {
-      categoriesResponse,
-      categories,
-    },
-    operation: {
-      bookmarkCreate: { state: bookmarkCreateState, mutation: bookmarkCreate },
-      bookmarkEdit: { state: bookmarkEditState, mutation: bookmarkEdit },
-      bookmarkDelete: { state: bookmarkDeleteState, mutation: bookmarkDelete },
+    selectableCategories,
+    action: {
+      edit,
+      create,
+      delete: delete_,
     },
   };
 };
