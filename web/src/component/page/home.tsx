@@ -1,11 +1,11 @@
 import { BiCog } from "react-icons/bi";
 import { BsFillGridFill } from "react-icons/bs";
-import { Categories } from "../component/categories";
+import { Categories } from "../categories";
 import { HiPlus } from "react-icons/hi";
-import { Loading } from "../component/loading";
-import { useBreakpoint } from "../hook/breakpoint";
+import { Loading } from "../loading";
+import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
-import { useGlobalContext } from "../hook/global-context";
+import { useGlobalContext } from "../../hook/global-context";
 
 import {
   Button,
@@ -106,6 +106,7 @@ export const Home = () => {
             <Select
               w={"96px"}
               minW={"96px"}
+              value={bookmarksFilter.input.categoryOpt}
               onChange={(e) => {
                 const categoryOpt = e.target.value as "And" | "Or";
                 bookmarksFilter.input.setCategoryOpt(categoryOpt);

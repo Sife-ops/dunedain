@@ -1,9 +1,9 @@
 import React from "react";
-import { Bookmark as BookmarkType } from "../../../graphql/genql/schema";
-import { BookmarkForm } from "../component/bookmark-form";
+import { Bookmark as BookmarkType } from "@dunedain/graphql/genql/schema";
+import { BookmarkForm } from "../bookmark-form";
 import { Heading } from "@chakra-ui/react";
-import { Loading } from "../component/loading";
-import { useBookmarkQuery } from "../query/bookmark";
+import { Loading } from "../loading";
+import { useBookmarkQuery } from "../../query/bookmark";
 import { useParams } from "react-router-dom";
 
 export const BookmarkDetails: React.FC = () => {

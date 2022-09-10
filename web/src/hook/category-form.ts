@@ -1,8 +1,8 @@
-import { Category as CategoryType } from "../../../../graphql/genql/schema";
+import { Category as CategoryType } from "@dunedain/graphql/genql/schema";
 import { ThemeTypings } from "@chakra-ui/react";
-import { useCategoryCreateMutation } from "../../query/category-create";
-import { useCategoryDeleteMutation } from "../../query/category-delete";
-import { useCategoryEditMutation } from "../../query/category-edit";
+import { useCategoryCreateMutation } from "../query/category-create";
+import { useCategoryDeleteMutation } from "../query/category-delete";
+import { useCategoryEditMutation } from "../query/category-edit";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 

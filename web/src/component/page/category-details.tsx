@@ -1,9 +1,9 @@
 import React from "react";
-import { Category as CategoryType } from "../../../graphql/genql/schema";
-import { CategoryForm } from "../component/category-form";
+import { Category as CategoryType } from "../../../../graphql/genql/schema";
+import { CategoryForm } from "../../component/category-form";
 import { Heading } from "@chakra-ui/react";
-import { Loading } from "../component/loading";
-import { useCategoryQuery } from "../query/category";
+import { Loading } from "../../component/loading";
+import { useCategoryQuery } from "../../query/category";
 import { useParams } from "react-router-dom";
 
 export const CategoryDetails: React.FC = () => {

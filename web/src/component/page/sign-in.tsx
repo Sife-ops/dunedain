@@ -1,8 +1,8 @@
-import Logo from "../assets/favicon.svg";
+import Logo from "../../assets/favicon.svg";
 import React, { useState } from "react";
-import { Authentication } from "../hook/authentication";
+import { Authentication } from "../../hook/authentication";
 import { Input, Button } from "@chakra-ui/react";
-import { useBreakpoint } from "../hook/breakpoint";
+import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
 
 export const SignIn: React.FC<{ auth: Authentication }> = (props) => {

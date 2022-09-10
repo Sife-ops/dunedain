@@ -3,7 +3,7 @@ import React from "react";
 import {
   GlobalContextProvider,
   useGlobalContext,
-} from "../hook/global-context";
+} from "../../hook/global-context";
 
 export const Dev = () => {
   return (
