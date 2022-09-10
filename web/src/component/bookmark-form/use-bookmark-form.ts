@@ -2,15 +2,19 @@ import { Bookmark as BookmarkType } from "../../../../graphql/genql/schema";
 import { useBookmarkCreateMutation } from "../../query/bookmark-create";
 import { useBookmarkDeleteMutation } from "../../query/bookmark-delete";
 import { useBookmarkEditMutation } from "../../query/bookmark-edit";
-import { useCategoriesQuery } from "../../query/categories";
 import { useNavigate } from "react-router-dom";
 import { useSelectableCategories } from "../../hook/selectable-categories";
 import { useState, useEffect } from "react";
+import { useGlobalContext } from "../../hook/global-context";
 
 export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
-  const selectableCategories = useSelectableCategories(bookmark);
+  const { categoriesResponse } = useGlobalContext();
+  const selectableCategories = useSelectableCategories({
+    bookmark,
+    categoriesResponse,
+  });
 
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");

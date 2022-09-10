@@ -10,6 +10,7 @@ import { CategoryNew } from "./pages/category-new";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { Dev } from "./pages/dev";
 import { Error } from "./pages/error";
+import { GlobalContextProvider } from "./hook/global-context";
 import { Home } from "./pages/home";
 import { Navigation } from "./component/navigation";
 import { SelectiveRoutes } from "./component/selective-routes";
@@ -19,7 +20,6 @@ import { authConfig } from "./urql";
 import { authExchange } from "@urql/exchange-auth";
 import { useAuthentication } from "./hook/authentication";
 import { useEffect } from "react";
-import { GlobalContextProvider } from "./hook/global-context";
 
 import {
   Provider as UrqlProvider,

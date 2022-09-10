@@ -3,9 +3,9 @@ import { BsFillGridFill } from "react-icons/bs";
 import { Categories } from "../component/categories";
 import { HiPlus } from "react-icons/hi";
 import { Loading } from "../component/loading";
-import { useBookmarkFilter } from "../component/bookmark-search";
 import { useBreakpoint } from "../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../hook/global-context";
 
 import {
   Button,
@@ -24,8 +24,10 @@ export const Home = () => {
   const { isDesktop } = useBreakpoint();
   const navigate = useNavigate();
 
-  const bookmarkFilter = useBookmarkFilter();
-  const [bookmarkSearchState] = bookmarkFilter.mutation.bookmarkSearchMutation;
+  const { bookmarksFilter } = useGlobalContext();
+  const {
+    bookmarkSearchMutation: [bookmarkSearchState],
+  } = bookmarksFilter;
 
   return (
     <div>
@@ -41,9 +43,9 @@ export const Home = () => {
         </Button>
 
         <Input
-          onChange={(e) => bookmarkFilter.input.setFilter(e.target.value)}
+          onChange={(e) => bookmarksFilter.input.setFilter(e.target.value)}
           placeholder="filter"
-          value={bookmarkFilter.input.filter}
+          value={bookmarksFilter.input.filter}
         />
 
         <Select
@@ -51,7 +53,7 @@ export const Home = () => {
           minW={"96px"}
           onChange={(e) => {
             const filterOpt = e.target.value as "title" | "URL" | "both";
-            bookmarkFilter.input.setFilterOpt(filterOpt);
+            bookmarksFilter.input.setFilterOpt(filterOpt);
           }}
         >
           <option>title</option>
@@ -61,8 +63,8 @@ export const Home = () => {
 
         <Button
           colorScheme={"teal"}
-          variant={bookmarkFilter.input.showCategories ? "outline" : "solid"}
-          onClick={() => bookmarkFilter.input.setShowCategories((s) => !s)}
+          variant={bookmarksFilter.showCategories.state ? "outline" : "solid"}
+          onClick={() => bookmarksFilter.showCategories.set((s) => !s)}
           w={"64px"}
           minW={"64px"}
         >
@@ -70,12 +72,12 @@ export const Home = () => {
         </Button>
       </div>
 
-      {bookmarkFilter.input.showCategories && (
+      {bookmarksFilter.showCategories.state && (
         <>
           <Categories
             buttonNew
             className="mb-1"
-            selectableCategories={bookmarkFilter.selectableCategories}
+            selectableCategories={bookmarksFilter.selectableCategories}
           />
 
           <div className="flex gap-1 mb-1">
@@ -84,7 +86,7 @@ export const Home = () => {
                 className="grow"
                 colorScheme={"teal"}
                 onClick={(e) => {
-                  bookmarkFilter.mutation.search();
+                  bookmarksFilter.action.search();
                 }}
               >
                 Filter
@@ -94,7 +96,7 @@ export const Home = () => {
                 className="grow"
                 colorScheme={"gray"}
                 onClick={() => {
-                  bookmarkFilter.selectableCategories.resetCategories();
+                  bookmarksFilter.selectableCategories.resetCategories();
                 }}
               >
                 Reset
@@ -106,8 +108,8 @@ export const Home = () => {
               minW={"96px"}
               onChange={(e) => {
                 const categoryOpt = e.target.value as "And" | "Or";
-                bookmarkFilter.input.setCategoryOpt(categoryOpt);
-                bookmarkFilter.mutation.search({ categoryOpt });
+                bookmarksFilter.input.setCategoryOpt(categoryOpt);
+                bookmarksFilter.action.search({ categoryOpt });
               }}
             >
               <option>And</option>
@@ -117,11 +119,11 @@ export const Home = () => {
         </>
       )}
 
-      <Loading data={bookmarkFilter.bookmarks}>
+      <Loading data={bookmarksFilter.bookmarks}>
         <TableContainer>
-          {bookmarkFilter.bookmarks && bookmarkSearchState.fetching ? (
+          {bookmarksFilter.bookmarks && bookmarkSearchState.fetching ? (
             <>
-              {bookmarkFilter.bookmarks?.map(() => (
+              {bookmarksFilter.bookmarks?.map(() => (
                 // todo: hardcoded height no good
                 <Skeleton marginBottom={"5px"} height={"50.5px"} />
               ))}
@@ -129,7 +131,7 @@ export const Home = () => {
           ) : (
             <Table className="bookmarkTable">
               <Tbody>
-                {bookmarkFilter.bookmarks?.map((e) => (
+                {bookmarksFilter.bookmarks?.map((e) => (
                   <Tr key={e.bookmarkId}>
                     <Td>
                       <a href={e.url} target="_blank">

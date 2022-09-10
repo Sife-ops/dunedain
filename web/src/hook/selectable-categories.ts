@@ -1,6 +1,7 @@
 import { Bookmark, Category } from "@dunedain/graphql/genql/schema";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../hook/global-context";
+import { UseCategoriesResponse } from "../query/categories";
 
 export type SelectableCategory = Category & {
   selected: boolean;
@@ -13,13 +14,13 @@ export interface UseSelectableCategories {
   updateCategories: (categories: SelectableCategory[]) => void;
 }
 
-export const useSelectableCategories = (
-  bookmark?: Bookmark
-): UseSelectableCategories => {
-  const {
-    categoriesResponse: [categoriesResponseState],
-  } = useGlobalContext();
-
+export const useSelectableCategories = ({
+  bookmark,
+  categoriesResponse: [categoriesResponseState],
+}: {
+  categoriesResponse: UseCategoriesResponse;
+  bookmark?: Bookmark;
+}): UseSelectableCategories => {
   const [categories, setCategories] = useState<SelectableCategory[]>();
 
   useEffect(() => {

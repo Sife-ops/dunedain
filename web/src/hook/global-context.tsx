@@ -1,14 +1,18 @@
 import React from "react";
-import { useCategoriesQuery, UseCategoriesResponse } from "../query/categories";
+import { UseCategoriesResponse, useCategoriesQuery } from "../query/categories";
+import { useBookmarksFilter, BookmarksFilter } from "./bookmarks-filter";
 
 type Context = {
+  bookmarksFilter: BookmarksFilter;
   categoriesResponse: UseCategoriesResponse;
 };
 
 const useContext = (): Context => {
   const categoriesResponse = useCategoriesQuery();
+  const bookmarksFilter = useBookmarksFilter(categoriesResponse);
 
   return {
+    bookmarksFilter,
     categoriesResponse,
   };
 };

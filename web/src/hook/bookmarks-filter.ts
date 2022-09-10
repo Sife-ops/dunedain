@@ -1,11 +1,57 @@
 import Fuse from "fuse.js";
 import { Bookmark } from "@dunedain/graphql/genql/schema";
-import { useBookmarkSearchMutation } from "../../query/bookmark-search";
+import { UseCategoriesResponse } from "../query/categories";
 import { useEffect, useState } from "react";
-import { useSelectableCategories } from "../../hook/selectable-categories";
 
-export const useBookmarkFilter = () => {
-  const selectableCategories = useSelectableCategories();
+import {
+  useBookmarkSearchMutation,
+  UseBookmarkSearchMutation,
+} from "../query/bookmark-search";
+
+import {
+  useSelectableCategories,
+  UseSelectableCategories,
+} from "./selectable-categories";
+
+export interface BookmarksFilter {
+  input: {
+    categoryIds: string[];
+    categoryOpt: "And" | "Or";
+    filter: string;
+    filterOpt: "title" | "URL" | "both";
+    setCategoryIds: React.Dispatch<React.SetStateAction<string[]>>;
+    setCategoryOpt: React.Dispatch<React.SetStateAction<"And" | "Or">>;
+    setFilter: React.Dispatch<React.SetStateAction<string>>;
+    setFilterOpt: React.Dispatch<
+      React.SetStateAction<"title" | "URL" | "both">
+    >;
+  };
+  showCategories: {
+    state: boolean;
+    set: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  action: {
+    searchDefault: () => void;
+    search: (
+      args?:
+        | {
+            categoryIds?: string[] | undefined;
+            categoryOpt?: "And" | "Or" | undefined;
+          }
+        | undefined
+    ) => void;
+  };
+  bookmarkSearchMutation: UseBookmarkSearchMutation;
+  selectableCategories: UseSelectableCategories;
+  bookmarks: Bookmark[] | undefined;
+}
+
+export const useBookmarksFilter = (
+  categoriesResponse: UseCategoriesResponse
+): BookmarksFilter => {
+  const selectableCategories = useSelectableCategories({
+    categoriesResponse,
+  });
 
   const [filter, setFilter] = useState<string>("");
   const [filterOpt, setFilterOpt] = useState<"title" | "URL" | "both">("title");
@@ -112,24 +158,30 @@ export const useBookmarkFilter = () => {
       categoryIds,
       categoryOpt,
       filter,
+      filterOpt,
+      setCategoryIds,
       setCategoryOpt,
       setFilter,
       setFilterOpt,
-      setShowCategories,
-      showCategories,
     },
 
-    mutation: {
+    action: {
       searchDefault,
       search: searchFn,
-      bookmarkSearchMutation,
     },
 
-    bookmarks,
+    bookmarkSearchMutation,
+
+    showCategories: {
+      set: setShowCategories,
+      state: showCategories,
+    },
 
     selectableCategories: {
       ...selectableCategories,
       resetCategories,
     },
+
+    bookmarks,
   };
 };
