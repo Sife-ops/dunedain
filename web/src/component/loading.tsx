@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import { UseMutationState, UseQueryState } from "urql";
+import { useGlobalContext } from "../hook/global-context";
 
 // todo: spinner centered in window
 export const Loading: React.FC<{
@@ -23,7 +24,7 @@ export const Loading: React.FC<{
   if (!data) {
     return (
       <div className="flex justify-center">
-        <Spinner />
+        <Spinner size={'xl'} margin={'10'} />
       </div>
     );
   }

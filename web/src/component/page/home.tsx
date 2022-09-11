@@ -24,10 +24,12 @@ export const Home = () => {
   const navigate = useNavigate();
   const { isDesktop } = useBreakpoint();
 
-  const { bookmarksFilter } = useGlobalContext();
   const {
-    bookmarkSearchMutation: [bookmarkSearchState],
-  } = bookmarksFilter;
+    bookmarksFilter,
+    bookmarksFilter: {
+      bookmarkSearchMutation: [bookmarkSearchState],
+    },
+  } = useGlobalContext();
 
   return (
     <div>
@@ -63,8 +65,8 @@ export const Home = () => {
 
         <Button
           colorScheme={"teal"}
-          variant={bookmarksFilter.showCategories.state ? "outline" : "solid"}
-          onClick={() => bookmarksFilter.showCategories.set((s) => !s)}
+          variant={bookmarksFilter.input.showCategories ? "outline" : "solid"}
+          onClick={() => bookmarksFilter.input.setShowCategories((s) => !s)}
           w={"64px"}
           minW={"64px"}
         >
@@ -72,7 +74,7 @@ export const Home = () => {
         </Button>
       </div>
 
-      {bookmarksFilter.showCategories.state && (
+      {bookmarksFilter.input.showCategories && (
         <>
           <Categories
             buttonNew

@@ -25,10 +25,8 @@ export interface BookmarksFilter {
     setFilterOpt: React.Dispatch<
       React.SetStateAction<"title" | "URL" | "both">
     >;
-  };
-  showCategories: {
-    state: boolean;
-    set: React.Dispatch<React.SetStateAction<boolean>>;
+    setShowCategories: React.Dispatch<React.SetStateAction<boolean>>;
+    showCategories: boolean;
   };
   action: {
     searchDefault: () => void;
@@ -163,6 +161,8 @@ export const useBookmarksFilter = (
       setCategoryOpt,
       setFilter,
       setFilterOpt,
+      setShowCategories,
+      showCategories,
     },
 
     action: {
@@ -170,17 +170,12 @@ export const useBookmarksFilter = (
       search: searchFn,
     },
 
-    bookmarkSearchMutation,
-
-    showCategories: {
-      set: setShowCategories,
-      state: showCategories,
-    },
-
     selectableCategories: {
       ...selectableCategories,
       resetCategories,
     },
+
+    bookmarkSearchMutation,
 
     bookmarks,
   };

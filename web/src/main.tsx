@@ -17,7 +17,7 @@ import { SignIn } from "./component/page/sign-in";
 import { SignUp } from "./component/page/sign-up";
 import { authConfig } from "./urql";
 import { authExchange } from "@urql/exchange-auth";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import {
   Provider as UrqlProvider,
