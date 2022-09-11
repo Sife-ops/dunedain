@@ -17,7 +17,6 @@ import { SignIn } from "./component/page/sign-in";
 import { SignUp } from "./component/page/sign-up";
 import { authConfig } from "./urql";
 import { authExchange } from "@urql/exchange-auth";
-import { useAuthentication } from "./hook/authentication";
 import { useEffect } from "react";
 
 import {
@@ -62,7 +61,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 function App() {
-  const auth = useAuthentication();
   const { setColorMode } = useColorMode();
 
   useEffect(() => {
@@ -72,9 +70,9 @@ function App() {
   return (
     <div className="m-1">
       <BrowserRouter>
-        <Navigation auth={auth} />
+        <Navigation />
         <Routes>
-          <Route element={<SelectiveRoutes isPrivate auth={auth} />}>
+          <Route element={<SelectiveRoutes isPrivate />}>
             <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
             <Route path="/bookmark/new" element={<BookmarkNew />} />
             <Route path="/categories" element={<Categories />} />
@@ -84,8 +82,8 @@ function App() {
             <Route path="/home" element={<Home />} />
             {/* <Route path="/dev" element={<Dev />} /> */}
           </Route>
-          <Route element={<SelectiveRoutes auth={auth} />}>
-            <Route path="/sign-in" element={<SignIn auth={auth} />} />
+          <Route element={<SelectiveRoutes />}>
+            <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
           </Route>
           <Route path="*" element={<Navigate replace to="/sign-in" />} />

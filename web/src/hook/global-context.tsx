@@ -1,17 +1,21 @@
 import React from "react";
 import { UseCategoriesResponse, useCategoriesQuery } from "../query/categories";
 import { useBookmarksFilter, BookmarksFilter } from "./bookmarks-filter";
+import { Authentication, useAuthentication } from "../hook/authentication";
 
 type Context = {
   bookmarksFilter: BookmarksFilter;
   categoriesResponse: UseCategoriesResponse;
+  authentication: Authentication;
 };
 
 const useContext = (): Context => {
+  const authentication = useAuthentication();
   const categoriesResponse = useCategoriesQuery();
   const bookmarksFilter = useBookmarksFilter(categoriesResponse);
 
   return {
+    authentication,
     bookmarksFilter,
     categoriesResponse,
   };

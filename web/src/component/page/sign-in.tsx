@@ -1,16 +1,17 @@
 import Logo from "../../assets/favicon.svg";
 import React, { useState } from "react";
-import { Authentication } from "../../hook/authentication";
 import { Input, Button } from "@chakra-ui/react";
 import { useBreakpoint } from "../../hook/breakpoint";
+import { useGlobalContext } from "../../hook/global-context";
 import { useNavigate } from "react-router-dom";
 
-export const SignIn: React.FC<{ auth: Authentication }> = (props) => {
+export const SignIn: React.FC = () => {
+  const nav = useNavigate();
+  const { authentication } = useGlobalContext();
+  const { isDesktop } = useBreakpoint();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { isDesktop } = useBreakpoint();
-  const nav = useNavigate();
 
   return (
     <div className="flex justify-center h-screen">
@@ -21,7 +22,7 @@ export const SignIn: React.FC<{ auth: Authentication }> = (props) => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            await props.auth.signIn({ email, password });
+            await authentication.signIn({ email, password });
           } catch (e) {
             console.log(e);
           }

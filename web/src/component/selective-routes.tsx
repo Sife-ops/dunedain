@@ -1,16 +1,13 @@
 import React from "react";
-import { Authentication, useAuthentication } from "../hook/authentication";
 import { Outlet, Navigate } from "react-router-dom";
+import { useGlobalContext } from "../hook/global-context";
 
-export const SelectiveRoutes: React.FC<{
-  auth: Authentication;
-  isPrivate?: boolean;
-}> = (props) => {
-  const auth = useAuthentication();
+export const SelectiveRoutes: React.FC<{ isPrivate?: boolean }> = (props) => {
+  const { authentication } = useGlobalContext();
 
   if (props.isPrivate) {
-    return auth.signedIn ? <Outlet /> : <Navigate to="/sign-in" />;
+    return authentication.signedIn ? <Outlet /> : <Navigate to="/sign-in" />;
   } else {
-    return !auth.signedIn ? <Outlet /> : <Navigate to="/home" />;
+    return !authentication.signedIn ? <Outlet /> : <Navigate to="/home" />;
   }
 };

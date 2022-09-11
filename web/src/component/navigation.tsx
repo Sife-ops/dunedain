@@ -1,10 +1,12 @@
 import React from "react";
-import { Authentication } from "../hook/authentication";
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../hook/global-context";
 
-export const Navigation: React.FC<{ auth: Authentication }> = (props) => {
-  if (props.auth.signedIn) {
+export const Navigation: React.FC = () => {
+  const { authentication } = useGlobalContext();
+
+  if (authentication.signedIn) {
     return (
       <nav className="flex justify-between mb-1">
         <div className="flex gap-1">
@@ -17,7 +19,7 @@ export const Navigation: React.FC<{ auth: Authentication }> = (props) => {
         </div>
         <Button
           onClick={async () => {
-            await props.auth.signOut();
+            await authentication.signOut();
           }}
         >
           Sign Out
