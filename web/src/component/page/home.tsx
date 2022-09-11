@@ -21,8 +21,8 @@ import {
 } from "@chakra-ui/react";
 
 export const Home = () => {
-  const { isDesktop } = useBreakpoint();
   const navigate = useNavigate();
+  const { isDesktop } = useBreakpoint();
 
   const { bookmarksFilter } = useGlobalContext();
   const {
