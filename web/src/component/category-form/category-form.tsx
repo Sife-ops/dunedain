@@ -16,16 +16,9 @@ export const CategoryForm: React.FC<{
       onSubmit={(e) => {
         e.preventDefault();
         if (props.category) {
-          categoryForm.mutation.categoryEdit({
-            categoryId: props.category.categoryId,
-            title: categoryForm.state.title,
-            color: categoryForm.state.color,
-          });
+          categoryForm.action.edit();
         } else {
-          categoryForm.mutation.categoryCreate({
-            title: categoryForm.state.title,
-            color: categoryForm.state.color,
-          });
+          categoryForm.action.create();
         }
       }}
     >
@@ -78,9 +71,7 @@ export const CategoryForm: React.FC<{
             colorScheme={"red"}
             onClick={(e) => {
               e.preventDefault();
-              categoryForm.mutation.categoryDelete({
-                categoryId: props.category?.categoryId!,
-              });
+              categoryForm.action.delete();
             }}
           >
             Delete

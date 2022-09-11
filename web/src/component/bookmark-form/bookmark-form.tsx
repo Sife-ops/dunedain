@@ -3,6 +3,7 @@ import { Bookmark } from "../../../../graphql/genql/schema";
 import { Button, Input, Text } from "@chakra-ui/react";
 import { Categories } from "../categories";
 import { useBookmarkForm } from "../../hook/bookmark-form";
+import { useGlobalContext } from "../../hook/global-context";
 import { useNavigate } from "react-router-dom";
 
 export const BookmarkForm: React.FC<{
@@ -21,6 +22,7 @@ export const BookmarkForm: React.FC<{
         e.preventDefault();
         if (props.bookmark) bookmarkForm.action.edit();
         else bookmarkForm.action.create();
+        // bookmarkForm.
       }}
     >
       <div className="mb-1">

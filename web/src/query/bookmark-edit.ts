@@ -19,6 +19,15 @@ export const useBookmarkEditMutation = () => {
             bookmarkId: true,
             url: true,
             title: true,
+
+            categories: {
+              __typename: true,
+              __scalar: true,
+              categoryId: true,
+              color: true,
+              title: true,
+              userId: true,
+            },
           },
         ],
       };

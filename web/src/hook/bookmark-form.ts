@@ -10,7 +10,7 @@ import { useGlobalContext } from "./global-context";
 export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
-  const { categoriesResponse } = useGlobalContext();
+  const { categoriesResponse, bookmarksFilter } = useGlobalContext();
   const selectableCategories = useSelectableCategories({
     bookmark,
     categoriesResponse,
@@ -66,6 +66,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     if (!fetching && !error && data) {
       // todo: navigate cancels reexec causing 'NS_BINDING_ABORTED'
       navigate(-1);
+      bookmarksFilter.action.search();
     }
   }, [bookmarkCreateState.data]);
 
@@ -73,6 +74,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     const { fetching, data, error } = bookmarkEditState;
     if (!fetching && !error && data) {
       navigate(-1);
+      bookmarksFilter.action.search();
     }
   }, [bookmarkEditState.data]);
 
@@ -80,6 +82,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
     const { fetching, data, error } = bookmarkDeleteState;
     if (!fetching && !error && data) {
       navigate(-1);
+      bookmarksFilter.action.search();
     }
   }, [bookmarkDeleteState.data]);
 

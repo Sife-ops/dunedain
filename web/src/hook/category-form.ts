@@ -44,6 +44,31 @@ export const useCategoryForm = (category?: CategoryType) => {
     }
   }, []);
 
+  const create = () => {
+    categoryCreate({
+      color,
+      title,
+    });
+  };
+
+  const edit = () => {
+    if (category) {
+      categoryEdit({
+        color,
+        title,
+        categoryId: category.categoryId,
+      });
+    }
+  };
+
+  const delete_ = () => {
+    if (category) {
+      categoryDelete({
+        categoryId: category.categoryId,
+      });
+    }
+  };
+
   return {
     state: {
       title,
@@ -53,10 +78,10 @@ export const useCategoryForm = (category?: CategoryType) => {
       categoryDeleteState,
       categoryEditState,
     },
-    mutation: {
-      categoryCreate,
-      categoryDelete,
-      categoryEdit,
+    action: {
+      create,
+      edit,
+      delete: delete_,
     },
     set: {
       setTitle,
