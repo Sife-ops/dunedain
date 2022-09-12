@@ -147,7 +147,7 @@ export const Home = () => {
                               return Logo;
                             }
                           })()}
-                          className="w-[16px] mr-2"
+                          className="w-[16px] h-[16px] mr-2"
                         />
 
                         <a href={e.url} target="_blank">
