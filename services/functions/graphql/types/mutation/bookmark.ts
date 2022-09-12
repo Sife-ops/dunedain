@@ -97,6 +97,13 @@ builder.mutationFields((t) => ({
           })
           .go();
 
+        await sqs
+          .sendMessage({
+            QueueUrl: Config.FAVICON_SQS!,
+            MessageBody: JSON.stringify(bookmark),
+          })
+          .promise();
+
         return bookmark;
       }
     },
