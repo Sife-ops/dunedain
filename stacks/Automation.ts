@@ -52,8 +52,8 @@ export function Automation({ stack }: StackContext) {
 
   const updateFaviconsLambda = new Function(stack, "update-favicons-lambda", {
     handler: "functions/automation/update-favicons.handler",
-    config: [FAVICON_SQS],
-    permissions: [fetchFaviconSqs],
+    config: [db.TABLE_NAME, FAVICON_SQS],
+    permissions: [db.table, fetchFaviconSqs],
   });
 
   return {
