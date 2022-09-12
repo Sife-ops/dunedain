@@ -46,10 +46,18 @@ export function Automation({ stack }: StackContext) {
     },
   });
 
+  const FAVICON_SQS = new Config.Parameter(stack, "FAVICON_SQS", {
+    value: fetchFaviconSqs.queueUrl,
+  });
+
+  const updateFaviconsLambda = new Function(stack, "update-favicons-lambda", {
+    handler: "functions/automation/update-favicons.handler",
+    config: [FAVICON_SQS],
+    permissions: [fetchFaviconSqs],
+  });
+
   return {
     fetchFaviconSqs,
-    FAVICON_SQS: new Config.Parameter(stack, "FAVICON_SQS", {
-      value: fetchFaviconSqs.queueUrl,
-    }),
+    FAVICON_SQS,
   };
 }

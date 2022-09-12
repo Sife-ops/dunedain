@@ -129,11 +129,7 @@ builder.mutationFields((t) => ({
       await sqs
         .sendMessage({
           QueueUrl: Config.FAVICON_SQS!,
-          MessageBody: JSON.stringify({
-            userId,
-            bookmarkId: bookmark.bookmarkId,
-            url: bookmark.url,
-          }),
+          MessageBody: JSON.stringify(bookmark),
         })
         .promise();
 
