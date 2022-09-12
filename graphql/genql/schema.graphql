@@ -1,6 +1,7 @@
 type Bookmark {
   bookmarkId: String!
   categories: [Category!]!
+  favicon: String!
   title: String!
   url: String!
   userId: String!

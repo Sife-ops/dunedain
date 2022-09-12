@@ -1,11 +1,12 @@
 import { Database } from "./Database";
 
 import {
-  StackContext,
-  use,
-  Function,
   Bucket,
   Config,
+  Function,
+  Queue,
+  StackContext,
+  use,
 } from "@serverless-stack/resources";
 
 export function Automation({ stack }: StackContext) {
@@ -34,4 +35,21 @@ export function Automation({ stack }: StackContext) {
     config: [db.TABLE_NAME],
     permissions: [db.table],
   });
+
+  const fetchFaviconSqs = new Queue(stack, "fetch-favicon-sqs", {
+    consumer: {
+      function: {
+        handler: "functions/automation/fetch-favicon.handler",
+        config: [db.TABLE_NAME],
+        permissions: [db.table],
+      },
+    },
+  });
+
+  return {
+    fetchFaviconSqs,
+    FAVICON_SQS: new Config.Parameter(stack, "FAVICON_SQS", {
+      value: fetchFaviconSqs.queueUrl,
+    }),
+  };
 }

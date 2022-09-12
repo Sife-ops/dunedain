@@ -1,7 +1,7 @@
 import * as migrations from "./migrations";
 
 export const handler = async (event: {
-  migration: "000";
+  migration: "000" | "001";
   type: "up" | "down";
 }) => {
   const migration = migrations[`_${event.migration}`];

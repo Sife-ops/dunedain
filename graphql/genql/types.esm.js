@@ -12,6 +12,9 @@ export default {
             "categories": [
                 2
             ],
+            "favicon": [
+                1
+            ],
             "title": [
                 1
             ],

@@ -13,6 +13,7 @@ BookmarkType.implement({
     bookmarkId: t.exposeString("bookmarkId"),
     url: t.exposeString("url"),
     title: t.exposeString("title"),
+    favicon: t.exposeString("favicon"),
 
     categories: t.loadableList({
       type: CategoryType,

@@ -5,11 +5,13 @@ import {
   Config,
 } from "@serverless-stack/resources";
 
-import { Database } from "./Database";
 import { Auth } from "./Auth";
+import { Automation } from "./Automation";
+import { Database } from "./Database";
 
 export function Api({ stack }: StackContext) {
   const auth = use(Auth);
+  const automation = use(Automation);
   const db = use(Database);
 
   const api = new ApiGateway(stack, "api", {
@@ -25,8 +27,8 @@ export function Api({ stack }: StackContext) {
     defaults: {
       authorizer: "jwt",
       function: {
-        permissions: [db.table],
-        config: [db.TABLE_NAME],
+        permissions: [db.table, automation.fetchFaviconSqs],
+        config: [db.TABLE_NAME, automation.FAVICON_SQS],
       },
     },
     routes: {

@@ -1,3 +1,4 @@
+import Logo from "../../assets/favicon.svg";
 import { BiCog } from "react-icons/bi";
 import { BsFillGridFill } from "react-icons/bs";
 import { Categories } from "../categories";
@@ -137,9 +138,22 @@ export const Home = () => {
                 {bookmarksFilter.bookmarks?.map((e) => (
                   <Tr key={e.bookmarkId}>
                     <Td>
-                      <a href={e.url} target="_blank">
-                        {e.title}
-                      </a>
+                      <div className="flex">
+                        <img
+                          src={(() => {
+                            if (e.favicon) {
+                              return `data:image/png;base64,${e.favicon}`;
+                            } else {
+                              return Logo;
+                            }
+                          })()}
+                          className="w-[16px] mr-2"
+                        />
+
+                        <a href={e.url} target="_blank">
+                          {e.title}
+                        </a>
+                      </div>
                     </Td>
                     {isDesktop && (
                       <Td>

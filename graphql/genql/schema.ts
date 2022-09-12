@@ -8,6 +8,7 @@ export type Scalars = {
 export interface Bookmark {
     bookmarkId: Scalars['String']
     categories: Category[]
+    favicon: Scalars['String']
     title: Scalars['String']
     url: Scalars['String']
     userId: Scalars['String']
@@ -47,6 +48,7 @@ export interface Query {
 export interface BookmarkRequest{
     bookmarkId?: boolean | number
     categories?: CategoryRequest
+    favicon?: boolean | number
     title?: boolean | number
     url?: boolean | number
     userId?: boolean | number
@@ -126,6 +128,7 @@ export const isQuery = (obj?: { __typename?: any } | null): obj is Query => {
 export interface BookmarkPromiseChain{
     bookmarkId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Promise<FieldsSelection<Category, R>[]>}),
+    favicon: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     url: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     userId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>})
@@ -134,6 +137,7 @@ export interface BookmarkPromiseChain{
 export interface BookmarkObservableChain{
     bookmarkId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Observable<FieldsSelection<Category, R>[]>}),
+    favicon: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     url: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     userId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>})

@@ -31,6 +31,11 @@ export const BookmarkEntity = new Entity(
         type: "string",
         required: true,
       },
+      favicon: {
+        type: "string",
+        required: true,
+        default: '',
+      }
     },
     indexes: {
 

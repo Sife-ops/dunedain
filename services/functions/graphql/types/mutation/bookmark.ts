@@ -1,6 +1,10 @@
+import AWS from "aws-sdk";
 import { BookmarkType } from "../bookmark";
+import { Config } from "@serverless-stack/node/config";
 import { builder } from "../../builder";
 import { dunedainModel } from "@dunedain/core/model";
+
+const sqs = new AWS.SQS();
 
 const bookmarkCreateInput = builder.inputType("bookmarkCreateInput", {
   fields: (t) => ({
@@ -40,15 +44,13 @@ builder.mutationFields((t) => ({
       }).go();
 
       // remove bookmark categories
-      const bookmarkCategories = await dunedainModel.entities
-        .BookmarkCategoryEntity
-        .query
+      const bookmarkCategories = await dunedainModel.entities.BookmarkCategoryEntity.query
         .bookmarkCategory({ bookmarkId })
         .go();
 
-      await dunedainModel.entities.BookmarkCategoryEntity
-        .delete(bookmarkCategories)
-        .go();
+      await dunedainModel.entities.BookmarkCategoryEntity.delete(
+        bookmarkCategories
+      ).go();
 
       return bookmark;
     },
@@ -124,8 +126,18 @@ builder.mutationFields((t) => ({
         }).go();
       }
 
+      await sqs
+        .sendMessage({
+          QueueUrl: Config.FAVICON_SQS!,
+          MessageBody: JSON.stringify({
+            userId,
+            bookmarkId: bookmark.bookmarkId,
+            url: bookmark.url,
+          }),
+        })
+        .promise();
+
       return bookmark;
     },
   }),
 }));
-

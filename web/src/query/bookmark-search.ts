@@ -29,6 +29,7 @@ export const useBookmarkSearchMutation = () => {
             bookmarkId: true,
             url: true,
             title: true,
+            favicon: true,
 
             categories: {
               __scalar: true,
