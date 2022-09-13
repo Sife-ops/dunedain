@@ -10,6 +10,7 @@ import { CategoryNew } from "./component/page/category-new";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { Dev } from "./component/page/dev";
 import { Error } from "./component/page/error";
+import { Folders } from "./component/page/folders";
 import { GlobalContextProvider } from "./hook/global-context";
 import { Home } from "./component/page/home";
 import { Navigation } from "./component/navigation";
@@ -80,8 +81,11 @@ function App() {
             <Route path="/category/:categoryId" element={<CategoryDetails />} />
             <Route path="/category/new" element={<CategoryNew />} />
             <Route path="/error" element={<Error />} />
+            <Route path="/folders" element={<Folders />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/dev" element={<Dev />} />
+            {import.meta.env.VITE_STAGE === "dev" && (
+              <Route path="/dev" element={<Dev />} />
+            )}
           </Route>
           <Route element={<SelectiveRoutes />}>
             <Route path="/sign-in" element={<SignIn />} />

@@ -1,4 +1,11 @@
+import { AnyVariables, UseQueryResponse } from "urql";
+import { Folder } from "@dunedain/graphql/genql";
 import { useTypedQuery } from "../urql";
+
+export type UseFoldersResponse = UseQueryResponse<
+  { folders: Folder[] },
+  AnyVariables
+>;
 
 const fragment = {
   __typename: true,
@@ -37,5 +44,5 @@ export const useFoldersQuery = () => {
         },
       },
     },
-  });
+  }) as UseFoldersResponse;
 };

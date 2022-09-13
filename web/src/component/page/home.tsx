@@ -127,10 +127,13 @@ export const Home = () => {
         <TableContainer>
           {bookmarksFilter.bookmarks && bookmarkSearchState.fetching ? (
             <>
-              {bookmarksFilter.bookmarks?.map(() => (
+              {bookmarksFilter.bookmarks?.map((e) => (
                 // todo: hardcoded height no good
-                // todo: key
-                <Skeleton marginBottom={"5px"} height={"50.5px"} />
+                <Skeleton
+                  key={e.bookmarkId}
+                  marginBottom={"5px"}
+                  height={"50.5px"}
+                />
               ))}
             </>
           ) : (
@@ -139,7 +142,7 @@ export const Home = () => {
                 {bookmarksFilter.bookmarks?.map((e) => (
                   <Tr key={e.bookmarkId}>
                     <Td>
-                      <div className="flex">
+                      <div className="flex items-center">
                         <img
                           src={(() => {
                             if (e.favicon) {
@@ -150,7 +153,6 @@ export const Home = () => {
                           })()}
                           className="w-[16px] h-[16px] mr-2"
                         />
-
                         <a href={e.url} target="_blank">
                           {e.title}
                         </a>

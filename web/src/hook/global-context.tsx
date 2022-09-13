@@ -1,23 +1,28 @@
 import React from "react";
+import { Authentication, useAuthentication } from "../hook/authentication";
 import { UseCategoriesResponse, useCategoriesQuery } from "../query/categories";
 import { useBookmarksFilter, BookmarksFilter } from "./bookmarks-filter";
-import { Authentication, useAuthentication } from "../hook/authentication";
+import { UseFoldersResponse, useFoldersQuery } from "../query/folders";
 
 type Context = {
+  authentication: Authentication;
   bookmarksFilter: BookmarksFilter;
   categoriesResponse: UseCategoriesResponse;
-  authentication: Authentication;
+  foldersResponse: UseFoldersResponse;
 };
 
 const useContext = (): Context => {
   const authentication = useAuthentication();
   const categoriesResponse = useCategoriesQuery();
   const bookmarksFilter = useBookmarksFilter(categoriesResponse);
+  // todo: expandable folders
+  const foldersResponse = useFoldersQuery();
 
   return {
     authentication,
     bookmarksFilter,
     categoriesResponse,
+    foldersResponse,
   };
 };
 

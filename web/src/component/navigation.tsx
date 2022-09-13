@@ -9,6 +9,7 @@ export const Navigation: React.FC = () => {
   const {
     authentication,
     categoriesResponse: [_, categoriesRefetch],
+    foldersResponse: [__, folderRefetch],
     bookmarksFilter: {
       action: { searchDefault },
     },
@@ -23,6 +24,9 @@ export const Navigation: React.FC = () => {
           </Link>
           <Link to="/categories">
             <Button>Categories</Button>
+          </Link>
+          <Link to="/folders">
+            <Button>Folders</Button>
           </Link>
         </div>
         <div className="flex gap-1">
@@ -42,6 +46,15 @@ export const Navigation: React.FC = () => {
               }}
             >
               Refetch Bookmarks
+            </Button>
+          )}
+          {stage === "dev" && (
+            <Button
+              onClick={async () => {
+                folderRefetch();
+              }}
+            >
+              Refetch Folders
             </Button>
           )}
           <Button
