@@ -39,6 +39,7 @@ type Mutation {
   categoryCreate(color: String!, title: String!): Category!
   categoryDelete(categoryId: String!): Category!
   categoryEdit(categoryId: String!, color: String!, title: String!): Category!
+  folderCreate(color: String!, parentFolderId: String!, title: String!): Folder!
 }
 
 type Query {

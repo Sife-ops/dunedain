@@ -155,6 +155,23 @@ export default {
                     ]
                 }
             ],
+            "folderCreate": [
+                4,
+                {
+                    "color": [
+                        1,
+                        "String!"
+                    ],
+                    "parentFolderId": [
+                        1,
+                        "String!"
+                    ],
+                    "title": [
+                        1,
+                        "String!"
+                    ]
+                }
+            ],
             "__typename": [
                 1
             ]

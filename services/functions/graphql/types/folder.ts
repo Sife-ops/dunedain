@@ -24,7 +24,11 @@ FolderType.implement({
           .go();
 
         return folderIds.map(folderId => {
-          return folders.filter(folder => folder.parentFolderId === folderId)
+          if (folderId === '') {
+            return [];
+          } else {
+            return folders.filter(folder => folder.parentFolderId === folderId);
+          }
         });
       }
     }),

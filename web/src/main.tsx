@@ -8,6 +8,7 @@ import { Categories } from "./component/page/categories";
 import { CategoryDetails } from "./component/page/category-details";
 import { CategoryNew } from "./component/page/category-new";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
+import { Dev } from "./component/page/dev";
 import { Error } from "./component/page/error";
 import { GlobalContextProvider } from "./hook/global-context";
 import { Home } from "./component/page/home";
@@ -17,7 +18,7 @@ import { SignIn } from "./component/page/sign-in";
 import { SignUp } from "./component/page/sign-up";
 import { authConfig } from "./urql";
 import { authExchange } from "@urql/exchange-auth";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import {
   Provider as UrqlProvider,
@@ -80,7 +81,7 @@ function App() {
             <Route path="/category/new" element={<CategoryNew />} />
             <Route path="/error" element={<Error />} />
             <Route path="/home" element={<Home />} />
-            {/* <Route path="/dev" element={<Dev />} /> */}
+            <Route path="/dev" element={<Dev />} />
           </Route>
           <Route element={<SelectiveRoutes />}>
             <Route path="/sign-in" element={<SignIn />} />
