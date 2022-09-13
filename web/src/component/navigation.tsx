@@ -3,8 +3,16 @@ import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../hook/global-context";
 
+const stage = import.meta.env.VITE_STAGE;
+
 export const Navigation: React.FC = () => {
-  const { authentication } = useGlobalContext();
+  const {
+    authentication,
+    categoriesResponse: [_, categoriesRefetch],
+    bookmarksFilter: {
+      action: { searchDefault },
+    },
+  } = useGlobalContext();
 
   if (authentication.signedIn) {
     return (
@@ -17,13 +25,33 @@ export const Navigation: React.FC = () => {
             <Button>Categories</Button>
           </Link>
         </div>
-        <Button
-          onClick={async () => {
-            await authentication.signOut();
-          }}
-        >
-          Sign Out
-        </Button>
+        <div className="flex gap-1">
+          {stage === "dev" && (
+            <Button
+              onClick={async () => {
+                categoriesRefetch();
+              }}
+            >
+              Refetch Categories
+            </Button>
+          )}
+          {stage === "dev" && (
+            <Button
+              onClick={async () => {
+                searchDefault();
+              }}
+            >
+              Refetch Bookmarks
+            </Button>
+          )}
+          <Button
+            onClick={async () => {
+              await authentication.signOut();
+            }}
+          >
+            Sign Out
+          </Button>
+        </div>
       </nav>
     );
   } else {

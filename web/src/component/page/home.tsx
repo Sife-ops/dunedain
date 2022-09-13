@@ -129,6 +129,7 @@ export const Home = () => {
             <>
               {bookmarksFilter.bookmarks?.map(() => (
                 // todo: hardcoded height no good
+                // todo: key
                 <Skeleton marginBottom={"5px"} height={"50.5px"} />
               ))}
             </>
