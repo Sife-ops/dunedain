@@ -9,6 +9,7 @@ export interface Bookmark {
     bookmarkId: Scalars['String']
     categories: Category[]
     favicon: Scalars['String']
+    parentFolderId: Scalars['String']
     title: Scalars['String']
     url: Scalars['String']
     userId: Scalars['String']
@@ -26,6 +27,17 @@ export interface Category {
 
 export type CategoryOptEnum = 'And' | 'Or'
 
+export interface Folder {
+    bookmarks: Bookmark[]
+    color: Scalars['String']
+    folderId: Scalars['String']
+    folders: Folder[]
+    parentFolderId: Scalars['String']
+    title: Scalars['String']
+    userId: Scalars['String']
+    __typename: 'Folder'
+}
+
 export interface Mutation {
     bookmarkCreate: Bookmark
     bookmarkDelete: Bookmark
@@ -42,6 +54,7 @@ export interface Query {
     bookmarks: Bookmark[]
     categories: Category[]
     category: Category
+    folders: Folder[]
     __typename: 'Query'
 }
 
@@ -49,6 +62,7 @@ export interface BookmarkRequest{
     bookmarkId?: boolean | number
     categories?: CategoryRequest
     favicon?: boolean | number
+    parentFolderId?: boolean | number
     title?: boolean | number
     url?: boolean | number
     userId?: boolean | number
@@ -60,6 +74,18 @@ export interface CategoryRequest{
     bookmarks?: BookmarkRequest
     categoryId?: boolean | number
     color?: boolean | number
+    title?: boolean | number
+    userId?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface FolderRequest{
+    bookmarks?: BookmarkRequest
+    color?: boolean | number
+    folderId?: boolean | number
+    folders?: FolderRequest
+    parentFolderId?: boolean | number
     title?: boolean | number
     userId?: boolean | number
     __typename?: boolean | number
@@ -83,6 +109,7 @@ export interface QueryRequest{
     bookmarks?: BookmarkRequest
     categories?: CategoryRequest
     category?: [{categoryId: Scalars['String']},CategoryRequest]
+    folders?: FolderRequest
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -110,6 +137,14 @@ export const isCategory = (obj?: { __typename?: any } | null): obj is Category =
 
 
 
+const Folder_possibleTypes: string[] = ['Folder']
+export const isFolder = (obj?: { __typename?: any } | null): obj is Folder => {
+  if (!obj?.__typename) throw new Error('__typename is missing in "isFolder"')
+  return Folder_possibleTypes.includes(obj.__typename)
+}
+
+
+
 const Mutation_possibleTypes: string[] = ['Mutation']
 export const isMutation = (obj?: { __typename?: any } | null): obj is Mutation => {
   if (!obj?.__typename) throw new Error('__typename is missing in "isMutation"')
@@ -129,6 +164,7 @@ export interface BookmarkPromiseChain{
     bookmarkId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Promise<FieldsSelection<Category, R>[]>}),
     favicon: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
+    parentFolderId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     url: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
     userId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>})
@@ -138,6 +174,7 @@ export interface BookmarkObservableChain{
     bookmarkId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Observable<FieldsSelection<Category, R>[]>}),
     favicon: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
+    parentFolderId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     url: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     userId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>})
@@ -155,6 +192,26 @@ export interface CategoryObservableChain{
     bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Observable<FieldsSelection<Bookmark, R>[]>}),
     categoryId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     color: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
+    title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
+    userId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>})
+}
+
+export interface FolderPromiseChain{
+    bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Promise<FieldsSelection<Bookmark, R>[]>}),
+    color: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
+    folderId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
+    folders: ({get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>[]) => Promise<FieldsSelection<Folder, R>[]>}),
+    parentFolderId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
+    title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>}),
+    userId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Promise<Scalars['String']>})
+}
+
+export interface FolderObservableChain{
+    bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Observable<FieldsSelection<Bookmark, R>[]>}),
+    color: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
+    folderId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
+    folders: ({get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>[]) => Observable<FieldsSelection<Folder, R>[]>}),
+    parentFolderId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     title: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>}),
     userId: ({get: (request?: boolean|number, defaultValue?: Scalars['String']) => Observable<Scalars['String']>})
 }
@@ -183,12 +240,14 @@ export interface QueryPromiseChain{
     bookmark: ((args: {bookmarkId: Scalars['String']}) => BookmarkPromiseChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Promise<FieldsSelection<Bookmark, R>>}),
     bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Promise<FieldsSelection<Bookmark, R>[]>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Promise<FieldsSelection<Category, R>[]>}),
-    category: ((args: {categoryId: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>})
+    category: ((args: {categoryId: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
+    folders: ({get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>[]) => Promise<FieldsSelection<Folder, R>[]>})
 }
 
 export interface QueryObservableChain{
     bookmark: ((args: {bookmarkId: Scalars['String']}) => BookmarkObservableChain & {get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>) => Observable<FieldsSelection<Bookmark, R>>}),
     bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Observable<FieldsSelection<Bookmark, R>[]>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Observable<FieldsSelection<Category, R>[]>}),
-    category: ((args: {categoryId: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>})
+    category: ((args: {categoryId: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
+    folders: ({get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>[]) => Observable<FieldsSelection<Folder, R>[]>})
 }

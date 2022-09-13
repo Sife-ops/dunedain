@@ -1,5 +1,6 @@
 import { BookmarkType } from "./bookmark";
 import { CategoryType } from "./category";
+import { FolderType } from './folder';
 import { builder } from "../builder";
 import { dunedainModel } from "@dunedain/core/model";
 
@@ -51,4 +52,25 @@ builder.queryFields((t) => ({
       return bookmark;
     },
   }),
+
+  folders: t.field({
+    type: [FolderType],
+    resolve: async (_, __, { user: { userId } }) => {
+      const folders = await dunedainModel.entities.FolderEntity.query
+        .user({ userId })
+        .where(({ parentFolderId }, { eq }) => eq(parentFolderId, ''))
+        .go()
+
+      return [
+        ...folders,
+        {
+          userId,
+          folderId: '',
+          parentFolderId: '',
+          color: '',
+          title: 'No Folder',
+        }
+      ]
+    }
+  })
 }));

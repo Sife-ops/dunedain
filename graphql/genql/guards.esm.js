@@ -15,6 +15,14 @@ export var isCategory = function(obj) {
 
 
 
+var Folder_possibleTypes = ['Folder']
+export var isFolder = function(obj) {
+  if (!obj || !obj.__typename) throw new Error('__typename is missing in "isFolder"')
+  return Folder_possibleTypes.includes(obj.__typename)
+}
+
+
+
 var Mutation_possibleTypes = ['Mutation']
 export var isMutation = function(obj) {
   if (!obj || !obj.__typename) throw new Error('__typename is missing in "isMutation"')

@@ -2,6 +2,7 @@ type Bookmark {
   bookmarkId: String!
   categories: [Category!]!
   favicon: String!
+  parentFolderId: String!
   title: String!
   url: String!
   userId: String!
@@ -20,6 +21,16 @@ enum CategoryOptEnum {
   Or
 }
 
+type Folder {
+  bookmarks: [Bookmark!]!
+  color: String!
+  folderId: String!
+  folders: [Folder!]!
+  parentFolderId: String!
+  title: String!
+  userId: String!
+}
+
 type Mutation {
   bookmarkCreate(input: bookmarkCreateInput!): Bookmark!
   bookmarkDelete(bookmarkId: String!): Bookmark!
@@ -35,6 +46,7 @@ type Query {
   bookmarks: [Bookmark!]!
   categories: [Category!]!
   category(categoryId: String!): Category!
+  folders: [Folder!]!
 }
 
 input bookmarkCreateInput {

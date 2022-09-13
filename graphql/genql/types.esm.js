@@ -2,7 +2,7 @@ export default {
     "scalars": [
         1,
         3,
-        9
+        10
     ],
     "types": {
         "Bookmark": {
@@ -13,6 +13,9 @@ export default {
                 2
             ],
             "favicon": [
+                1
+            ],
+            "parentFolderId": [
                 1
             ],
             "title": [
@@ -50,12 +53,38 @@ export default {
             ]
         },
         "CategoryOptEnum": {},
+        "Folder": {
+            "bookmarks": [
+                0
+            ],
+            "color": [
+                1
+            ],
+            "folderId": [
+                1
+            ],
+            "folders": [
+                4
+            ],
+            "parentFolderId": [
+                1
+            ],
+            "title": [
+                1
+            ],
+            "userId": [
+                1
+            ],
+            "__typename": [
+                1
+            ]
+        },
         "Mutation": {
             "bookmarkCreate": [
                 0,
                 {
                     "input": [
-                        6,
+                        7,
                         "bookmarkCreateInput!"
                     ]
                 }
@@ -73,7 +102,7 @@ export default {
                 0,
                 {
                     "input": [
-                        8,
+                        9,
                         "bookmarkUpdateInput!"
                     ]
                 }
@@ -82,7 +111,7 @@ export default {
                 0,
                 {
                     "input": [
-                        7,
+                        8,
                         "bookmarkSearchInput!"
                     ]
                 }
@@ -154,6 +183,9 @@ export default {
                         "String!"
                     ]
                 }
+            ],
+            "folders": [
+                4
             ],
             "__typename": [
                 1

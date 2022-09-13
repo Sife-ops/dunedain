@@ -11,6 +11,7 @@ BookmarkType.implement({
   fields: (t) => ({
     userId: t.exposeString("userId"),
     bookmarkId: t.exposeString("bookmarkId"),
+    parentFolderId: t.exposeString("parentFolderId"),
     url: t.exposeString("url"),
     title: t.exposeString("title"),
     favicon: t.exposeString("favicon"),

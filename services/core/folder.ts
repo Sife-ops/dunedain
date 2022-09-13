@@ -1,13 +1,13 @@
-export * as Bookmark from "./bookmark";
+export * as Folder from "./folder";
 import { Dynamo } from "./dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const BookmarkEntity = new Entity(
+export const FolderEntity = new Entity(
   {
     model: {
       version: "1",
-      entity: "Bookmark",
+      entity: "Folder",
       service: "scratch",
     },
     attributes: {
@@ -16,7 +16,7 @@ export const BookmarkEntity = new Entity(
         required: true,
       },
 
-      bookmarkId: {
+      folderId: {
         type: "string",
         required: true,
         default: () => ulid(),
@@ -28,19 +28,14 @@ export const BookmarkEntity = new Entity(
         default: ""
       },
 
-      url: {
-        type: "string",
-        required: true,
-      },
-
       title: {
         type: "string",
         required: true,
       },
-      favicon: {
+      color: {
         type: "string",
         required: true,
-        default: '',
+        default: 'grey',
       }
     },
     indexes: {
@@ -53,16 +48,16 @@ export const BookmarkEntity = new Entity(
         },
         sk: {
           field: "sk",
-          composite: ['bookmarkId'],
+          composite: ['folderId'],
         },
       },
 
-      bookmark: {
-        collection: 'bookmark',
+      folder: {
+        collection: 'folder',
         index: 'gsi1',
         pk: {
           field: "gsi1pk",
-          composite: ['bookmarkId'],
+          composite: ['folderId'],
         },
         sk: {
           field: "gsi1sk",
@@ -75,5 +70,4 @@ export const BookmarkEntity = new Entity(
   Dynamo.Configuration
 );
 
-export type BookmarkEntityType = EntityItem<typeof BookmarkEntity>;
-
+export type FolderEntityType = EntityItem<typeof FolderEntity>;
