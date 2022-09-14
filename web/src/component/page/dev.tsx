@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import _ from "lodash";
 import { useFolderCreateMutation } from "../../query/folder-create";
 import { useFoldersQuery } from "../../query/folders";
 import { Folder as FolderType } from "@dunedain/graphql/genql/schema";
@@ -14,7 +13,7 @@ export const Dev = () => {
   React.useEffect(() => {
     const { fetching, data } = foldersQueryState;
     if (!fetching && data) {
-      console.log(_.flattenDeep(data.folders));
+      // console.log(_.flattenDeep(data.folders));
     }
   }, [foldersQueryState.data]);
 
