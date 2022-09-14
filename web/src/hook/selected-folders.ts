@@ -2,9 +2,15 @@ import { Folder } from "@dunedain/graphql/genql/schema";
 import { UseFoldersResponse } from "../query/folders";
 import { useEffect, useState } from "react";
 
+export interface UseSelectedFolders {
+  folders: Record<string, boolean> | undefined;
+  toggleExapanded: (folderId: string) => void;
+  isExpanded: (folderId: string) => boolean;
+}
+
 export const useSelectedFolders = ([
   foldersResponseState,
-]: UseFoldersResponse) => {
+]: UseFoldersResponse): UseSelectedFolders => {
   const [folders, setFolders] = useState<Record<string, boolean>>();
 
   const fn1 = (
