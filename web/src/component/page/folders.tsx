@@ -28,23 +28,29 @@ export const FoldersComponent: React.FC = () => {
 };
 
 export const Folder: React.FC<{ folder: FolderType }> = (props) => {
-  const [expanded, setExpanded] = useState(false);
+  const {
+    selectedFolders: { isExpanded, toggleExapanded },
+  } = useGlobalContext();
 
   return (
     <div>
       <div
         className="flex items-center"
-        onClick={() => setExpanded((s) => !s)}
+        onClick={() => toggleExapanded(props.folder.folderId)}
         style={{
           cursor: "pointer",
         }}
       >
         <div className="mr-2">
-          {expanded ? <AiOutlineFolderOpen /> : <AiOutlineFolder />}
+          {isExpanded(props.folder.folderId) ? (
+            <AiOutlineFolderOpen />
+          ) : (
+            <AiOutlineFolder />
+          )}
         </div>
         {props.folder.title}
       </div>
-      {expanded && (
+      {isExpanded(props.folder.folderId) && (
         <div className="ml-3">
           {props.folder.folders.map((e) => (
             <Folder key={e.folderId} folder={e} />

@@ -1,28 +1,35 @@
 import React from "react";
 import { Authentication, useAuthentication } from "../hook/authentication";
 import { UseCategoriesResponse, useCategoriesQuery } from "../query/categories";
-import { useBookmarksFilter, BookmarksFilter } from "./bookmarks-filter";
 import { UseFoldersResponse, useFoldersQuery } from "../query/folders";
+import { useBookmarksFilter, BookmarksFilter } from "./bookmarks-filter";
+import { useSelectedFolders } from "../hook/selected-folders";
 
 type Context = {
   authentication: Authentication;
   bookmarksFilter: BookmarksFilter;
   categoriesResponse: UseCategoriesResponse;
   foldersResponse: UseFoldersResponse;
+  selectedFolders: {
+    folders: Record<string, boolean> | undefined;
+    toggleExapanded: (folderId: string) => void;
+    isExpanded: (folderId: string) => boolean;
+  };
 };
 
 const useContext = (): Context => {
   const authentication = useAuthentication();
   const categoriesResponse = useCategoriesQuery();
   const bookmarksFilter = useBookmarksFilter(categoriesResponse);
-  // todo: expandable folders
   const foldersResponse = useFoldersQuery();
+  const selectedFolders = useSelectedFolders(foldersResponse);
 
   return {
     authentication,
     bookmarksFilter,
     categoriesResponse,
     foldersResponse,
+    selectedFolders,
   };
 };
 

@@ -1,20 +1,22 @@
 import React, { useState } from "react";
+import _ from "lodash";
 import { useFolderCreateMutation } from "../../query/folder-create";
 import { useFoldersQuery } from "../../query/folders";
 import { Folder as FolderType } from "@dunedain/graphql/genql/schema";
 
 export const Dev = () => {
-  const [foldersResponse] = useFoldersQuery();
-  const [_, folderCreate] = useFolderCreateMutation();
+  const [foldersQueryState] = useFoldersQuery();
+  const [__, folderCreate] = useFolderCreateMutation();
 
   const [title, setTitle] = useState("");
   const [parentFolderId, setParentFolderId] = useState("");
 
   React.useEffect(() => {
-    if (!foldersResponse.fetching) {
-      console.log(foldersResponse.data);
+    const { fetching, data } = foldersQueryState;
+    if (!fetching && data) {
+      console.log(_.flattenDeep(data.folders));
     }
-  }, [foldersResponse.data]);
+  }, [foldersQueryState.data]);
 
   return (
     <div>
@@ -44,7 +46,7 @@ export const Dev = () => {
 
       <h3>folders</h3>
       <br />
-      {foldersResponse.data?.folders.map((e) => (
+      {foldersQueryState.data?.folders.map((e) => (
         // @ts-ignore
         <Folder key={e.folderId} folder={e} />
       ))}
