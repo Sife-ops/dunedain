@@ -1,8 +1,17 @@
 import Logo from "../../assets/favicon.svg";
-import React, { useState } from "react";
-import { AiOutlineFolder, AiOutlineFolderOpen } from "react-icons/ai";
+import React from "react";
 import { Folder as FolderType } from "@dunedain/graphql/genql/schema";
 import { useGlobalContext } from "../../hook/global-context";
+import { useNavigate } from "react-router-dom";
+
+import {
+  AiOutlineFolder,
+  AiOutlineFolderOpen,
+  AiOutlineFolderAdd,
+  AiOutlineFolderView,
+} from "react-icons/ai";
+
+import { BiFolderMinus } from "react-icons/bi";
 
 export const Folders: React.FC = () => {
   return (
@@ -17,8 +26,15 @@ export const FoldersComponent: React.FC = () => {
     foldersResponse: [foldersQueryState],
   } = useGlobalContext();
 
+  const nav = useNavigate();
+
   return (
     <div>
+      <div className="flex gap-1">
+        <AiOutlineFolderAdd onClick={() => nav("/folder/new")} />
+        <AiOutlineFolderView />
+        <BiFolderMinus />
+      </div>
       {foldersQueryState.data?.folders.map((e) => (
         // @ts-ignore
         <Folder key={e.folderId} folder={e} />
