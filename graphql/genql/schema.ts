@@ -47,6 +47,8 @@ export interface Mutation {
     categoryDelete: Category
     categoryEdit: Category
     folderCreate: Folder
+    folderDelete: Folder
+    folderEdit: Folder
     __typename: 'Mutation'
 }
 
@@ -102,6 +104,8 @@ export interface MutationRequest{
     categoryDelete?: [{categoryId: Scalars['String']},CategoryRequest]
     categoryEdit?: [{categoryId: Scalars['String'],color: Scalars['String'],title: Scalars['String']},CategoryRequest]
     folderCreate?: [{color: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']},FolderRequest]
+    folderDelete?: [{folderId: Scalars['String']},FolderRequest]
+    folderEdit?: [{color: Scalars['String'],folderId: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']},FolderRequest]
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -226,7 +230,9 @@ export interface MutationPromiseChain{
     categoryCreate: ((args: {color: Scalars['String'],title: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
     categoryDelete: ((args: {categoryId: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
     categoryEdit: ((args: {categoryId: Scalars['String'],color: Scalars['String'],title: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
-    folderCreate: ((args: {color: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']}) => FolderPromiseChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Promise<FieldsSelection<Folder, R>>})
+    folderCreate: ((args: {color: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']}) => FolderPromiseChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Promise<FieldsSelection<Folder, R>>}),
+    folderDelete: ((args: {folderId: Scalars['String']}) => FolderPromiseChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Promise<FieldsSelection<Folder, R>>}),
+    folderEdit: ((args: {color: Scalars['String'],folderId: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']}) => FolderPromiseChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Promise<FieldsSelection<Folder, R>>})
 }
 
 export interface MutationObservableChain{
@@ -237,7 +243,9 @@ export interface MutationObservableChain{
     categoryCreate: ((args: {color: Scalars['String'],title: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
     categoryDelete: ((args: {categoryId: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
     categoryEdit: ((args: {categoryId: Scalars['String'],color: Scalars['String'],title: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
-    folderCreate: ((args: {color: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']}) => FolderObservableChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Observable<FieldsSelection<Folder, R>>})
+    folderCreate: ((args: {color: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']}) => FolderObservableChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Observable<FieldsSelection<Folder, R>>}),
+    folderDelete: ((args: {folderId: Scalars['String']}) => FolderObservableChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Observable<FieldsSelection<Folder, R>>}),
+    folderEdit: ((args: {color: Scalars['String'],folderId: Scalars['String'],parentFolderId: Scalars['String'],title: Scalars['String']}) => FolderObservableChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Observable<FieldsSelection<Folder, R>>})
 }
 
 export interface QueryPromiseChain{

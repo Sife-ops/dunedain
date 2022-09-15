@@ -172,6 +172,36 @@ export default {
                     ]
                 }
             ],
+            "folderDelete": [
+                4,
+                {
+                    "folderId": [
+                        1,
+                        "String!"
+                    ]
+                }
+            ],
+            "folderEdit": [
+                4,
+                {
+                    "color": [
+                        1,
+                        "String!"
+                    ],
+                    "folderId": [
+                        1,
+                        "String!"
+                    ],
+                    "parentFolderId": [
+                        1,
+                        "String!"
+                    ],
+                    "title": [
+                        1,
+                        "String!"
+                    ]
+                }
+            ],
             "__typename": [
                 1
             ]

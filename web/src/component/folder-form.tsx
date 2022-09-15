@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Input, Text, Select } from "@chakra-ui/react";
 import { Folder as FolderType } from "@dunedain/graphql/genql/schema";
-// import { useCategoryForm } from "../hook/category-form";
+import { useFolderForm } from "../hook/folder-form";
 import { useNavigate } from "react-router-dom";
 
 export const FolderForm: React.FC<{
@@ -9,25 +9,25 @@ export const FolderForm: React.FC<{
 }> = (props) => {
   const navigate = useNavigate();
 
-  //   const categoryForm = useCategoryForm(props.category);
+  const folderForm = useFolderForm(props.folder);
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         if (props.folder) {
-          //   categoryForm.action.edit();
+          folderForm.action.edit();
         } else {
-          //   categoryForm.action.create();
+          folderForm.action.create();
         }
       }}
     >
       <div className="mb-1">
         <Text>Title:</Text>
         <Input
-          //   onChange={(e) => categoryForm.set.setTitle(e.target.value)}
+          onChange={(e) => folderForm.set.setTitle(e.target.value)}
           placeholder="title"
-          //   value={categoryForm.state.title}
+          value={folderForm.state.title}
         />
       </div>
 
@@ -35,8 +35,8 @@ export const FolderForm: React.FC<{
         <Text>Color:</Text>
         <Select
           marginBottom={"1"}
-          //   onChange={(e) => categoryForm.set.setColor(e.target.value)}
-          //   value={categoryForm.state.color}
+          onChange={(e) => folderForm.set.setColor(e.target.value)}
+          value={folderForm.state.color}
         >
           {colors.map((e) => (
             <option key={e}>{e}</option>
@@ -49,7 +49,7 @@ export const FolderForm: React.FC<{
           <Button
             colorScheme={"teal"}
             type={"submit"}
-            // disabled={categoryForm.state.title.length < 1}
+            disabled={folderForm.state.title.length < 1}
           >
             {/* todo: doesn't trigger refetch */}
             {props.folder ? "Save" : "Submit"}
@@ -71,7 +71,7 @@ export const FolderForm: React.FC<{
             colorScheme={"red"}
             onClick={(e) => {
               e.preventDefault();
-              //   categoryForm.action.delete();
+              folderForm.action.delete();
             }}
           >
             Delete

@@ -6,16 +6,21 @@ export interface UseSelectedFolders {
   folders: Record<string, boolean> | undefined;
   toggleExapanded: (folderId: string) => void;
   isExpanded: (folderId: string) => boolean;
+  lastSelected: string;
 }
 
-export const useSelectedFolders = ([
-  foldersResponseState,
-]: UseFoldersResponse): UseSelectedFolders => {
-  const [folders, setFolders] = useState<Record<string, boolean>>();
+export const useSelectedFolders = (
+  [foldersResponseState]: UseFoldersResponse,
+  folder?: Folder
+): UseSelectedFolders => {
+  const [selectedFolders, setSelectedFolders] = useState<
+    Record<string, boolean>
+  >({});
+  const [lastSelected, setLastSelected] = useState("");
 
-  const fn1 = (
+  const updateDictionary = (
     folders: Folder[],
-    selectedFolders?: Record<string, boolean>
+    selectedFolders: Record<string, boolean>
   ) => {
     let a = {};
 
@@ -23,7 +28,7 @@ export const useSelectedFolders = ([
       const folder = folders[i];
 
       if (folder.folders.length > 0) {
-        const b = fn1(folder.folders, selectedFolders);
+        const b = updateDictionary(folder.folders, selectedFolders);
 
         a = {
           ...a,
@@ -31,14 +36,11 @@ export const useSelectedFolders = ([
         };
       }
 
-      const found =
-        selectedFolders !== undefined
-          ? selectedFolders[folder.folderId]
-          : false;
+      const found = selectedFolders[folder.folderId];
 
       a = {
         ...a,
-        [folder.folderId]: found,
+        [folder.folderId]: found !== undefined ? found : false,
       };
     }
 
@@ -46,29 +48,43 @@ export const useSelectedFolders = ([
   };
 
   useEffect(() => {
+    if (folder) {
+      setLastSelected(folder.folderId);
+    }
+  }, []);
+
+  useEffect(() => {
     const { fetching, data, error } = foldersResponseState;
     if (!fetching && !error && data) {
-      setFolders((s) => {
-        console.log(fn1(data.folders, s));
-        return fn1(data.folders, s);
+      setSelectedFolders((s) => {
+        return updateDictionary(data.folders, s);
       });
     }
   }, [foldersResponseState.data]);
 
   const toggleExapanded = (folderId: string) => {
-    setFolders((s) => ({
+    const selectedFolder = selectedFolders[folderId];
+
+    if (!selectedFolder) {
+      setLastSelected(folderId);
+    } else {
+      setLastSelected("");
+    }
+
+    setSelectedFolders((s) => ({
       ...s,
-      [folderId]: s !== undefined ? !s[folderId] : false,
+      [folderId]: !s[folderId],
     }));
   };
 
   const isExpanded = (folderId: string) => {
-    return folders !== undefined ? folders[folderId] : false;
+    return selectedFolders !== undefined ? selectedFolders[folderId] : false;
   };
 
   return {
-    folders,
-    toggleExapanded,
+    folders: selectedFolders,
     isExpanded,
+    lastSelected,
+    toggleExapanded,
   };
 };

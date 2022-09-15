@@ -45,7 +45,7 @@ export const FoldersComponent: React.FC = () => {
 
 export const Folder: React.FC<{ folder: FolderType }> = (props) => {
   const {
-    selectedFolders: { isExpanded, toggleExapanded },
+    selectedFolders: { isExpanded, toggleExapanded, lastSelected },
   } = useGlobalContext();
 
   return (
@@ -64,7 +64,15 @@ export const Folder: React.FC<{ folder: FolderType }> = (props) => {
             <AiOutlineFolder />
           )}
         </div>
-        {props.folder.title}
+        <div
+          className={(() => {
+            if (props.folder.folderId === "") return "";
+            if (props.folder.folderId === lastSelected) return "underline";
+            return "";
+          })()}
+        >
+          {props.folder.title}
+        </div>
       </div>
       {isExpanded(props.folder.folderId) && (
         <div className="ml-3">

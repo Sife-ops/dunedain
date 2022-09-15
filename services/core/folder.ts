@@ -52,19 +52,6 @@ export const FolderEntity = new Entity(
         },
       },
 
-      folder: {
-        collection: 'folder',
-        index: 'gsi1',
-        pk: {
-          field: "gsi1pk",
-          composite: ['folderId'],
-        },
-        sk: {
-          field: "gsi1sk",
-          composite: ['userId'],
-        },
-      },
-
     },
   },
   Dynamo.Configuration
