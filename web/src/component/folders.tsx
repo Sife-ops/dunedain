@@ -29,8 +29,16 @@ export const Folders: React.FC<{
         {props.addButton && (
           <AiOutlineFolderAdd onClick={() => nav("/folder/new")} />
         )}
-        <AiOutlineFolderView />
-        <BiFolderMinus />
+        <AiOutlineFolderView
+          onClick={() => {
+            props.selectedFolders.expandAll();
+          }}
+        />
+        <BiFolderMinus
+          onClick={() => {
+            props.selectedFolders.unexpandAll();
+          }}
+        />
       </div>
       {foldersQueryState.data?.folders.map((e) => (
         <Folder
@@ -59,6 +67,7 @@ const Folder: React.FC<{
         }}
       >
         <div className="mr-2">
+          {/* {props.selectedFolders.folders[props.folder.folderId] ? ( */}
           {isExpanded(props.folder.folderId) ? (
             <AiOutlineFolderOpen />
           ) : (

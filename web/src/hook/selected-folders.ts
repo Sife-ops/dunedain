@@ -3,10 +3,12 @@ import { UseFoldersResponse } from "../query/folders";
 import { useEffect, useState } from "react";
 
 export interface UseSelectedFolders {
+  expandAll: () => void;
   folders: Record<string, boolean> | undefined;
   isExpanded: (folderId: string) => boolean;
   lastSelected: string;
   toggleExapanded: (folderId: string) => void;
+  unexpandAll: () => void;
 }
 
 export const useSelectedFolders = (
@@ -78,14 +80,38 @@ export const useSelectedFolders = (
     }));
   };
 
+  const expandFn = (expand: boolean) => {
+    let expanded = {};
+    Object.keys(selectedFolders).map((e) => {
+      expanded = {
+        ...expanded,
+        [e]: expand,
+      };
+    });
+    setSelectedFolders((s) => ({
+      ...s,
+      ...expanded,
+    }));
+  };
+
+  const expandAll = () => {
+    expandFn(true);
+  };
+
+  const unexpandAll = () => {
+    expandFn(false);
+  };
+
   const isExpanded = (folderId: string) => {
     return selectedFolders !== undefined ? selectedFolders[folderId] : false;
   };
 
   return {
     folders: selectedFolders,
+    expandAll,
     isExpanded,
     lastSelected,
     toggleExapanded,
+    unexpandAll,
   };
 };
