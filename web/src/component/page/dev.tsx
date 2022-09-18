@@ -53,7 +53,7 @@ export const Dev = () => {
   );
 };
 
-export const Folder: React.FC<{ folder: FolderType }> = (props) => {
+const Folder: React.FC<{ folder: FolderType }> = (props) => {
   const [expanded, setExpanded] = useState(false);
   return (
     <div>

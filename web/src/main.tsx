@@ -1,25 +1,11 @@
-// todo: component index
 import "./index.css";
 import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
-import { BookmarkDetails } from "./component/page/bookmark-details";
-import { BookmarkNew } from "./component/page/bookmark-new";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Categories } from "./component/page/categories";
-import { CategoryDetails } from "./component/page/category-details";
-import { CategoryNew } from "./component/page/category-new";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
-import { Dev } from "./component/page/dev";
-import { Error } from "./component/page/error";
-import { FolderDetails } from "./component/page/folder-details";
-import { FolderNew } from "./component/page/folder-new";
-import { Folders } from "./component/page/folders";
 import { GlobalContextProvider } from "./hook/global-context";
-import { Home } from "./component/page/home";
 import { Navigation } from "./component/navigation";
 import { SelectiveRoutes } from "./component/selective-routes";
-import { SignIn } from "./component/page/sign-in";
-import { SignUp } from "./component/page/sign-up";
 import { authConfig } from "./urql";
 import { authExchange } from "@urql/exchange-auth";
 import { useEffect } from "react";
@@ -31,6 +17,22 @@ import {
   cacheExchange,
   fetchExchange,
 } from "urql";
+
+import {
+  BookmarkDetails,
+  BookmarkNew,
+  Categories,
+  CategoryDetails,
+  CategoryNew,
+  Dev,
+  Error,
+  FolderDetails,
+  FolderNew,
+  Folders,
+  Home,
+  SignIn,
+  SignUp,
+} from "./component/page";
 
 Auth.configure({
   Auth: {
