@@ -1,3 +1,4 @@
+// todo: component index
 import "./index.css";
 import ReactDOM from "react-dom/client";
 import { Auth } from "@aws-amplify/auth";
@@ -10,6 +11,7 @@ import { CategoryNew } from "./component/page/category-new";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { Dev } from "./component/page/dev";
 import { Error } from "./component/page/error";
+import { FolderDetails } from "./component/page/folder-details";
 import { FolderNew } from "./component/page/folder-new";
 import { Folders } from "./component/page/folders";
 import { GlobalContextProvider } from "./hook/global-context";
@@ -83,6 +85,7 @@ function App() {
             <Route path="/category/new" element={<CategoryNew />} />
             <Route path="/error" element={<Error />} />
             <Route path="/folders" element={<Folders />} />
+            <Route path="/folder/:folderId" element={<FolderDetails />} />
             <Route path="/folder/new" element={<FolderNew />} />
             <Route path="/home" element={<Home />} />
             {import.meta.env.VITE_STAGE === "dev" && (

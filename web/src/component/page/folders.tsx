@@ -7,7 +7,11 @@ export const Folders: React.FC = () => {
 
   return (
     <div>
-      <FoldersComponent addButton selectedFolders={selectedFolders} />
+      <FoldersComponent
+        addButton
+        editButtons
+        selectedFolders={selectedFolders}
+      />
     </div>
   );
 };

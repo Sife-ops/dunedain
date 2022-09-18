@@ -15,7 +15,10 @@ export const useFolderForm = (folder?: FolderType) => {
   const [color, setColor] = useState<ThemeTypings["colorSchemes"]>("blue");
 
   const { foldersResponse } = useGlobalContext();
-  const selectedFolders = useSelectedFolders(foldersResponse, folder?.folderId);
+  const selectedFolders = useSelectedFolders(
+    foldersResponse,
+    folder?.parentFolderId
+  );
 
   const [folderCreateState, folderCreate] = useFolderCreateMutation();
   const [folderDeleteState, folderDelete] = useFolderDeleteMutation();

@@ -1,5 +1,6 @@
 import Logo from "../assets/favicon.svg";
 import React from "react";
+import { BiCog } from "react-icons/bi";
 import { BiFolderMinus } from "react-icons/bi";
 import { Folder as FolderType } from "@dunedain/graphql/genql/schema";
 import { UseSelectedFolders } from "../hook/selected-folders";
@@ -15,13 +16,14 @@ import {
 
 export const Folders: React.FC<{
   addButton?: boolean;
+  editButtons?: boolean;
   selectedFolders: UseSelectedFolders;
 }> = (props) => {
+  const nav = useNavigate();
+
   const {
     foldersResponse: [foldersQueryState],
   } = useGlobalContext();
-
-  const nav = useNavigate();
 
   return (
     <div>
@@ -42,6 +44,7 @@ export const Folders: React.FC<{
       </div>
       {foldersQueryState.data?.folders.map((e) => (
         <Folder
+          editButtons={props.editButtons}
           folder={e}
           key={e.folderId}
           selectedFolders={props.selectedFolders}
@@ -52,9 +55,12 @@ export const Folders: React.FC<{
 };
 
 const Folder: React.FC<{
+  editButtons?: boolean;
   folder: FolderType;
   selectedFolders: UseSelectedFolders;
 }> = (props) => {
+  const nav = useNavigate();
+
   const { isExpanded, toggleExapanded, lastSelected } = props.selectedFolders;
 
   return (
@@ -67,7 +73,6 @@ const Folder: React.FC<{
         }}
       >
         <div className="mr-2">
-          {/* {props.selectedFolders.folders[props.folder.folderId] ? ( */}
           {isExpanded(props.folder.folderId) ? (
             <AiOutlineFolderOpen />
           ) : (
@@ -83,11 +88,18 @@ const Folder: React.FC<{
         >
           {props.folder.title}
         </div>
+        {props.editButtons && props.folder.folderId && (
+          <BiCog
+            className="ml-2"
+            onClick={() => nav(`/folder/${props.folder.folderId}`)}
+          />
+        )}
       </div>
       {isExpanded(props.folder.folderId) && (
         <div className="ml-3">
           {props.folder.folders.map((e) => (
             <Folder
+              editButtons={props.editButtons}
               folder={e}
               key={e.folderId}
               selectedFolders={props.selectedFolders}

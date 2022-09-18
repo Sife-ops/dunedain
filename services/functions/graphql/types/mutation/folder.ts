@@ -1,5 +1,5 @@
-import { FolderEntityType } from '@dunedain/core/folder';
-import { FolderType } from '../folder';
+import { FolderEntityType } from "@dunedain/core/folder";
+import { FolderType } from "../folder";
 import { builder } from "../../builder";
 import { dunedainModel } from "@dunedain/core/model";
 
@@ -11,7 +11,11 @@ builder.mutationFields((t) => ({
       title: t.arg.string({ required: true }),
       color: t.arg.string({ required: true }),
     },
-    resolve: async (_, { title, color, parentFolderId }, { user: { userId } }) => {
+    resolve: async (
+      _,
+      { title, color, parentFolderId },
+      { user: { userId } }
+    ) => {
       const folder = await dunedainModel.entities.FolderEntity.create({
         userId,
         parentFolderId,
@@ -36,13 +40,23 @@ builder.mutationFields((t) => ({
       { title, color, folderId, parentFolderId },
       { user: { userId } }
     ) => {
-      await dunedainModel.entities.FolderEntity
-        .update({ userId, folderId })
-        .set({
-          parentFolderId,
-          title,
-          color,
-        }).go();
+      // don't put folder in itself
+      if (parentFolderId === folderId) {
+        await dunedainModel.entities.FolderEntity.update({ userId, folderId })
+          .set({
+            title,
+            color,
+          })
+          .go();
+      } else {
+        await dunedainModel.entities.FolderEntity.update({ userId, folderId })
+          .set({
+            parentFolderId,
+            title,
+            color,
+          })
+          .go();
+      }
 
       const [folder] = await dunedainModel.entities.FolderEntity.query
         .user({ userId, folderId })
@@ -68,8 +82,12 @@ builder.mutationFields((t) => ({
         .go();
 
       const deleteSubfolders = async (folder: FolderEntityType) => {
-        const subfolders = folders.filter(e => e.parentFolderId === folder.folderId);
-        const folderBookmarks = bookmarks.filter(e => e.parentFolderId === folder.folderId);
+        const subfolders = folders.filter(
+          (e) => e.parentFolderId === folder.folderId
+        );
+        const folderBookmarks = bookmarks.filter(
+          (e) => e.parentFolderId === folder.folderId
+        );
 
         for (const subfolder of subfolders) {
           await deleteSubfolders(subfolder);
@@ -78,25 +96,22 @@ builder.mutationFields((t) => ({
         await dunedainModel.entities.FolderEntity.delete(subfolders).go();
 
         for (const folderBookmark of folderBookmarks) {
-          await dunedainModel.entities.BookmarkEntity
-            .update(folderBookmark)
+          await dunedainModel.entities.BookmarkEntity.update(folderBookmark)
             .set({ parentFolderId: "" })
             .go();
         }
-      }
+      };
 
-      const folder = folders.find(e => e.folderId === folderId)
+      const folder = folders.find((e) => e.folderId === folderId);
 
       if (folder) {
         await deleteSubfolders(folder);
-        await dunedainModel.entities.FolderEntity
-          .remove(folder)
-          .go();
+        await dunedainModel.entities.FolderEntity.remove(folder).go();
 
         return folder;
       }
 
-      throw new Error('folder not found');
+      throw new Error("folder not found");
     },
   }),
 }));

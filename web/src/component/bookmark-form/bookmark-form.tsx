@@ -45,7 +45,6 @@ export const BookmarkForm: React.FC<{
       {/* todo: loading spinner */}
       {categories && categories.length > 0 && (
         <div className="mb-4">
-          <Text>Categories:</Text>
           <Categories
             selectableCategories={bookmarkForm.selectableCategories}
           />
@@ -53,7 +52,7 @@ export const BookmarkForm: React.FC<{
       )}
 
       <div className="mb-4">
-        <Text>Folders:</Text>
+        {/* todo: expand folders when editing */}
         <Folders selectedFolders={bookmarkForm.selectedFolders} />
       </div>
 

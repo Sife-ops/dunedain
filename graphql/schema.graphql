@@ -49,6 +49,7 @@ type Query {
   bookmarks: [Bookmark!]!
   categories: [Category!]!
   category(categoryId: String!): Category!
+  folder(folderId: String!): Folder!
   folders: [Folder!]!
 }
 

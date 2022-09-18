@@ -1,6 +1,6 @@
 import { BookmarkType } from "./bookmark";
 import { CategoryType } from "./category";
-import { FolderType } from './folder';
+import { FolderType } from "./folder";
 import { builder } from "../builder";
 import { dunedainModel } from "@dunedain/core/model";
 
@@ -26,10 +26,12 @@ builder.queryFields((t) => ({
   category: t.field({
     type: CategoryType,
     args: {
-      categoryId: t.arg.string({ required: true })
+      categoryId: t.arg.string({ required: true }),
     },
     resolve: async (_, { categoryId }, { user: { userId } }) => {
-      const [category] = await dunedainModel.entities.CategoryEntity.query
+      const [
+        category,
+      ] = await dunedainModel.entities.CategoryEntity.query
         .user({ userId, categoryId })
         .go();
 
@@ -53,24 +55,38 @@ builder.queryFields((t) => ({
     },
   }),
 
+  folder: t.field({
+    type: FolderType,
+    args: {
+      folderId: t.arg.string({ required: true }),
+    },
+    resolve: async (_, { folderId }, { user: { userId } }) => {
+      const [folder] = await dunedainModel.entities.FolderEntity.query
+        .user({ userId, folderId })
+        .go();
+
+      return folder;
+    },
+  }),
+
   folders: t.field({
     type: [FolderType],
     resolve: async (_, __, { user: { userId } }) => {
       const folders = await dunedainModel.entities.FolderEntity.query
         .user({ userId })
-        .where(({ parentFolderId }, { eq }) => eq(parentFolderId, ''))
-        .go()
+        .where(({ parentFolderId }, { eq }) => eq(parentFolderId, ""))
+        .go();
 
       return [
         ...folders,
         {
           userId,
-          folderId: '',
-          parentFolderId: '',
-          color: '',
-          title: 'No Folder',
-        }
-      ]
-    }
-  })
+          folderId: "",
+          parentFolderId: "",
+          color: "",
+          title: "No Folder",
+        },
+      ];
+    },
+  }),
 }));

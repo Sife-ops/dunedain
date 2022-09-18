@@ -46,7 +46,6 @@ export const FolderForm: React.FC<{
       </div>
 
       <div className="mb-4">
-        <Text>Folders:</Text>
         <Folders selectedFolders={folderForm.selectedFolders} />
       </div>
 

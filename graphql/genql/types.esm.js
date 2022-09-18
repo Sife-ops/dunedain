@@ -231,6 +231,15 @@ export default {
                     ]
                 }
             ],
+            "folder": [
+                4,
+                {
+                    "folderId": [
+                        1,
+                        "String!"
+                    ]
+                }
+            ],
             "folders": [
                 4
             ],

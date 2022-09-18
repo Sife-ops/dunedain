@@ -57,6 +57,7 @@ export interface Query {
     bookmarks: Bookmark[]
     categories: Category[]
     category: Category
+    folder: Folder
     folders: Folder[]
     __typename: 'Query'
 }
@@ -115,6 +116,7 @@ export interface QueryRequest{
     bookmarks?: BookmarkRequest
     categories?: CategoryRequest
     category?: [{categoryId: Scalars['String']},CategoryRequest]
+    folder?: [{folderId: Scalars['String']},FolderRequest]
     folders?: FolderRequest
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -253,6 +255,7 @@ export interface QueryPromiseChain{
     bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Promise<FieldsSelection<Bookmark, R>[]>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Promise<FieldsSelection<Category, R>[]>}),
     category: ((args: {categoryId: Scalars['String']}) => CategoryPromiseChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Promise<FieldsSelection<Category, R>>}),
+    folder: ((args: {folderId: Scalars['String']}) => FolderPromiseChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Promise<FieldsSelection<Folder, R>>}),
     folders: ({get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>[]) => Promise<FieldsSelection<Folder, R>[]>})
 }
 
@@ -261,5 +264,6 @@ export interface QueryObservableChain{
     bookmarks: ({get: <R extends BookmarkRequest>(request: R, defaultValue?: FieldsSelection<Bookmark, R>[]) => Observable<FieldsSelection<Bookmark, R>[]>}),
     categories: ({get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>[]) => Observable<FieldsSelection<Category, R>[]>}),
     category: ((args: {categoryId: Scalars['String']}) => CategoryObservableChain & {get: <R extends CategoryRequest>(request: R, defaultValue?: FieldsSelection<Category, R>) => Observable<FieldsSelection<Category, R>>}),
+    folder: ((args: {folderId: Scalars['String']}) => FolderObservableChain & {get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>) => Observable<FieldsSelection<Folder, R>>}),
     folders: ({get: <R extends FolderRequest>(request: R, defaultValue?: FieldsSelection<Folder, R>[]) => Observable<FieldsSelection<Folder, R>[]>})
 }
