@@ -242,6 +242,9 @@ export default {
             "categoryIds": [
                 1
             ],
+            "parentFolderId": [
+                1
+            ],
             "title": [
                 1
             ],
@@ -268,6 +271,9 @@ export default {
                 1
             ],
             "categoryIds": [
+                1
+            ],
+            "parentFolderId": [
                 1
             ],
             "title": [

@@ -4,10 +4,11 @@ export const useBookmarkEditMutation = () => {
   return useTypedMutation(
     (vars: {
       input: {
+        bookmarkId: string;
+        categoryIds: string[];
+        parentFolderId: string;
         title: string;
         url: string;
-        categoryIds: string[];
-        bookmarkId: string;
       };
     }) => {
       return {
@@ -19,6 +20,8 @@ export const useBookmarkEditMutation = () => {
             bookmarkId: true,
             url: true,
             title: true,
+            favicon: true,
+            parentFolderId: true,
 
             categories: {
               __typename: true,

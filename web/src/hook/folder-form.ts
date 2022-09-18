@@ -3,7 +3,9 @@ import { ThemeTypings } from "@chakra-ui/react";
 import { useFolderCreateMutation } from "../query/folder-create";
 import { useFolderDeleteMutation } from "../query/folder-delete";
 import { useFolderEditMutation } from "../query/folder-edit";
+import { useGlobalContext } from "../hook/global-context";
 import { useNavigate } from "react-router-dom";
+import { useSelectedFolders } from "../hook/selected-folders";
 import { useState, useEffect } from "react";
 
 export const useFolderForm = (folder?: FolderType) => {
@@ -11,6 +13,9 @@ export const useFolderForm = (folder?: FolderType) => {
 
   const [title, setTitle] = useState<string>("");
   const [color, setColor] = useState<ThemeTypings["colorSchemes"]>("blue");
+
+  const { foldersResponse } = useGlobalContext();
+  const selectedFolders = useSelectedFolders(foldersResponse, folder?.folderId);
 
   const [folderCreateState, folderCreate] = useFolderCreateMutation();
   const [folderDeleteState, folderDelete] = useFolderDeleteMutation();
@@ -39,15 +44,15 @@ export const useFolderForm = (folder?: FolderType) => {
 
   useEffect(() => {
     if (folder) {
-      setTitle(folder.title);
       setColor(folder.color);
+      setTitle(folder.title);
     }
   }, []);
 
   const create = () => {
     folderCreate({
       color,
-      parentFolderId: "",
+      parentFolderId: selectedFolders.lastSelected,
       title,
     });
   };
@@ -57,7 +62,7 @@ export const useFolderForm = (folder?: FolderType) => {
       folderEdit({
         color,
         folderId: folder.folderId,
-        parentFolderId: "",
+        parentFolderId: selectedFolders.lastSelected,
         title,
       });
     }
@@ -89,5 +94,6 @@ export const useFolderForm = (folder?: FolderType) => {
       setTitle,
       setColor,
     },
+    selectedFolders,
   };
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { Bookmark } from "../../../../graphql/genql/schema";
 import { Button, Input, Text } from "@chakra-ui/react";
 import { Categories } from "../categories";
+import { Folders } from "../folders";
 import { useBookmarkForm } from "../../hook/bookmark-form";
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +24,7 @@ export const BookmarkForm: React.FC<{
         else bookmarkForm.action.create();
       }}
     >
-      <div className="mb-1">
+      <div className="mb-4">
         <Text>Title:</Text>
         <Input
           onChange={(e) => bookmarkForm.input.setTitle(e.target.value)}
@@ -32,7 +33,7 @@ export const BookmarkForm: React.FC<{
         />
       </div>
 
-      <div className="mb-1">
+      <div className="mb-4">
         <Text>URL:</Text>
         <Input
           onChange={(e) => bookmarkForm.input.setUrl(e.target.value)}
@@ -43,13 +44,18 @@ export const BookmarkForm: React.FC<{
 
       {/* todo: loading spinner */}
       {categories && categories.length > 0 && (
-        <div className="mb-1">
+        <div className="mb-4">
           <Text>Categories:</Text>
           <Categories
             selectableCategories={bookmarkForm.selectableCategories}
           />
         </div>
       )}
+
+      <div className="mb-4">
+        <Text>Folders:</Text>
+        <Folders selectedFolders={bookmarkForm.selectedFolders} />
+      </div>
 
       <div className="flex justify-between">
         <div className="flex gap-1">

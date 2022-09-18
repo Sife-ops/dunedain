@@ -2,15 +2,26 @@ import { Bookmark as BookmarkType } from "@dunedain/graphql/genql/schema";
 import { useBookmarkCreateMutation } from "../query/bookmark-create";
 import { useBookmarkDeleteMutation } from "../query/bookmark-delete";
 import { useBookmarkEditMutation } from "../query/bookmark-edit";
+import { useGlobalContext } from "./global-context";
 import { useNavigate } from "react-router-dom";
 import { useSelectableCategories } from "./selectable-categories";
+import { useSelectedFolders } from "./selected-folders";
 import { useState, useEffect } from "react";
-import { useGlobalContext } from "./global-context";
 
 export const useBookmarkForm = (bookmark?: BookmarkType) => {
   const navigate = useNavigate();
 
-  const { categoriesResponse, bookmarksFilter } = useGlobalContext();
+  const {
+    categoriesResponse,
+    bookmarksFilter,
+    foldersResponse,
+  } = useGlobalContext();
+
+  const selectedFolders = useSelectedFolders(
+    foldersResponse,
+    bookmark?.parentFolderId
+  );
+
   const selectableCategories = useSelectableCategories({
     bookmark,
     categoriesResponse,
@@ -93,6 +104,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
           selectableCategories.categories
             ?.filter((e) => e.selected)
             .map((e) => e.categoryId) || [],
+        parentFolderId: selectedFolders.lastSelected,
         title,
         url,
       },
@@ -108,6 +120,7 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
             selectableCategories.categories
               ?.filter((e) => e.selected)
               .map((e) => e.categoryId) || [],
+          parentFolderId: selectedFolders.lastSelected,
           title,
           url,
         },
@@ -137,5 +150,6 @@ export const useBookmarkForm = (bookmark?: BookmarkType) => {
       create,
       delete: delete_,
     },
+    selectedFolders,
   };
 };

@@ -120,11 +120,11 @@ export interface QueryRequest{
     __scalar?: boolean | number
 }
 
-export interface bookmarkCreateInput {categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
+export interface bookmarkCreateInput {categoryIds: Scalars['String'][],parentFolderId: Scalars['String'],title: Scalars['String'],url: Scalars['String']}
 
 export interface bookmarkSearchInput {categoryIds: Scalars['String'][],categoryOpt: CategoryOptEnum}
 
-export interface bookmarkUpdateInput {bookmarkId: Scalars['String'],categoryIds: Scalars['String'][],title: Scalars['String'],url: Scalars['String']}
+export interface bookmarkUpdateInput {bookmarkId: Scalars['String'],categoryIds: Scalars['String'][],parentFolderId: Scalars['String'],title: Scalars['String'],url: Scalars['String']}
 
 
 const Bookmark_possibleTypes: string[] = ['Bookmark']

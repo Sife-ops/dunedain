@@ -8,18 +8,20 @@ const sqs = new AWS.SQS();
 
 const bookmarkCreateInput = builder.inputType("bookmarkCreateInput", {
   fields: (t) => ({
+    categoryIds: t.stringList({ required: true }),
+    parentFolderId: t.string({ required: true }),
     title: t.string({ required: true }),
     url: t.string({ required: true }),
-    categoryIds: t.stringList({ required: true }),
   }),
 });
 
 const bookmarkUpdateInput = builder.inputType("bookmarkUpdateInput", {
   fields: (t) => ({
+    bookmarkId: t.string({ required: true }),
+    categoryIds: t.stringList({ required: true }),
+    parentFolderId: t.string({ required: true }),
     title: t.string({ required: true }),
     url: t.string({ required: true }),
-    categoryIds: t.stringList({ required: true }),
-    bookmarkId: t.string({ required: true }),
   }),
 });
 
@@ -38,9 +40,7 @@ builder.mutationFields((t) => ({
         })
         .go();
 
-      await dunedainModel.entities.BookmarkEntity
-        .remove(bookmark)
-        .go();
+      await dunedainModel.entities.BookmarkEntity.remove(bookmark).go();
 
       // remove bookmark categories
       const bookmarkCategories = await dunedainModel.entities.BookmarkCategoryEntity.query
@@ -62,14 +62,14 @@ builder.mutationFields((t) => ({
     },
     resolve: async (
       _,
-      { input: { bookmarkId, categoryIds, title, url } },
+      { input: { bookmarkId, categoryIds, title, url, parentFolderId } },
       { user: { userId } }
     ) => {
       await dunedainModel.entities.BookmarkEntity.update({
         userId,
         bookmarkId,
       })
-        .set({ title, url })
+        .set({ title, url, parentFolderId })
         .go();
 
       const categoryBookmarks = await dunedainModel.entities.BookmarkCategoryEntity.query
@@ -115,20 +115,21 @@ builder.mutationFields((t) => ({
     },
     resolve: async (
       _,
-      { input: { categoryIds, title, url } },
+      { input: { categoryIds, title, url, parentFolderId } },
       { user: { userId } }
     ) => {
       const bookmark = await dunedainModel.entities.BookmarkEntity.create({
-        url,
+        parentFolderId,
         title,
+        url,
         userId,
       }).go();
 
       for (const categoryId of categoryIds) {
         await dunedainModel.entities.BookmarkCategoryEntity.create({
-          userId,
           bookmarkId: bookmark.bookmarkId,
           categoryId,
+          userId,
         }).go();
       }
 

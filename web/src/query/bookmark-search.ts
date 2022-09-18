@@ -30,6 +30,7 @@ export const useBookmarkSearchMutation = () => {
             url: true,
             title: true,
             favicon: true,
+            parentFolderId: true,
 
             categories: {
               __scalar: true,

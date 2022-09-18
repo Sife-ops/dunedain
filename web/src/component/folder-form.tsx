@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Input, Text, Select } from "@chakra-ui/react";
 import { Folder as FolderType } from "@dunedain/graphql/genql/schema";
+import { Folders } from "./folders";
 import { useFolderForm } from "../hook/folder-form";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +23,7 @@ export const FolderForm: React.FC<{
         }
       }}
     >
-      <div className="mb-1">
+      <div className="mb-4">
         <Text>Title:</Text>
         <Input
           onChange={(e) => folderForm.set.setTitle(e.target.value)}
@@ -31,7 +32,7 @@ export const FolderForm: React.FC<{
         />
       </div>
 
-      <div className="mb-1">
+      <div className="mb-4">
         <Text>Color:</Text>
         <Select
           marginBottom={"1"}
@@ -42,6 +43,11 @@ export const FolderForm: React.FC<{
             <option key={e}>{e}</option>
           ))}
         </Select>
+      </div>
+
+      <div className="mb-4">
+        <Text>Folders:</Text>
+        <Folders selectedFolders={folderForm.selectedFolders} />
       </div>
 
       <div className="flex justify-between">

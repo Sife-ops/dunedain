@@ -4,9 +4,10 @@ export const useBookmarkCreateMutation = () => {
   return useTypedMutation(
     (vars: {
       input: {
+        categoryIds: string[];
+        parentFolderId: string;
         title: string;
         url: string;
-        categoryIds: string[];
       };
     }) => {
       return {
@@ -18,6 +19,8 @@ export const useBookmarkCreateMutation = () => {
             bookmarkId: true,
             url: true,
             title: true,
+            favicon: true,
+            parentFolderId: true,
           },
         ],
       };

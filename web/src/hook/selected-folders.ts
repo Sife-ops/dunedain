@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 
 export interface UseSelectedFolders {
   folders: Record<string, boolean> | undefined;
-  toggleExapanded: (folderId: string) => void;
   isExpanded: (folderId: string) => boolean;
   lastSelected: string;
+  toggleExapanded: (folderId: string) => void;
 }
 
 export const useSelectedFolders = (
   [foldersResponseState]: UseFoldersResponse,
-  folder?: Folder
+  folderId?: string
 ): UseSelectedFolders => {
   const [selectedFolders, setSelectedFolders] = useState<
     Record<string, boolean>
@@ -48,8 +48,8 @@ export const useSelectedFolders = (
   };
 
   useEffect(() => {
-    if (folder) {
-      setLastSelected(folder.folderId);
+    if (folderId) {
+      setLastSelected(folderId);
     }
   }, []);
 
@@ -63,9 +63,10 @@ export const useSelectedFolders = (
   }, [foldersResponseState.data]);
 
   const toggleExapanded = (folderId: string) => {
-    const selectedFolder = selectedFolders[folderId];
+    const isExpanded = selectedFolders[folderId];
 
-    if (!selectedFolder) {
+    // todo: this is very questionable
+    if (!isExpanded) {
       setLastSelected(folderId);
     } else {
       setLastSelected("");

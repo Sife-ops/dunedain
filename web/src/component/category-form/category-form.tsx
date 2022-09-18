@@ -22,7 +22,7 @@ export const CategoryForm: React.FC<{
         }
       }}
     >
-      <div className="mb-1">
+      <div className="mb-4">
         <Text>Title:</Text>
         <Input
           onChange={(e) => categoryForm.set.setTitle(e.target.value)}
@@ -31,7 +31,7 @@ export const CategoryForm: React.FC<{
         />
       </div>
 
-      <div className="mb-1">
+      <div className="mb-4">
         <Text>Color:</Text>
         <Select
           marginBottom={"1"}

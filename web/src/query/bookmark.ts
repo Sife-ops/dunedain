@@ -13,6 +13,8 @@ export const useBookmarkQuery = (bookmarkId: string) => {
           bookmarkId: true,
           url: true,
           title: true,
+          favicon: true,
+          parentFolderId: true,
 
           categories: {
             __typename: true,

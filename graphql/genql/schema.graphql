@@ -54,6 +54,7 @@ type Query {
 
 input bookmarkCreateInput {
   categoryIds: [String!]!
+  parentFolderId: String!
   title: String!
   url: String!
 }
@@ -66,6 +67,7 @@ input bookmarkSearchInput {
 input bookmarkUpdateInput {
   bookmarkId: String!
   categoryIds: [String!]!
+  parentFolderId: String!
   title: String!
   url: String!
 }
