@@ -1,8 +1,8 @@
 import { schema } from "./schema";
-import { createGQLHandler } from "@serverless-stack/node/graphql";
+import { GraphQLHandler } from "@serverless-stack/node/graphql";
 import { decode } from 'jsonwebtoken';
 
-export const handler = createGQLHandler({
+export const handler = GraphQLHandler({
   schema,
   context: async (request) => {
     const auth = request.event.headers.authorization?.split(' ')[1]

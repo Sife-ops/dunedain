@@ -1,7 +1,7 @@
-import { StackContext, Auth as CognitoAuth } from "@serverless-stack/resources";
+import { StackContext, Cognito } from "@serverless-stack/resources";
 
 export function Auth({ stack }: StackContext) {
-  const auth = new CognitoAuth(stack, "auth", {
+  const auth = new Cognito(stack, "auth", {
     login: ["email"],
   });
 
