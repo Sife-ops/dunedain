@@ -11,7 +11,7 @@
     "@serverless-stack/node": "^1.9.4",
     "aws-sdk": "^2.1204.0",
     "axios": "^0.27.2",
-    "electrodb": "^1.11.1",
+    "electrodb": "^2.1.0",
     "graphql": "^16.6.0",
     "jsonwebtoken": "^8.5.1",
     "ulid": "^2.3.0",

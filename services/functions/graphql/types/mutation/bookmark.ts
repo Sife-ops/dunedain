@@ -33,7 +33,9 @@ builder.mutationFields((t) => ({
     },
     resolve: async (_, { bookmarkId }, { user: { userId } }) => {
       // remove bookmark
-      const [bookmark] = await dunedainModel.entities.BookmarkEntity.query
+      const {
+        data: [bookmark],
+      } = await dunedainModel.entities.BookmarkEntity.query
         .user({
           bookmarkId,
           userId,
@@ -43,7 +45,9 @@ builder.mutationFields((t) => ({
       await dunedainModel.entities.BookmarkEntity.remove(bookmark).go();
 
       // remove bookmark categories
-      const bookmarkCategories = await dunedainModel.entities.BookmarkCategoryEntity.query
+      const {
+        data: bookmarkCategories,
+      } = await dunedainModel.entities.BookmarkCategoryEntity.query
         .bookmarkCategory({ bookmarkId })
         .go();
 
@@ -72,7 +76,9 @@ builder.mutationFields((t) => ({
         .set({ title, url, parentFolderId })
         .go();
 
-      const categoryBookmarks = await dunedainModel.entities.BookmarkCategoryEntity.query
+      const {
+        data: categoryBookmarks,
+      } = await dunedainModel.entities.BookmarkCategoryEntity.query
         .bookmarkCategory({ bookmarkId })
         .go();
 
@@ -89,7 +95,9 @@ builder.mutationFields((t) => ({
       }
 
       {
-        const [bookmark] = await dunedainModel.entities.BookmarkEntity.query
+        const {
+          data: [bookmark],
+        } = await dunedainModel.entities.BookmarkEntity.query
           .user({
             userId,
             bookmarkId,
@@ -118,7 +126,9 @@ builder.mutationFields((t) => ({
       { input: { categoryIds, title, url, parentFolderId } },
       { user: { userId } }
     ) => {
-      const bookmark = await dunedainModel.entities.BookmarkEntity.create({
+      const {
+        data: bookmark,
+      } = await dunedainModel.entities.BookmarkEntity.create({
         parentFolderId,
         title,
         url,

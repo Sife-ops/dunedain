@@ -10,7 +10,9 @@ builder.mutationFields((t) => ({
     },
     resolve: async (_, { categoryId }, { user: { userId } }) => {
       // remove category
-      const [category] = await dunedainModel.entities.CategoryEntity.query
+      const {
+        data: [category],
+      } = await dunedainModel.entities.CategoryEntity.query
         .user({
           userId,
           categoryId,
@@ -23,7 +25,9 @@ builder.mutationFields((t) => ({
       }).go();
 
       // remove category bookmarks
-      const categoryBookmarks = await dunedainModel.entities.BookmarkCategoryEntity.query
+      const {
+        data: categoryBookmarks,
+      } = await dunedainModel.entities.BookmarkCategoryEntity.query
         .categoryBookmark({ categoryId })
         .go();
 
@@ -53,7 +57,9 @@ builder.mutationFields((t) => ({
         })
         .go();
 
-      const [category] = await dunedainModel.entities.CategoryEntity.query
+      const {
+        data: [category],
+      } = await dunedainModel.entities.CategoryEntity.query
         .user({
           userId,
           categoryId,
@@ -71,7 +77,9 @@ builder.mutationFields((t) => ({
       color: t.arg.string({ required: true }),
     },
     resolve: async (_, { title, color }, { user: { userId } }) => {
-      const category = await dunedainModel.entities.CategoryEntity.create({
+      const {
+        data: category,
+      } = await dunedainModel.entities.CategoryEntity.create({
         userId,
         title,
         color,

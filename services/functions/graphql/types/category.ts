@@ -19,8 +19,7 @@ CategoryType.implement({
       resolve: (parent) => parent.categoryId,
       load: async (categoryIds: string[], { user: { userId } }) => {
         const {
-          BookmarkCategoryEntity,
-          BookmarkEntity,
+          data: { BookmarkCategoryEntity, BookmarkEntity },
         } = await dunedainModel.collections.user({ userId }).go();
 
         return categoryIds.map((categoryId) => {

@@ -8,18 +8,20 @@ builder.queryFields((t) => ({
   bookmarks: t.field({
     type: [BookmarkType],
     resolve: async (_, __, { user: { userId } }) => {
-      return await dunedainModel.entities.BookmarkEntity.query
+      const { data } = await dunedainModel.entities.BookmarkEntity.query
         .user({ userId })
         .go();
+      return data;
     },
   }),
 
   categories: t.field({
     type: [CategoryType],
     resolve: async (_, __, { user: { userId } }) => {
-      return await dunedainModel.entities.CategoryEntity.query
+      const { data } = await dunedainModel.entities.CategoryEntity.query
         .user({ userId })
         .go();
+      return data;
     },
   }),
 
@@ -29,9 +31,9 @@ builder.queryFields((t) => ({
       categoryId: t.arg.string({ required: true }),
     },
     resolve: async (_, { categoryId }, { user: { userId } }) => {
-      const [
-        category,
-      ] = await dunedainModel.entities.CategoryEntity.query
+      const {
+        data: [category],
+      } = await dunedainModel.entities.CategoryEntity.query
         .user({ userId, categoryId })
         .go();
 
@@ -45,9 +47,9 @@ builder.queryFields((t) => ({
       bookmarkId: t.arg.string({ required: true }),
     },
     resolve: async (_, { bookmarkId }, { user: { userId } }) => {
-      const [
-        bookmark,
-      ] = await dunedainModel.entities.BookmarkEntity.query
+      const {
+        data: [bookmark],
+      } = await dunedainModel.entities.BookmarkEntity.query
         .user({ userId, bookmarkId })
         .go();
 
@@ -61,7 +63,9 @@ builder.queryFields((t) => ({
       folderId: t.arg.string({ required: true }),
     },
     resolve: async (_, { folderId }, { user: { userId } }) => {
-      const [folder] = await dunedainModel.entities.FolderEntity.query
+      const {
+        data: [folder],
+      } = await dunedainModel.entities.FolderEntity.query
         .user({ userId, folderId })
         .go();
 
@@ -72,7 +76,7 @@ builder.queryFields((t) => ({
   folders: t.field({
     type: [FolderType],
     resolve: async (_, __, { user: { userId } }) => {
-      const folders = await dunedainModel.entities.FolderEntity.query
+      const { data: folders } = await dunedainModel.entities.FolderEntity.query
         .user({ userId })
         .where(({ parentFolderId }, { eq }) => eq(parentFolderId, ""))
         .go();

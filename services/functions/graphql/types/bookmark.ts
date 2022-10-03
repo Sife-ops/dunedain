@@ -21,8 +21,7 @@ BookmarkType.implement({
       resolve: (parent) => parent.bookmarkId,
       load: async (bookmarkIds: string[], { user: { userId } }) => {
         const {
-          BookmarkCategoryEntity,
-          CategoryEntity,
+          data: { BookmarkCategoryEntity, CategoryEntity },
         } = await dunedainModel.collections
           .userBookmarkCategory({ userId })
           .go();

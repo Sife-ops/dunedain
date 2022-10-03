@@ -16,12 +16,14 @@ builder.mutationFields((t) => ({
       { title, color, parentFolderId },
       { user: { userId } }
     ) => {
-      const folder = await dunedainModel.entities.FolderEntity.create({
-        userId,
-        parentFolderId,
-        title,
-        color,
-      }).go();
+      const { data: folder } = await dunedainModel.entities.FolderEntity.create(
+        {
+          userId,
+          parentFolderId,
+          title,
+          color,
+        }
+      ).go();
 
       return folder;
     },
@@ -58,7 +60,9 @@ builder.mutationFields((t) => ({
           .go();
       }
 
-      const [folder] = await dunedainModel.entities.FolderEntity.query
+      const {
+        data: [folder],
+      } = await dunedainModel.entities.FolderEntity.query
         .user({ userId, folderId })
         .go();
 
@@ -73,11 +77,13 @@ builder.mutationFields((t) => ({
     },
     resolve: async (_, { folderId }, { user: { userId } }) => {
       // todo: subcollection
-      const folders = await dunedainModel.entities.FolderEntity.query
-        .user({ userId })
-        .go();
+      const {
+        data: folders,
+      } = await dunedainModel.entities.FolderEntity.query.user({ userId }).go();
 
-      const bookmarks = await dunedainModel.entities.BookmarkEntity.query
+      const {
+        data: bookmarks,
+      } = await dunedainModel.entities.BookmarkEntity.query
         .user({ userId })
         .go();
 
