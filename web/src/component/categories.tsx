@@ -2,11 +2,11 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { Category as CategoryType } from "@dunedain/graphql/genql";
 import { HiPlus } from "react-icons/hi";
-import { Loading } from "../loading";
-import { SelectableCategory } from "../../hook/selectable-categories";
-import { UseSelectableCategories } from "../../hook/selectable-categories";
-import { useBreakpoint } from "../../hook/breakpoint";
-import { useGlobalContext } from "../../hook/global-context";
+import { Loading } from "./loading";
+import { SelectableCategory } from "../hook/selectable-categories";
+import { UseSelectableCategories } from "../hook/selectable-categories";
+import { useBreakpoint } from "../hook/breakpoint";
+import { useGlobalContext } from "../hook/global-context";
 import { useNavigate } from "react-router-dom";
 
 export const Categories: React.FC<{

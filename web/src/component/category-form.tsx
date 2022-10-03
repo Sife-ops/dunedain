@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Input, Text, Select } from "@chakra-ui/react";
 import { Category as CategoryType } from "@dunedain/graphql/genql/schema";
-import { useCategoryForm } from "../../hook/category-form";
+import { useCategoryForm } from "../hook/category-form";
 import { useNavigate } from "react-router-dom";
 
 export const CategoryForm: React.FC<{

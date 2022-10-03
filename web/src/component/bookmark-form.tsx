@@ -1,9 +1,9 @@
 import React from "react";
-import { Bookmark } from "../../../../graphql/genql/schema";
+import { Bookmark } from "../../../graphql/genql/schema";
 import { Button, Input, Text } from "@chakra-ui/react";
-import { Categories } from "../categories";
-import { Folders } from "../folders";
-import { useBookmarkForm } from "../../hook/bookmark-form";
+import { Categories } from "./categories";
+import { Folders } from "./folders";
+import { useBookmarkForm } from "../hook/bookmark-form";
 import { useNavigate } from "react-router-dom";
 
 export const BookmarkForm: React.FC<{
