@@ -34,7 +34,7 @@ export const handler = async ({ userId }: { userId: string }) => {
   }
 
   const res = await S3.listObjects({
-    Bucket: Config.BUCKET_NAME
+    Bucket: Config.EXPORT_JSON_BUCKET_NAME
   }).promise();
 
   const latest = res.Contents?.sort((a: any, b: any) => {
@@ -46,7 +46,7 @@ export const handler = async ({ userId }: { userId: string }) => {
   }
 
   const obj = await S3.getObject({
-    Bucket: Config.BUCKET_NAME,
+    Bucket: Config.EXPORT_JSON_BUCKET_NAME,
     Key: latest.Key!
   }).promise();
 
@@ -54,70 +54,70 @@ export const handler = async ({ userId }: { userId: string }) => {
 
   const userData = JSON.parse(obj.Body?.toString()!) as UserData;
 
-  let bookmarkCategories = userData.bookmarkCategories;
+  // let bookmarkCategories = userData.bookmarkCategories;
 
-  for (const bookmark of userData.bookmarks) {
-    const b = await dunedainModel
-      .entities
-      .BookmarkEntity
-      .create({
-        userId,
-        title: bookmark.description,
-        url: bookmark.url
-      })
-      .go()
+  // for (const bookmark of userData.bookmarks) {
+  //   const b = await dunedainModel
+  //     .entities
+  //     .BookmarkEntity
+  //     .create({
+  //       userId,
+  //       title: bookmark.description,
+  //       url: bookmark.url
+  //     })
+  //     .go()
 
-    bookmarkCategories = bookmarkCategories.map(e => {
-      if (e.bookmarkId === bookmark.id) {
-        return {
-          ...e,
-          bookmarkId: b.bookmarkId
-        }
-      }
-      return e;
-    })
-  }
+  //   bookmarkCategories = bookmarkCategories.map(e => {
+  //     if (e.bookmarkId === bookmark.id) {
+  //       return {
+  //         ...e,
+  //         bookmarkId: b.bookmarkId
+  //       }
+  //     }
+  //     return e;
+  //   })
+  // }
 
-  for (const category of userData.categories) {
-    const c = await dunedainModel
-      .entities
-      .CategoryEntity
-      .create({
-        userId,
-        title: category.name,
-      })
-      .go()
+  // for (const category of userData.categories) {
+  //   const c = await dunedainModel
+  //     .entities
+  //     .CategoryEntity
+  //     .create({
+  //       userId,
+  //       title: category.name,
+  //     })
+  //     .go()
 
-    bookmarkCategories = bookmarkCategories.map(e => {
-      if (e.categoryId === category.id) {
-        return {
-          ...e,
-          categoryId: c.categoryId
-        }
-      }
-      return e;
-    })
-  }
+  //   bookmarkCategories = bookmarkCategories.map(e => {
+  //     if (e.categoryId === category.id) {
+  //       return {
+  //         ...e,
+  //         categoryId: c.categoryId
+  //       }
+  //     }
+  //     return e;
+  //   })
+  // }
 
-  bookmarkCategories = bookmarkCategories.filter(e => {
-    if (typeof e.categoryId === 'string' && typeof e.bookmarkId === 'string') {
-      return true;
-    }
-    return false;
-  })
+  // bookmarkCategories = bookmarkCategories.filter(e => {
+  //   if (typeof e.categoryId === 'string' && typeof e.bookmarkId === 'string') {
+  //     return true;
+  //   }
+  //   return false;
+  // })
 
-  for (const { bookmarkId, categoryId } of bookmarkCategories) {
-    await dunedainModel
-      .entities
-      .BookmarkCategoryEntity
-      .create({
-        userId,
-        categoryId: categoryId as string,
-        bookmarkId: bookmarkId as string,
-      })
-      .go()
-  }
+  // for (const { bookmarkId, categoryId } of bookmarkCategories) {
+  //   await dunedainModel
+  //     .entities
+  //     .BookmarkCategoryEntity
+  //     .create({
+  //       userId,
+  //       categoryId: categoryId as string,
+  //       bookmarkId: bookmarkId as string,
+  //     })
+  //     .go()
+  // }
 
-  console.log('done')
+  // console.log('done')
 
 }
