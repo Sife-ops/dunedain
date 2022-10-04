@@ -28,7 +28,7 @@ export function Database({ stack }: StackContext) {
 
   return {
     table,
-    TABLE_NAME: new Config.Parameter(stack, "TABLE_NAME", {
+    tableName: new Config.Parameter(stack, "TABLE_NAME", {
       value: table.tableName,
     }),
   };

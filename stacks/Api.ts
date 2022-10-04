@@ -37,7 +37,7 @@ export function Api({ stack }: StackContext) {
       authorizer: "none",
       function: {
         permissions: [db.table, automation.fetchFaviconSqs],
-        config: [db.TABLE_NAME, automation.FAVICON_SQS],
+        config: [db.tableName, automation.FAVICON_SQS],
       },
     },
     routes: {
