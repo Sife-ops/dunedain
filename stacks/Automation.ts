@@ -18,16 +18,23 @@ export function Automation({ stack }: StackContext) {
     config: [db.TABLE_NAME],
   });
 
-  const importJsonBucket = new Bucket(stack, "import-json-bucket");
+  const exportJsonBucket = new Bucket(stack, "export-json-bucket");
 
+  // todo: change config object name
   const BUCKET_NAME = new Config.Parameter(stack, "BUCKET_NAME", {
-    value: importJsonBucket.bucketName,
+    value: exportJsonBucket.bucketName,
+  });
+
+  const exportJsonLambda = new Function(stack, "export-json-lambda", {
+    handler: "functions/automation/export-json.handler",
+    config: [db.TABLE_NAME, BUCKET_NAME],
+    permissions: [exportJsonBucket, db.table],
   });
 
   const importJsonLambda = new Function(stack, "import-json-lambda", {
     handler: "functions/automation/import-json.handler",
     config: [db.TABLE_NAME, BUCKET_NAME],
-    permissions: [importJsonBucket, db.table],
+    permissions: [exportJsonBucket, db.table],
   });
 
   const migrationLambda = new Function(stack, "migration-lambda", {
