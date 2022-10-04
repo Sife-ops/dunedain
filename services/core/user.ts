@@ -1,42 +1,31 @@
-export * as Folder from "./folder";
+export * as User from "./user";
 import { Dynamo } from "./dynamo";
 import { Entity, EntityItem } from "electrodb";
 import { ulid } from "ulid";
 
-export const FolderEntity = new Entity(
+export const UserEntity = new Entity(
   {
     model: {
       version: "2",
-      entity: "Folder",
+      entity: "User",
       service: "scratch",
     },
     attributes: {
       userId: {
         type: "string",
         required: true,
-      },
-
-      folderId: {
-        type: "string",
-        required: true,
         default: () => ulid(),
       },
 
-      parentFolderId: {
+      email: {
         type: "string",
         required: true,
-        default: ""
       },
 
-      title: {
+      password: {
         type: "string",
         required: true,
       },
-      color: {
-        type: "string",
-        required: true,
-        default: 'grey',
-      }
     },
     indexes: {
 
@@ -48,7 +37,19 @@ export const FolderEntity = new Entity(
         },
         sk: {
           field: "sk",
-          composite: ['folderId'],
+          composite: ['email'],
+        },
+      },
+
+      email: {
+        index: 'gsi1',
+        pk: {
+          field: "gsi1pk",
+          composite: ['email'],
+        },
+        sk: {
+          field: "gsi1sk",
+          composite: ['userId'],
         },
       },
 
@@ -57,4 +58,4 @@ export const FolderEntity = new Entity(
   Dynamo.Configuration
 );
 
-export type FolderEntityType = EntityItem<typeof FolderEntity>;
+export type UserEntityType = EntityItem<typeof UserEntity>;

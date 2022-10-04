@@ -6,7 +6,7 @@ import { ulid } from "ulid";
 export const BookmarkEntity = new Entity(
   {
     model: {
-      version: "1",
+      version: "2",
       entity: "Bookmark",
       service: "scratch",
     },

@@ -6,7 +6,7 @@ import { ulid } from "ulid";
 export const CategoryEntity = new Entity(
   {
     model: {
-      version: "1",
+      version: "2",
       entity: "Category",
       service: "scratch",
     },
