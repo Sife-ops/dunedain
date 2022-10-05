@@ -1,7 +1,16 @@
-import { Heading, Input, Button, Text, ButtonGroup } from "@chakra-ui/react";
+import { Link as RrdLink } from "react-router-dom";
 import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
 import { useSignUpForm } from "../../hook/sign-up-form";
+
+import {
+  Heading,
+  Input,
+  Button,
+  Text,
+  ButtonGroup,
+  Link,
+} from "@chakra-ui/react";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -72,7 +81,12 @@ export const SignUp = () => {
           Invalid e-mail address.
         </Text>
 
-        <Text>Password</Text>
+        <div className="flex justify-between">
+          <Text>Password</Text>
+          <Link as={RrdLink} to={"/sign-in"}>
+            Forgot password?
+          </Link>
+        </div>
         <Input
           errorBorderColor="red.500"
           focusBorderColor={calculateFocusBorderColor(
