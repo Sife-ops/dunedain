@@ -4,10 +4,23 @@ import { useNavigate } from "react-router-dom";
 import { useSignUpForm } from "../../hook/sign-up-form";
 
 export const SignUp = () => {
-  const signUpForm = useSignUpForm();
-
   const navigate = useNavigate();
   const { isDesktop } = useBreakpoint();
+
+  const signUpForm = useSignUpForm();
+
+  const calculateFocusBorderColor = (
+    errorVar: boolean,
+    isValidVar: boolean
+  ) => {
+    if (errorVar && !isValidVar) {
+      return "red.500";
+    } else if (!errorVar && isValidVar) {
+      return "green.500";
+    } else {
+      return "";
+    }
+  };
 
   return (
     <div className="flex justify-center h-screen">
@@ -37,13 +50,26 @@ export const SignUp = () => {
         </Heading>
 
         <Input
+          errorBorderColor="red.500"
+          focusBorderColor={calculateFocusBorderColor(
+            signUpForm.emailError,
+            signUpForm.emailIsValid
+          )}
+          isInvalid={signUpForm.emailError}
           marginBottom={"1"}
           onChange={(e) => signUpForm.setEmail(e.target.value)}
           placeholder="email"
+          type={"email"}
           value={signUpForm.email || ""}
         />
 
         <Input
+          errorBorderColor="red.500"
+          focusBorderColor={calculateFocusBorderColor(
+            signUpForm.passwordError,
+            signUpForm.passwordIsValid
+          )}
+          isInvalid={signUpForm.passwordError}
           marginBottom={"1"}
           onChange={(e) => signUpForm.setPassword(e.target.value)}
           placeholder="password"
