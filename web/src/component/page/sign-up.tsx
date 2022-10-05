@@ -1,4 +1,4 @@
-import { Heading, Input, Button } from "@chakra-ui/react";
+import { Heading, Input, Button, Text, ButtonGroup } from "@chakra-ui/react";
 import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
 import { useSignUpForm } from "../../hook/sign-up-form";
@@ -49,6 +49,7 @@ export const SignUp = () => {
           Sign Up
         </Heading>
 
+        <Text>E-mail</Text>
         <Input
           errorBorderColor="red.500"
           focusBorderColor={calculateFocusBorderColor(
@@ -58,11 +59,20 @@ export const SignUp = () => {
           isInvalid={signUpForm.emailError}
           marginBottom={"1"}
           onChange={(e) => signUpForm.setEmail(e.target.value)}
-          placeholder="email"
+          // placeholder="email"
           type={"email"}
           value={signUpForm.email || ""}
         />
 
+        <Text
+          color={"red.500"}
+          fontSize="sm"
+          visibility={signUpForm.emailError ? undefined : "hidden"}
+        >
+          Invalid e-mail address.
+        </Text>
+
+        <Text>Password</Text>
         <Input
           errorBorderColor="red.500"
           focusBorderColor={calculateFocusBorderColor(
@@ -72,22 +82,37 @@ export const SignUp = () => {
           isInvalid={signUpForm.passwordError}
           marginBottom={"1"}
           onChange={(e) => signUpForm.setPassword(e.target.value)}
-          placeholder="password"
+          // placeholder="password"
           type={"password"}
           value={signUpForm.password || ""}
         />
 
-        <Button
-          marginBottom={"1"}
-          colorScheme={"teal"}
-          type="submit"
-          disabled={!signUpForm.formIsValid}
+        <Text
+          color={"red.500"}
+          fontSize="sm"
+          visibility={signUpForm.passwordError ? undefined : "hidden"}
         >
-          Submit
-        </Button>
-        <Button colorScheme={"green"} onClick={() => navigate("/sign-in")}>
-          Sign In
-        </Button>
+          Must contain one number and one special character.
+        </Text>
+
+        <ButtonGroup isAttached marginTop={4}>
+          <Button
+            flexGrow={1}
+            marginBottom={"1"}
+            colorScheme={"green"}
+            type="submit"
+            disabled={!signUpForm.formIsValid}
+          >
+            Submit
+          </Button>
+          <Button
+            flexGrow={1}
+            colorScheme={"blue"}
+            onClick={() => navigate("/sign-in")}
+          >
+            Sign In
+          </Button>
+        </ButtonGroup>
       </form>
     </div>
   );
