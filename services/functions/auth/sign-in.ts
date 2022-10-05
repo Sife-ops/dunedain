@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
+import { Config } from "@serverless-stack/node/config";
 import { dunedainModel } from "@dunedain/core/model";
-import { sign, decode } from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { z } from "zod";
 
 const eventSchema = z.object({
@@ -28,13 +29,13 @@ export const handler = async (event: any) => {
       throw new Error("incorrect password");
     }
 
-    const secret = "todo: update secret";
-    const accessToken = sign({ email, userId: user.userId }, secret, {
-      expiresIn: "1h",
-    });
-    const decoded = decode(accessToken);
-
-    console.log(decoded);
+    const accessToken = sign(
+      { email, userId: user.userId },
+      Config.SECRET_ACCESS_TOKEN,
+      {
+        expiresIn: "1m",
+      }
+    );
 
     return {
       accessToken,

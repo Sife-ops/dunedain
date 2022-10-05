@@ -1,12 +1,13 @@
+import { Config } from "@serverless-stack/node/config";
 import { verify } from "jsonwebtoken";
 
-export const main = async (event: any) => {
+export const handler = async (event: any) => {
   try {
     const authHeader = event.headers.authorization;
     const accessToken = authHeader.split(" ")[1];
 
     // @ts-ignore
-    const { email, userId } = verify(accessToken, "todo: update secret");
+    const { email, userId } = verify(accessToken, Config.SECRET_ACCESS_TOKEN);
 
     return {
       isAuthorized: true,

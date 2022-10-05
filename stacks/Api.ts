@@ -6,34 +6,27 @@ import {
   use,
 } from "@serverless-stack/resources";
 
-// import { Auth } from "./Auth";
 import { Automation } from "./Automation";
 import { Database } from "./Database";
 
 export function Api({ stack }: StackContext) {
-  // const auth = use(Auth);
   const automation = use(Automation);
   const db = use(Database);
 
+  const secretAccessToken = new Config.Secret(stack, "SECRET_ACCESS_TOKEN");
+
   const api = new ApiGateway(stack, "api", {
     authorizers: {
-      // jwt: {
-      //   type: "user_pool",
-      //   userPool: {
-      //     id: auth.userPoolId,
-      //     clientIds: [auth.userPoolClientId],
-      //   },
-      // },
       lambda: {
         type: "lambda",
         responseTypes: ["simple"],
         function: new Function(stack, "authorizer", {
           handler: "functions/auth/auth.handler",
+          config: [secretAccessToken],
         }),
       },
     },
     defaults: {
-      // authorizer: "jwt",
       authorizer: "none",
       function: {
         permissions: [db.table, automation.fetchFaviconSqs],
@@ -53,19 +46,24 @@ export function Api({ stack }: StackContext) {
           "npx genql --output ./graphql/genql --schema ./graphql/schema.graphql --esm",
         ],
       },
+      // todo: rename path to 'functions/rest/...'
+      "POST /refresh": {
+        function: {
+          handler: "functions/auth/refresh.handler",
+          config: [secretAccessToken],
+        },
+      },
       "POST /sign-in": {
-        function: "functions/auth/sign-in.handler",
+        function: {
+          handler: "functions/auth/sign-in.handler",
+          config: [secretAccessToken],
+        },
       },
       "POST /sign-up": {
         function: "functions/auth/sign-up.handler",
       },
-      "POST /refresh": {
-        function: "functions/auth/refresh.handler",
-      },
     },
   });
-
-  // auth.attachPermissionsForAuthUsers(stack, [api]);
 
   new Config.Parameter(stack, "API_URL", {
     value: api.url,
