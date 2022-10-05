@@ -1,6 +1,6 @@
 import "./index.css";
 import ReactDOM from "react-dom/client";
-import { Auth } from "@aws-amplify/auth";
+// import { Auth } from "@aws-amplify/auth";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { GlobalContextProvider } from "./hook/global-context";
@@ -34,19 +34,8 @@ import {
   SignUp,
 } from "./component/page";
 
-Auth.configure({
-  Auth: {
-    identityPoolId: import.meta.env.VITE_IDENTITY_POOL_ID,
-    region: import.meta.env.VITE_REGION,
-    userPoolId: import.meta.env.VITE_USER_POOL_ID,
-    userPoolWebClientId: import.meta.env.VITE_USER_POOL_CLIENT_ID,
-    // mandatorySignIn: false,
-    // clientMetadata: { app: "cognito-vue-bootstrap" },
-  },
-});
-
 const urql = createClient({
-  url: import.meta.env.VITE_GRAPHQL_URL,
+  url: import.meta.env.VITE_API_URL + "/graphql",
   exchanges: [
     dedupExchange,
     cacheExchange,
@@ -59,9 +48,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <UrqlProvider value={urql}>
     <ChakraProvider>
-      <GlobalContextProvider>
-        <App />
-      </GlobalContextProvider>
+      {/* <GlobalContextProvider> */}
+      <App />
+      {/* </GlobalContextProvider> */}
     </ChakraProvider>
   </UrqlProvider>
   // </React.StrictMode>
@@ -79,7 +68,10 @@ function App() {
       <BrowserRouter>
         <Navigation />
         <Routes>
-          <Route element={<SelectiveRoutes isPrivate />}>
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="*" element={<Navigate replace to="/sign-in" />} />
+          {/* <Route element={<SelectiveRoutes isPrivate />}>
             <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />
             <Route path="/bookmark/new" element={<BookmarkNew />} />
             <Route path="/categories" element={<Categories />} />
@@ -97,8 +89,7 @@ function App() {
           <Route element={<SelectiveRoutes />}>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
-          </Route>
-          <Route path="*" element={<Navigate replace to="/sign-in" />} />
+          </Route> */}
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,4 +1,4 @@
-import { Auth } from "@aws-amplify/auth";
+// import { Auth } from "@aws-amplify/auth";
 import { AuthConfig } from "@urql/exchange-auth";
 import { useEffect, useState } from "react";
 
@@ -61,14 +61,14 @@ export function useTypedMutation<
 export const authConfig: AuthConfig<{ accessToken: string }> = {
   getAuth: async ({ authState }) => {
     if (!authState) {
-      const currentSession = await Auth.currentSession();
-      const accessToken = currentSession.getAccessToken().getJwtToken();
-      if (accessToken) return { accessToken };
+      // const currentSession = await Auth.currentSession();
+      // const accessToken = currentSession.getAccessToken().getJwtToken();
+      // if (accessToken) return { accessToken };
       return null;
     }
-    const currentSession = await Auth.currentSession();
-    const accessToken = currentSession.getAccessToken().getJwtToken();
-    if (accessToken) return { accessToken };
+    // const currentSession = await Auth.currentSession();
+    // const accessToken = currentSession.getAccessToken().getJwtToken();
+    // if (accessToken) return { accessToken };
     localStorage.clear();
     window.location.reload();
     return null;

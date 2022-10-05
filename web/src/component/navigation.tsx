@@ -1,21 +1,21 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../hook/global-context";
+// import { useGlobalContext } from "../hook/global-context";
 
 const stage = import.meta.env.VITE_STAGE;
 
 export const Navigation: React.FC = () => {
-  const {
-    authentication,
-    categoriesResponse: [_, categoriesRefetch],
-    foldersResponse: [__, folderRefetch],
-    bookmarksFilter: {
-      action: { searchDefault },
-    },
-  } = useGlobalContext();
+  // const {
+  //   authentication,
+  //   categoriesResponse: [_, categoriesRefetch],
+  //   foldersResponse: [__, folderRefetch],
+  //   bookmarksFilter: {
+  //     action: { searchDefault },
+  //   },
+  // } = useGlobalContext();
 
-  if (authentication.signedIn) {
+  if (false) {
     return (
       <nav className="flex justify-between mb-1">
         <div className="flex gap-1">
@@ -33,7 +33,7 @@ export const Navigation: React.FC = () => {
           {stage === "dev" && (
             <Button
               onClick={async () => {
-                categoriesRefetch();
+                // categoriesRefetch();
               }}
             >
               Refetch Categories
@@ -42,7 +42,7 @@ export const Navigation: React.FC = () => {
           {stage === "dev" && (
             <Button
               onClick={async () => {
-                searchDefault();
+                // searchDefault();
               }}
             >
               Refetch Bookmarks
@@ -51,7 +51,7 @@ export const Navigation: React.FC = () => {
           {stage === "dev" && (
             <Button
               onClick={async () => {
-                folderRefetch();
+                // folderRefetch();
               }}
             >
               Refetch Folders
@@ -59,7 +59,7 @@ export const Navigation: React.FC = () => {
           )}
           <Button
             onClick={async () => {
-              await authentication.signOut();
+              // await authentication.signOut();
             }}
           >
             Sign Out

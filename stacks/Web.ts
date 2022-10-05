@@ -10,11 +10,8 @@ export function Web({ stack, app }: StackContext) {
     path: "web",
     buildCommand: "npm run build",
     environment: {
-      VITE_GRAPHQL_URL: api.url + "/graphql",
+      VITE_API_URL: api.url,
       VITE_REGION: app.region,
-      // VITE_USER_POOL_ID: auth.userPoolId,
-      // VITE_USER_POOL_CLIENT_ID: auth.userPoolClientId,
-      // VITE_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
       VITE_STAGE: app.stage,
     },
   });

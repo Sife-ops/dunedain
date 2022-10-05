@@ -2,12 +2,12 @@ import Logo from "../../assets/favicon.svg";
 import React, { useState } from "react";
 import { Input, Button } from "@chakra-ui/react";
 import { useBreakpoint } from "../../hook/breakpoint";
-import { useGlobalContext } from "../../hook/global-context";
+// import { useGlobalContext } from "../../hook/global-context";
 import { useNavigate } from "react-router-dom";
 
 export const SignIn: React.FC = () => {
   const nav = useNavigate();
-  const { authentication } = useGlobalContext();
+  // const { authentication } = useGlobalContext();
   const { isDesktop } = useBreakpoint();
 
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ export const SignIn: React.FC = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            await authentication.signIn({ email, password });
+            // await authentication.signIn({ email, password });
           } catch (e) {
             console.log(e);
           }

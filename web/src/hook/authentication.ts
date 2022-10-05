@@ -1,4 +1,4 @@
-import { Auth } from "@aws-amplify/auth";
+// import { Auth } from "@aws-amplify/auth";
 import { useEffect, useState } from "react";
 
 export type Authentication = {
@@ -44,14 +44,14 @@ export const useAuthentication = (): Authentication => {
     email: string;
     password: string;
   }) => {
-    await Auth.signIn(email, password);
+    // await Auth.signIn(email, password);
     setCookie();
     // setSignedIn(true);
     window.location.reload();
   };
 
   const signOut = async () => {
-    await Auth.signOut();
+    // await Auth.signOut();
     clearCookie();
     // setSignedIn(false);
     window.location.reload();
