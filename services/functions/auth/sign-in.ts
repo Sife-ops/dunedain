@@ -3,12 +3,12 @@ import { dunedainModel } from "@dunedain/core/model";
 import { sign, decode } from "jsonwebtoken";
 import { z } from "zod";
 
-export const handler = async (event: any) => {
-  const eventSchema = z.object({
-    email: z.string(),
-    password: z.string(),
-  });
+const eventSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+});
 
+export const handler = async (event: any) => {
   try {
     const { email, password } = eventSchema.parse(JSON.parse(event.body));
 
@@ -41,12 +41,13 @@ export const handler = async (event: any) => {
     };
   } catch (e) {
     console.log(e);
-    return {
-      statusCode: 401,
-      body: JSON.stringify({ error: "login failed" }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
   }
+
+  return {
+    statusCode: 401,
+    body: JSON.stringify({ error: "login failed" }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 };
