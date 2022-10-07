@@ -1,8 +1,19 @@
 import bcrypt from "bcryptjs";
 import { dunedainModel } from "@dunedain/core/model";
 import { z } from "zod";
+// import aws = require("@aws-sdk/client-ses");
+// let { defaultProvider } = require("@aws-sdk/credential-provider-node");
+import { defaultProvider } from "@aws-sdk/credential-provider-node";
+// import {} from "@aws-sdk/client-ses";
 
 export const handler = async (event: any) => {
+
+  // const ses = new aws.SES({
+  //   apiVersion: "2010-12-01",
+  //   region: "us-east-1",
+  //   defaultProvider,
+  // });
+
   const eventSchema = z.object({
     email: z.string(),
     password: z.string(),
@@ -15,7 +26,10 @@ export const handler = async (event: any) => {
     .go();
 
   if (found.length > 0) {
-    throw new Error("email already in use");
+    return {
+      success: false,
+      message: "email already in use",
+    };
   }
 
   const hash = bcrypt.hashSync(password, 8);
@@ -25,5 +39,7 @@ export const handler = async (event: any) => {
     password: hash,
   }).go();
 
-  console.log(res);
+  return {
+    success: true,
+  };
 };

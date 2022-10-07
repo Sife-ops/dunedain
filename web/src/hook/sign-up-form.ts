@@ -12,7 +12,7 @@ const isInitialized = (o: any) => o !== null;
 
 const validationEffect = (
   stateVar: string | null,
-  schema: any, // todo: specific type
+  condition: boolean,
   setIsValidFn: React.Dispatch<React.SetStateAction<boolean>>,
   setErrorFn: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
@@ -23,7 +23,7 @@ const validationEffect = (
     } else {
       setErrorFn(false);
     }
-  } else if (schema.isValidSync(stateVar)) {
+  } else if (condition) {
     setIsValidFn(true);
     setErrorFn(false);
   } else {
@@ -41,14 +41,16 @@ export const useSignUpForm = () => {
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
+  const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    // todo: unit test?
     validationEffect(
-      //
       email,
-      emailSchema,
+      emailSchema.isValidSync(email),
       setEmailIsValid,
       setEmailError
     );
@@ -57,21 +59,33 @@ export const useSignUpForm = () => {
   useEffect(() => {
     validationEffect(
       password,
-      passwordSchema,
+      passwordSchema.isValidSync(password),
       setPasswordIsValid,
       setPasswordError
     );
   }, [password]);
 
   useEffect(() => {
-    if (emailIsValid && passwordIsValid) {
+    validationEffect(
+      confirmPassword,
+      confirmPassword === password,
+      setConfirmPasswordIsValid,
+      setConfirmPasswordError
+    );
+  }, [confirmPassword, password]);
+
+  useEffect(() => {
+    if (emailIsValid && passwordIsValid && confirmPasswordIsValid) {
       setFormIsValid(true);
     } else {
       setFormIsValid(false);
     }
-  }, [emailIsValid, passwordIsValid]);
+  }, [emailIsValid, passwordIsValid, confirmPasswordIsValid]);
 
   return {
+    confirmPassword,
+    confirmPasswordError,
+    confirmPasswordIsValid,
     email,
     emailError,
     emailIsValid,
@@ -79,6 +93,7 @@ export const useSignUpForm = () => {
     password,
     passwordError,
     passwordIsValid,
+    setConfirmPassword,
     setEmail,
     setPassword,
     setPasswordError,

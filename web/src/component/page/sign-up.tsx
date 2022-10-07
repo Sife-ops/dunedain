@@ -48,7 +48,8 @@ export const SignUp = () => {
                 password: signUpForm.password,
               }),
             });
-            console.log(res);
+            const parsed = await res.json();
+            console.log(parsed);
           } catch (e) {
             console.log(e);
           }
@@ -72,7 +73,6 @@ export const SignUp = () => {
           type={"email"}
           value={signUpForm.email || ""}
         />
-
         <Text
           color={"red.500"}
           fontSize="sm"
@@ -81,12 +81,13 @@ export const SignUp = () => {
           Invalid e-mail address.
         </Text>
 
-        <div className="flex justify-between">
+        <Text>Password</Text>
+        {/* <div className="flex justify-between">
           <Text>Password</Text>
           <Link as={RrdLink} to={"/sign-in"}>
             Forgot password?
           </Link>
-        </div>
+        </div> */}
         <Input
           errorBorderColor="red.500"
           focusBorderColor={calculateFocusBorderColor(
@@ -100,13 +101,34 @@ export const SignUp = () => {
           type={"password"}
           value={signUpForm.password || ""}
         />
-
         <Text
           color={"red.500"}
           fontSize="sm"
           visibility={signUpForm.passwordError ? undefined : "hidden"}
         >
           Must contain one number and one special character.
+        </Text>
+
+        <Text>Confirm Password</Text>
+        <Input
+          errorBorderColor="red.500"
+          focusBorderColor={calculateFocusBorderColor(
+            signUpForm.confirmPasswordError,
+            signUpForm.confirmPasswordIsValid
+          )}
+          isInvalid={signUpForm.confirmPasswordError}
+          marginBottom={"1"}
+          onChange={(e) => signUpForm.setConfirmPassword(e.target.value)}
+          // placeholder="password"
+          type={"password"}
+          value={signUpForm.confirmPassword || ""}
+        />
+        <Text
+          color={"red.500"}
+          fontSize="sm"
+          visibility={signUpForm.confirmPasswordError ? undefined : "hidden"}
+        >
+          Passwords must match.
         </Text>
 
         <ButtonGroup isAttached marginTop={4}>
