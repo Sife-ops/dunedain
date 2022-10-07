@@ -1,19 +1,10 @@
+import axios from "axios";
 import bcrypt from "bcryptjs";
+import { Config } from "@serverless-stack/node/config";
 import { dunedainModel } from "@dunedain/core/model";
 import { z } from "zod";
-// import aws = require("@aws-sdk/client-ses");
-// let { defaultProvider } = require("@aws-sdk/credential-provider-node");
-import { defaultProvider } from "@aws-sdk/credential-provider-node";
-// import {} from "@aws-sdk/client-ses";
 
 export const handler = async (event: any) => {
-
-  // const ses = new aws.SES({
-  //   apiVersion: "2010-12-01",
-  //   region: "us-east-1",
-  //   defaultProvider,
-  // });
-
   const eventSchema = z.object({
     email: z.string(),
     password: z.string(),
@@ -34,10 +25,30 @@ export const handler = async (event: any) => {
 
   const hash = bcrypt.hashSync(password, 8);
 
-  const res = await dunedainModel.entities.UserEntity.create({
+  const { data: created } = await dunedainModel.entities.UserEntity.create({
     email,
     password: hash,
   }).go();
+
+  const emailjsRsponse = await axios({
+    method: "POST",
+    url: "https://api.emailjs.com/api/v1.0/email/send",
+    data: {
+      service_id: Config.EMAILJS_SERVICE_ID,
+      template_id: Config.EMAILJS_TEMPLATE_ID,
+      user_id: Config.EMAILJS_USER_ID,
+      // accessToken: Config.EMAILJS_ACCESSTOKEN,
+      template_params: {
+        to_email: created.email,
+        message: created.otp,
+      },
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  console.log(emailjsRsponse.data);
 
   return {
     success: true,

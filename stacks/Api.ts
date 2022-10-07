@@ -29,6 +29,7 @@ export function Api({ stack }: StackContext) {
     defaults: {
       authorizer: "none",
       function: {
+        // todo: move default permissions
         permissions: [db.table, automation.fetchFaviconSqs],
         config: [db.tableName, automation.FAVICON_SQS],
       },
@@ -60,7 +61,15 @@ export function Api({ stack }: StackContext) {
         },
       },
       "POST /sign-up": {
-        function: "functions/auth/sign-up.handler",
+        function: {
+          handler: "functions/auth/sign-up.handler",
+          config: [
+            new Config.Secret(stack, "EMAILJS_SERVICE_ID"),
+            new Config.Secret(stack, "EMAILJS_TEMPLATE_ID"), // todo: remove from secrets
+            new Config.Secret(stack, "EMAILJS_USER_ID"),
+            // new Config.Secret(stack, "EMAILJS_ACCESSTOKEN"),
+          ],
+        },
       },
     },
   });
