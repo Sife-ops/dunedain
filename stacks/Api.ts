@@ -15,7 +15,7 @@ export function Api({ stack }: StackContext) {
 
   const secretAccessToken = new Config.Secret(stack, "SECRET_ACCESS_TOKEN");
 
-  const api = new ApiGateway(stack, "api", {
+  const routes = new ApiGateway(stack, "api", {
     authorizers: {
       lambda: {
         type: "lambda",
@@ -60,27 +60,19 @@ export function Api({ stack }: StackContext) {
           config: [secretAccessToken],
         },
       },
-      "POST /sign-up": {
-        function: {
-          handler: "functions/auth/sign-up.handler",
-          config: [
-            new Config.Secret(stack, "EMAILJS_SERVICE_ID"),
-            new Config.Secret(stack, "EMAILJS_TEMPLATE_ID"), // todo: remove from secrets
-            new Config.Secret(stack, "EMAILJS_USER_ID"),
-            // new Config.Secret(stack, "EMAILJS_ACCESSTOKEN"),
-          ],
-        },
-      },
     },
   });
 
   new Config.Parameter(stack, "API_URL", {
-    value: api.url,
+    value: routes.url,
   });
 
   stack.addOutputs({
-    API_URL_OUTPUT: api.url,
+    API_URL_OUTPUT: routes.url,
   });
 
-  return api;
+  return {
+    routes,
+    secretAccessToken
+  }
 }
