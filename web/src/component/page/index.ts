@@ -3,6 +3,7 @@ export * from "./bookmark-new";
 export * from "./categories";
 export * from "./category-details";
 export * from "./category-new";
+export * from "./confirm";
 export * from "./dev";
 export * from "./error";
 export * from "./folder-details";

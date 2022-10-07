@@ -49,7 +49,11 @@ export const SignUp = () => {
               }),
             });
             const parsed = await res.json();
-            console.log(parsed);
+            if (parsed.success) {
+              navigate(`/confirm/${signUpForm.email}`);
+            } else {
+              // todo: indicate email is in use
+            }
           } catch (e) {
             console.log(e);
           }
