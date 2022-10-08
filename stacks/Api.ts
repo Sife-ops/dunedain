@@ -30,8 +30,8 @@ export function Api({ stack }: StackContext) {
       authorizer: "none",
       function: {
         // todo: move default permissions
-        permissions: [db.table, automation.fetchFaviconSqs],
-        config: [db.tableName, automation.FAVICON_SQS],
+        permissions: [db.table, automation.faviconSqs],
+        config: [db.tableName, automation.faviconSqsUrl],
       },
     },
     routes: {

@@ -47,8 +47,7 @@ export const SignUp = () => {
             if (parsed.success) {
               setSuccess(true);
             } else {
-              // todo: indicate error
-              console.log("something bad happened");
+              console.log(parsed.message);
             }
           } catch (e) {
             console.log(e);
