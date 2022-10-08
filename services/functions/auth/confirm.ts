@@ -3,14 +3,14 @@ import { dunedainModel } from "@dunedain/core/model";
 import { verify } from "jsonwebtoken";
 import { z } from "zod";
 
+const eventSchema = z.object({
+  accessToken: z.string(),
+});
+
 export const handler = async (event: any) => {
-  const eventSchema = z.object({
-    accessToken: z.string(),
-  });
-
-  const { accessToken } = eventSchema.parse(JSON.parse(event.body));
-
   try {
+    const { accessToken } = eventSchema.parse(JSON.parse(event.body));
+
     const verified = verify(accessToken, Config.SECRET_ACCESS_TOKEN) as {
       email: string;
     };
@@ -23,14 +23,16 @@ export const handler = async (event: any) => {
       })
       .go();
 
-    await dunedainModel.entities.UserEntity.update({
-      userId: user.userId,
-      email: user.email,
-    })
-      .set({
-        confirmed: true,
+    if (!user.confirmed) {
+      await dunedainModel.entities.UserEntity.update({
+        userId: user.userId,
+        email: user.email,
       })
-      .go();
+        .set({
+          confirmed: true,
+        })
+        .go();
+    }
 
     return {
       success: true,

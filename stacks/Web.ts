@@ -34,8 +34,11 @@ export function Web({ stack, app }: StackContext) {
           new Config.Parameter(stack, "WEBSITE_URL", {
             value: site.url,
           }),
-          api.secretAccessToken,
           // new Config.Secret(stack, "EMAILJS_ACCESSTOKEN"),
+          api.secretAccessToken,
+          new Config.Parameter(stack, "STAGE", {
+            value: app.stage,
+          }),
         ],
       },
     },

@@ -1,35 +1,30 @@
-import { Link as RrdLink } from "react-router-dom";
+import { useState } from "react";
 import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
 import { useSignUpForm } from "../../hook/sign-up-form";
 
-import {
-  Heading,
-  Input,
-  Button,
-  Text,
-  ButtonGroup,
-  Link,
-} from "@chakra-ui/react";
+import { Heading, Input, Button, Text, ButtonGroup } from "@chakra-ui/react";
+
+const calculateFocusBorderColor = (errorVar: boolean, isValidVar: boolean) => {
+  if (errorVar && !isValidVar) {
+    return "red.500";
+  } else if (!errorVar && isValidVar) {
+    return "green.500";
+  } else {
+    return "";
+  }
+};
 
 export const SignUp = () => {
   const navigate = useNavigate();
   const { isDesktop } = useBreakpoint();
 
   const signUpForm = useSignUpForm();
+  const [success, setSuccess] = useState(false);
 
-  const calculateFocusBorderColor = (
-    errorVar: boolean,
-    isValidVar: boolean
-  ) => {
-    if (errorVar && !isValidVar) {
-      return "red.500";
-    } else if (!errorVar && isValidVar) {
-      return "green.500";
-    } else {
-      return "";
-    }
-  };
+  if (success) {
+    return <div>check your email</div>;
+  }
 
   return (
     <div className="flex justify-center h-screen">
@@ -50,9 +45,10 @@ export const SignUp = () => {
             });
             const parsed = await res.json();
             if (parsed.success) {
-              // navigate(`/confirm/${signUpForm.email}`);
+              setSuccess(true);
             } else {
-              // todo: indicate email is in use
+              // todo: indicate error
+              console.log("something bad happened");
             }
           } catch (e) {
             console.log(e);

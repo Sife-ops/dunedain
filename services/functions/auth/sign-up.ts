@@ -32,27 +32,33 @@ export const handler = async (event: any) => {
   }).go();
 
   const accessToken = sign({ email }, Config.SECRET_ACCESS_TOKEN);
+  const link =
+    Config.STAGE === "prod"
+      ? `${Config.WEBSITE_URL}/confirm?accessToken=${accessToken}`
+      : `http://localhost:5173/confirm?accessToken=${accessToken}`;
 
-  // todo: disabled in dev
-  const emailjsRsponse = await axios({
-    method: "POST",
-    url: "https://api.emailjs.com/api/v1.0/email/send",
-    data: {
-      service_id: Config.EMAILJS_SERVICE_ID,
-      template_id: Config.EMAILJS_TEMPLATE_ID,
-      user_id: Config.EMAILJS_USER_ID,
-      // accessToken: Config.EMAILJS_ACCESSTOKEN,
-      template_params: {
-        to_email: created.email,
-        message: `magic link: ${Config.WEBSITE_URL}/confirm?accessToken=${accessToken}`,
+  // todo: move to SQS
+  if (Config.STAGE === "prod") {
+    const emailjsRsponse = await axios({
+      method: "POST",
+      url: "https://api.emailjs.com/api/v1.0/email/send",
+      data: {
+        service_id: Config.EMAILJS_SERVICE_ID,
+        template_id: Config.EMAILJS_TEMPLATE_ID,
+        user_id: Config.EMAILJS_USER_ID,
+        // accessToken: Config.EMAILJS_ACCESSTOKEN,
+        template_params: {
+          to_email: created.email,
+          message: `magic link: ${link}`,
+        },
       },
-    },
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  console.log(emailjsRsponse.data);
+    console.log(emailjsRsponse.data);
+  }
 
   return {
     success: true,
