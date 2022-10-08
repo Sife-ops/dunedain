@@ -30,6 +30,7 @@ export const handler = async (event: any) => {
           // accessToken: Config.EMAILJS_ACCESSTOKEN,
           template_params: {
             to_email: email,
+            app_name: "Dunedain",
             message: link,
           },
         },

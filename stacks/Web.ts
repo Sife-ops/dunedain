@@ -26,7 +26,7 @@ export function Web({ stack, app }: StackContext) {
   const onboardSqs = new Queue(stack, "onboard-lambda", {
     consumer: {
       function: {
-        handler: "functions/automation/onboard.handler",
+        handler: "functions/auth/onboard.handler",
         config: [
           new Config.Secret(stack, "EMAILJS_SERVICE_ID"),
           new Config.Parameter(stack, "EMAILJS_TEMPLATE_ID", {
