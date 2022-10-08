@@ -26,6 +26,7 @@ export function Automation({ stack }: StackContext) {
     },
     cdk: {
       queue: {
+        contentBasedDeduplication: true,
         fifo: true,
       },
     },

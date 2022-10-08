@@ -28,11 +28,6 @@ export function Api({ stack }: StackContext) {
     },
     defaults: {
       authorizer: "none",
-      function: {
-        // todo: move default permissions
-        permissions: [db.table, automation.faviconSqs],
-        config: [db.tableName, automation.faviconSqsUrl],
-      },
     },
     routes: {
       "POST /graphql": {
@@ -40,6 +35,8 @@ export function Api({ stack }: StackContext) {
         authorizer: "lambda",
         function: {
           handler: "functions/graphql/graphql.handler",
+          config: [db.tableName, automation.faviconSqsUrl],
+          permissions: [db.table, automation.faviconSqs],
         },
         schema: "services/functions/graphql/schema.ts",
         output: "graphql/schema.graphql",
@@ -57,13 +54,15 @@ export function Api({ stack }: StackContext) {
       "POST /sign-in": {
         function: {
           handler: "functions/auth/sign-in.handler",
-          config: [secretAccessToken],
+          config: [secretAccessToken, db.tableName],
+          permissions: [db.table],
         },
       },
       "POST /confirm": {
         function: {
           handler: "functions/auth/confirm.handler",
-          config: [secretAccessToken],
+          config: [secretAccessToken, db.tableName],
+          permissions: [db.table],
         },
       },
     },

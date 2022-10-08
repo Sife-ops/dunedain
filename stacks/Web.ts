@@ -63,8 +63,9 @@ export function Web({ stack, app }: StackContext) {
           new Config.Parameter(stack, "ONBOARD_SQS", {
             value: onboardSqs.queueUrl,
           }),
+          db.tableName,
         ],
-        permissions: [onboardSqs],
+        permissions: [onboardSqs, db.table],
       },
     },
   });
