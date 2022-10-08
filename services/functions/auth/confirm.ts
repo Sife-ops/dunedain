@@ -41,7 +41,7 @@ export const handler = async (event: any) => {
     console.log(e);
     return {
       success: false,
-      message: "something bad happened", // todo: yikes
+      message: JSON.stringify(e),
     };
   }
 };

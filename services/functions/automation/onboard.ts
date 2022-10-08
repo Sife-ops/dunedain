@@ -1,27 +1,15 @@
 import axios from "axios";
-import bcrypt from "bcryptjs";
 import { Config } from "@serverless-stack/node/config";
-import { dunedainModel } from "@dunedain/core/model";
 import { sign } from "jsonwebtoken";
 import { z } from "zod";
 
 const eventSchema = z.object({
   email: z.string(),
-  password: z.string(),
 });
 
 export const handler = async (event: any) => {
   try {
-    const { email, password } = eventSchema.parse(
-      JSON.parse(event.Records[0].body)
-    );
-
-    const hash = bcrypt.hashSync(password, 8);
-
-    const { data: created } = await dunedainModel.entities.UserEntity.create({
-      email,
-      password: hash,
-    }).go();
+    const { email } = eventSchema.parse(JSON.parse(event.Records[0].body));
 
     const accessToken = sign({ email }, Config.SECRET_ACCESS_TOKEN);
     const link =
@@ -41,7 +29,7 @@ export const handler = async (event: any) => {
           user_id: Config.EMAILJS_USER_ID,
           // accessToken: Config.EMAILJS_ACCESSTOKEN,
           template_params: {
-            to_email: created.email,
+            to_email: email,
             message: link,
           },
         },

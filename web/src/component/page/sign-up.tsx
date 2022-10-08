@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { BiErrorCircle } from "react-icons/bi";
+import { Heading, Input, Button, Text, ButtonGroup } from "@chakra-ui/react";
 import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
 import { useSignUpForm } from "../../hook/sign-up-form";
-
-import { Heading, Input, Button, Text, ButtonGroup } from "@chakra-ui/react";
+import { useState } from "react";
 
 const calculateFocusBorderColor = (errorVar: boolean, isValidVar: boolean) => {
   if (errorVar && !isValidVar) {
@@ -21,6 +21,7 @@ export const SignUp = () => {
 
   const signUpForm = useSignUpForm();
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>();
 
   if (success) {
     return <div>check your email</div>;
@@ -47,7 +48,8 @@ export const SignUp = () => {
             if (parsed.success) {
               setSuccess(true);
             } else {
-              console.log(parsed.message);
+              console.error(parsed);
+              setError(parsed.message);
             }
           } catch (e) {
             console.log(e);
@@ -57,6 +59,16 @@ export const SignUp = () => {
         <Heading marginBottom={"8"} textAlign={"center"}>
           Sign Up
         </Heading>
+
+        {error && (
+          <div className="border-2 rounded-md border-red-500 bg-red-900 p-2 mb-4">
+            <div className="flex">
+              <p>Error</p>
+              <BiErrorCircle className="ml-1" />
+            </div>
+            <p>{error}</p>
+          </div>
+        )}
 
         <Text>E-mail</Text>
         <Input
