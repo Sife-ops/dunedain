@@ -20,10 +20,15 @@ export const handler = async (event: any) => {
     } = await dunedainModel.entities.UserEntity.query.email({ email }).go();
 
     if (found.length > 0) {
-      return {
-        success: false,
-        message: "An account with that e-mail address already exists.",
-      };
+      const [user] = found;
+      if (!user.confirmed) {
+        await dunedainModel.entities.UserEntity.delete(user).go();
+      } else {
+        return {
+          success: false,
+          message: "An account with that e-mail address already exists.",
+        };
+      }
     }
 
     const hash = bcrypt.hashSync(password, 8);
