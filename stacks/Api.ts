@@ -60,6 +60,12 @@ export function Api({ stack }: StackContext) {
           config: [secretAccessToken],
         },
       },
+      "POST /confirm": {
+        function: {
+          handler: "functions/auth/confirm.handler",
+          config: [secretAccessToken],
+        },
+      },
     },
   });
 
@@ -73,6 +79,6 @@ export function Api({ stack }: StackContext) {
 
   return {
     routes,
-    secretAccessToken
-  }
+    secretAccessToken,
+  };
 }

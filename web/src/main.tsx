@@ -70,7 +70,7 @@ function App() {
         <Routes>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/confirm/:email" element={<Confirm />} />
+          <Route path="/confirm" element={<Confirm />} />
           <Route path="*" element={<Navigate replace to="/sign-in" />} />
           {/* <Route element={<SelectiveRoutes isPrivate />}>
             <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />

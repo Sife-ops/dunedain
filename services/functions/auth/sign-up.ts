@@ -2,6 +2,7 @@ import axios from "axios";
 import bcrypt from "bcryptjs";
 import { Config } from "@serverless-stack/node/config";
 import { dunedainModel } from "@dunedain/core/model";
+import { sign } from "jsonwebtoken";
 import { z } from "zod";
 
 export const handler = async (event: any) => {
@@ -30,6 +31,8 @@ export const handler = async (event: any) => {
     password: hash,
   }).go();
 
+  const accessToken = sign({ email }, Config.SECRET_ACCESS_TOKEN);
+
   // todo: disabled in dev
   const emailjsRsponse = await axios({
     method: "POST",
@@ -41,7 +44,7 @@ export const handler = async (event: any) => {
       // accessToken: Config.EMAILJS_ACCESSTOKEN,
       template_params: {
         to_email: created.email,
-        message: `magic link: ${Config.WEBSITE_URL}`,
+        message: `magic link: ${Config.WEBSITE_URL}/confirm?accessToken=${accessToken}`,
       },
     },
     headers: {

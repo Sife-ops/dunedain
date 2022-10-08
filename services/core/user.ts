@@ -1,7 +1,6 @@
 export * as User from "./user";
 import { Dynamo } from "./dynamo";
 import { Entity, EntityItem } from "electrodb";
-import { faker } from "@faker-js/faker";
 import { ulid } from "ulid";
 
 export const UserEntity = new Entity(
@@ -26,15 +25,6 @@ export const UserEntity = new Entity(
       password: {
         type: "string",
         required: true,
-      },
-
-      otp: {
-        type: "string",
-        required: true,
-        default: () => faker.datatype.number({
-          min: 100000,
-          max: 999999,
-        }).toString()
       },
 
       confirmed: {

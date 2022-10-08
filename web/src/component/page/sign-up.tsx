@@ -50,7 +50,7 @@ export const SignUp = () => {
             });
             const parsed = await res.json();
             if (parsed.success) {
-              navigate(`/confirm/${signUpForm.email}`);
+              // navigate(`/confirm/${signUpForm.email}`);
             } else {
               // todo: indicate email is in use
             }
