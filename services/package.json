@@ -15,6 +15,7 @@
     "electrodb": "^2.1.0",
     "graphql": "^16.6.0",
     "jsonwebtoken": "^8.5.1",
+    "serialize-error": "^11.0.0",
     "ulid": "^2.3.0",
     "zod": "^3.18.0"
   },
