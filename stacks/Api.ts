@@ -58,6 +58,16 @@ export function Api({ stack }: StackContext) {
           permissions: [db.table],
         },
       },
+      "GET /captcha": {
+        function: {
+          handler: "functions/authentication/captcha-get.handler",
+        },
+      },
+      "POST /captcha": {
+        function: {
+          handler: "functions/authentication/captcha-verify.handler",
+        },
+      },
       "POST /confirm": {
         function: {
           handler: "functions/authentication/confirm.handler",
