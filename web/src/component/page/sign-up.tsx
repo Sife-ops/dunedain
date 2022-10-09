@@ -20,12 +20,7 @@ export const SignUp = () => {
   const { isDesktop } = useBreakpoint();
 
   const signUpForm = useSignUpForm();
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>();
-
-  if (success) {
-    return <div>check your email</div>;
-  }
 
   return (
     <div className="flex justify-center h-screen">
@@ -46,7 +41,7 @@ export const SignUp = () => {
             });
             const parsed = await res.json();
             if (parsed.success) {
-              setSuccess(true);
+              navigate(`/unconfirmed?email=${signUpForm.email}`);
             } else {
               console.error(parsed);
               setError(parsed.message);

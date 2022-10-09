@@ -55,16 +55,22 @@ export function Web({ stack, app }: StackContext) {
     },
   });
 
+  const onboardSqsUrl = new Config.Parameter(stack, "ONBOARD_SQS", {
+    value: onboardSqs.queueUrl,
+  });
+
   api.routes.addRoutes(stack, {
     "POST /sign-up": {
       function: {
         handler: "functions/auth/sign-up.handler",
-        config: [
-          new Config.Parameter(stack, "ONBOARD_SQS", {
-            value: onboardSqs.queueUrl,
-          }),
-          db.tableName,
-        ],
+        config: [onboardSqsUrl, db.tableName],
+        permissions: [onboardSqs, db.table],
+      },
+    },
+    "POST /resend-email": {
+      function: {
+        handler: "functions/auth/resend-email.handler",
+        config: [onboardSqsUrl, db.tableName],
         permissions: [onboardSqs, db.table],
       },
     },
