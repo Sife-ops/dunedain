@@ -20,9 +20,8 @@ export const handler = async (event: any) => {
     };
   } catch (e) {
     console.log(e);
+    return {
+      isAuthorized: false,
+    };
   }
-
-  return {
-    isAuthorized: false,
-  };
 };
