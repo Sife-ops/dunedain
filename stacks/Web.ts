@@ -26,7 +26,7 @@ export function Web({ stack, app }: StackContext) {
   const onboardSqs = new Queue(stack, "onboard-lambda", {
     consumer: {
       function: {
-        handler: "functions/auth/onboard.handler",
+        handler: "functions/authentication/onboard.handler",
         config: [
           new Config.Secret(stack, "EMAILJS_SERVICE_ID"),
           new Config.Parameter(stack, "EMAILJS_TEMPLATE_ID", {
@@ -62,14 +62,14 @@ export function Web({ stack, app }: StackContext) {
   api.routes.addRoutes(stack, {
     "POST /sign-up": {
       function: {
-        handler: "functions/auth/sign-up.handler",
+        handler: "functions/authentication/sign-up.handler",
         config: [onboardSqsUrl, db.tableName],
         permissions: [onboardSqs, db.table],
       },
     },
     "POST /resend-email": {
       function: {
-        handler: "functions/auth/resend-email.handler",
+        handler: "functions/authentication/resend-email.handler",
         config: [onboardSqsUrl, db.tableName],
         permissions: [onboardSqs, db.table],
       },

@@ -21,7 +21,7 @@ export function Api({ stack }: StackContext) {
         type: "lambda",
         responseTypes: ["simple"],
         function: new Function(stack, "authorizer", {
-          handler: "functions/auth/authorizer.handler",
+          handler: "functions/authentication/authorizer.handler",
           config: [secretAccessToken],
         }),
       },
@@ -47,20 +47,20 @@ export function Api({ stack }: StackContext) {
       // todo: rename path to 'functions/rest/...'
       "POST /refresh": {
         function: {
-          handler: "functions/auth/refresh.handler",
+          handler: "functions/authentication/refresh.handler",
           config: [secretAccessToken],
         },
       },
       "POST /sign-in": {
         function: {
-          handler: "functions/auth/sign-in.handler",
+          handler: "functions/authentication/sign-in.handler",
           config: [secretAccessToken, db.tableName],
           permissions: [db.table],
         },
       },
       "POST /confirm": {
         function: {
-          handler: "functions/auth/confirm.handler",
+          handler: "functions/authentication/confirm.handler",
           config: [secretAccessToken, db.tableName],
           permissions: [db.table],
         },
