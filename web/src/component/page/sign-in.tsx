@@ -1,8 +1,9 @@
+// import { useGlobalContext } from "../../hook/global-context";
 import Logo from "../../assets/favicon.svg";
 import React, { useState } from "react";
-import { Input, Button } from "@chakra-ui/react";
+import { BiErrorCircle } from "react-icons/bi";
+import { Input, Button, ButtonGroup } from "@chakra-ui/react";
 import { useBreakpoint } from "../../hook/breakpoint";
-// import { useGlobalContext } from "../../hook/global-context";
 import { useNavigate } from "react-router-dom";
 
 export const SignIn: React.FC = () => {
@@ -13,6 +14,8 @@ export const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState<string | null>(null);
+
   return (
     <div className="flex justify-center h-screen">
       <form
@@ -21,16 +24,41 @@ export const SignIn: React.FC = () => {
         }`}
         onSubmit={async (e) => {
           e.preventDefault();
-          try {
-            // await authentication.signIn({ email, password });
-          } catch (e) {
-            console.log(e);
-          }
+          fetch(import.meta.env.VITE_API_URL + "/sign-in", {
+            method: "POST",
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          })
+            .then((e) => e.json())
+            .then((e) => {
+              if (e.success) {
+                console.log(e.accessToken);
+              } else {
+                console.error(e);
+                if (e.message === "Unconfirmed") {
+                  nav(`/unconfirmed?email=${email}`);
+                } else {
+                  setError(e.message);
+                }
+              }
+            });
         }}
       >
         <div className="flex justify-center">
           <img src={Logo} className="mb-8 w-32" />
         </div>
+
+        {error && (
+          <div className="border-2 rounded-md border-red-500 bg-red-900 p-2 mb-1">
+            <div className="flex">
+              <p>Error</p>
+              <BiErrorCircle className="ml-1" />
+            </div>
+            <p>{error}</p>
+          </div>
+        )}
 
         <Input
           marginBottom={"1"}
@@ -48,12 +76,23 @@ export const SignIn: React.FC = () => {
           value={password}
         />
 
-        <Button marginBottom={"1"} colorScheme={"teal"} type="submit">
-          Submit
-        </Button>
-        <Button colorScheme={"green"} onClick={() => nav("/sign-up")}>
-          Sign Up
-        </Button>
+        <ButtonGroup isAttached>
+          <Button
+            flexGrow={1}
+            // marginBottom={"1"}
+            colorScheme={"green"}
+            type="submit"
+          >
+            Submit
+          </Button>
+          <Button
+            flexGrow={1}
+            colorScheme={"blue"}
+            onClick={() => nav("/sign-up")}
+          >
+            Sign Up
+          </Button>
+        </ButtonGroup>
       </form>
     </div>
   );

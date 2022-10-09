@@ -16,18 +16,12 @@ export const handler = async (event: any) => {
     const {
       data: found,
     } = await dunedainModel.entities.UserEntity.query.email({ email }).go();
-
-    if (found.length < 1) {
-      throw new Error("email not found");
-    }
+    if (found.length < 1) throw new Error("User not found");
 
     const [user] = found;
-
     const compared = bcrypt.compareSync(password, user.password);
-
-    if (!compared) {
-      throw new Error("incorrect password");
-    }
+    if (!compared) throw new Error("Incorrect password");
+    if (!user.confirmed) throw new Error("Unconfirmed");
 
     const accessToken = sign(
       { email, userId: user.userId },
@@ -38,17 +32,16 @@ export const handler = async (event: any) => {
     );
 
     return {
+      success: true,
       accessToken,
     };
   } catch (e) {
     console.log(e);
+    return {
+      success: false,
+      // todo: install serialize-error
+      // @ts-ignore
+      message: e.message,
+    };
   }
-
-  return {
-    statusCode: 401,
-    body: JSON.stringify({ error: "login failed" }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
 };

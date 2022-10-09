@@ -140,7 +140,7 @@ export const SignUp = () => {
         <ButtonGroup isAttached marginTop={4}>
           <Button
             flexGrow={1}
-            marginBottom={"1"}
+            // marginBottom={"1"}
             colorScheme={"green"}
             type="submit"
             disabled={!signUpForm.formIsValid}
