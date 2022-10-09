@@ -21,7 +21,7 @@ export function Api({ stack }: StackContext) {
         type: "lambda",
         responseTypes: ["simple"],
         function: new Function(stack, "authorizer", {
-          handler: "functions/auth/auth.handler",
+          handler: "functions/auth/authorizer.handler",
           config: [secretAccessToken],
         }),
       },
