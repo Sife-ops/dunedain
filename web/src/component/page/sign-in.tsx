@@ -37,7 +37,7 @@ export const SignIn: React.FC = () => {
                 console.log(e.accessToken);
               } else {
                 console.error(e);
-                if (e.message === "Unconfirmed") {
+                if (e.message === "Error: unconfirmed") {
                   nav(`/unconfirmed?email=${email}`);
                 } else {
                   setError(e.message);
@@ -53,10 +53,9 @@ export const SignIn: React.FC = () => {
         {error && (
           <div className="border-2 rounded-md border-red-500 bg-red-900 p-2 mb-1">
             <div className="flex">
-              <p>Error</p>
-              <BiErrorCircle className="ml-1" />
+              <BiErrorCircle className="mr-1" />
+              <p>{error}</p>
             </div>
-            <p>{error}</p>
           </div>
         )}
 
@@ -93,6 +92,8 @@ export const SignIn: React.FC = () => {
             Sign Up
           </Button>
         </ButtonGroup>
+
+        {/* todo: forgot password? */}
       </form>
     </div>
   );

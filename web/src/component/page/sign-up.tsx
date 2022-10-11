@@ -58,10 +58,9 @@ export const SignUp = () => {
         {error && (
           <div className="border-2 rounded-md border-red-500 bg-red-900 p-2 mb-4">
             <div className="flex">
-              <p>Error</p>
-              <BiErrorCircle className="ml-1" />
+              <BiErrorCircle className="mr-1" />
+              <p>{error}</p>
             </div>
-            <p>{error}</p>
           </div>
         )}
 
