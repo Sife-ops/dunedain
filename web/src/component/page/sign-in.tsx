@@ -2,7 +2,8 @@
 import Logo from "../../assets/favicon.svg";
 import React, { useState } from "react";
 import { BiErrorCircle } from "react-icons/bi";
-import { Input, Button, ButtonGroup } from "@chakra-ui/react";
+import { Input, Button, ButtonGroup, Link } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { useBreakpoint } from "../../hook/breakpoint";
 import { useNavigate } from "react-router-dom";
 
@@ -75,13 +76,8 @@ export const SignIn: React.FC = () => {
           value={password}
         />
 
-        <ButtonGroup isAttached>
-          <Button
-            flexGrow={1}
-            // marginBottom={"1"}
-            colorScheme={"green"}
-            type="submit"
-          >
+        <ButtonGroup isAttached marginBottom={"1"}>
+          <Button flexGrow={1} colorScheme={"green"} type="submit">
             Submit
           </Button>
           <Button
@@ -94,6 +90,11 @@ export const SignIn: React.FC = () => {
         </ButtonGroup>
 
         {/* todo: forgot password? */}
+        {/* <div> */}
+        <Link as={RouterLink} to={"/forgot-password"} textAlign={"center"}>
+          Forgot password?
+        </Link>
+        {/* </div> */}
       </form>
     </div>
   );

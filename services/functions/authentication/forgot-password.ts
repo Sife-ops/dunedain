@@ -1,10 +1,7 @@
-import AWS from "aws-sdk";
 import { dispatchOnboardSqs } from "./common";
 import { dunedainModel } from "@dunedain/core/model";
 import { wrapError } from "./common";
 import { z } from "zod";
-
-const sqs = new AWS.SQS();
 
 const eventSchema = z.object({
   email: z.string(),
@@ -18,10 +15,7 @@ const resendEmail = async (event: any) => {
     .go();
   if (found.length < 1) throw new Error("account does not yet exist");
 
-  const [user] = found;
-  if (user.confirmed) throw new Error("account already confirmed");
-
-  await dispatchOnboardSqs(email, "sign-up");
+  await dispatchOnboardSqs(email, "reset");
 
   return {
     success: true,

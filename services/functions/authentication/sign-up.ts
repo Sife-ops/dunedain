@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import bcrypt from "bcryptjs";
-import { Config } from "@serverless-stack/node/config";
+import { dispatchOnboardSqs } from "./common";
 import { dunedainModel } from "@dunedain/core/model";
 import { wrapError } from "./common";
 import { z } from "zod";
@@ -35,14 +35,7 @@ const signUp = async (event: any) => {
     password: hash,
   }).go();
 
-  await sqs
-    .sendMessage({
-      QueueUrl: Config.ONBOARD_SQS!,
-      MessageBody: JSON.stringify({ email }),
-      MessageGroupId: "onboard",
-    })
-    .promise()
-    .then((e) => console.log(e));
+  await dispatchOnboardSqs(email, "sign-up");
 
   return {
     success: true,

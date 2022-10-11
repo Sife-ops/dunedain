@@ -4,20 +4,36 @@ import { sign } from "jsonwebtoken";
 import { z } from "zod";
 
 const eventSchema = z.object({
+  action: z.string().regex(/^sign-up$|^reset$/g),
   email: z.string(),
 });
 
 export const handler = async (event: any) => {
   try {
-    const { email } = eventSchema.parse(JSON.parse(event.Records[0].body));
+    const { action, email } = eventSchema.parse(
+      JSON.parse(event.Records[0].body)
+    );
 
+    // todo: expiration
     const accessToken = sign({ email }, Config.SECRET_ACCESS_TOKEN);
+
+    let actionLink;
+    switch (action) {
+      case "sign-up":
+        actionLink = `/confirm?accessToken=${accessToken}`;
+        break;
+
+      case "reset":
+        actionLink = `/reset?accessToken=${accessToken}`;
+        break;
+    }
+
     const link =
       Config.STAGE === "prod"
-        ? `${Config.WEBSITE_URL}/confirm?accessToken=${accessToken}`
-        : `http://localhost:5173/confirm?accessToken=${accessToken}`;
+        ? `${Config.WEBSITE_URL}${actionLink}`
+        : `http://localhost:5173${actionLink}`;
 
-    console.log("confirmation link:", link);
+    console.log("link:", link);
 
     if (Config.STAGE === "prod") {
       const emailjsRsponse = await axios({
@@ -25,13 +41,14 @@ export const handler = async (event: any) => {
         url: "https://api.emailjs.com/api/v1.0/email/send",
         data: {
           service_id: Config.EMAILJS_SERVICE_ID,
-          template_id: Config.EMAILJS_TEMPLATE_ID,
+          template_id: Config.EMAILJS_TEMPLATE_ID, // todo: rename
           user_id: Config.EMAILJS_USER_ID,
           // accessToken: Config.EMAILJS_ACCESSTOKEN,
+          // todo: add more parameters
           template_params: {
             to_email: email,
             app_name: "Dunedain",
-            message: link,
+            message: link, // todo: rename to 'link' in template
           },
         },
         headers: {

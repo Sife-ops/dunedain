@@ -29,6 +29,7 @@ import {
   FolderDetails,
   FolderNew,
   Folders,
+  ForgotPassword,
   Home,
   SignIn,
   SignUp,
@@ -73,6 +74,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/confirm" element={<Confirm />} />
           <Route path="/unconfirmed" element={<Unconfirmed />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<Navigate replace to="/sign-in" />} />
           {/* <Route element={<SelectiveRoutes isPrivate />}>
             <Route path="/bookmark/:bookmarkId" element={<BookmarkDetails />} />

@@ -9,6 +9,7 @@ export * from "./error";
 export * from "./folder-details";
 export * from "./folder-new";
 export * from "./folders";
+export * from "./forgot-password";
 export * from "./home";
 export * from "./landing";
 export * from "./sign-in";
