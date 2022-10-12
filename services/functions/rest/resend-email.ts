@@ -1,7 +1,6 @@
 import AWS from "aws-sdk";
-import { dispatchOnboardSqs } from "./common";
+import { sendEmailjsSqs, wrapError } from "./common";
 import { dunedainModel } from "@dunedain/core/model";
-import { wrapError } from "./common";
 import { z } from "zod";
 
 const sqs = new AWS.SQS();
@@ -21,7 +20,7 @@ const resendEmail = async (event: any) => {
   const [user] = found;
   if (user.confirmed) throw new Error("account already confirmed");
 
-  await dispatchOnboardSqs(email, "sign-up");
+  await sendEmailjsSqs(email, "sign-up");
 
   return {
     success: true,

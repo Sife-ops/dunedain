@@ -1,4 +1,4 @@
-import { dispatchOnboardSqs } from "./common";
+import { sendEmailjsSqs } from "./common";
 import { dunedainModel } from "@dunedain/core/model";
 import { wrapError } from "./common";
 import { z } from "zod";
@@ -15,7 +15,7 @@ const resendEmail = async (event: any) => {
     .go();
   if (found.length < 1) throw new Error("account does not yet exist");
 
-  await dispatchOnboardSqs(email, "reset");
+  await sendEmailjsSqs(email, "reset");
 
   return {
     success: true,

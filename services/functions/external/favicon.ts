@@ -2,6 +2,7 @@ import axios from "axios";
 import { dunedainModel } from "@dunedain/core/model";
 
 export const handler = async (event: any) => {
+  // todo: zod schema
   const bookmark = JSON.parse(event.Records[0].body) as {
     userId: string;
     bookmarkId: string;

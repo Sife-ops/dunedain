@@ -21,7 +21,7 @@ export function Api({ stack }: StackContext) {
         type: "lambda",
         responseTypes: ["simple"],
         function: new Function(stack, "authorizer", {
-          handler: "functions/authentication/authorizer.handler",
+          handler: "functions/graphql/authorizer.handler",
           config: [secretAccessToken],
         }),
       },
@@ -47,30 +47,30 @@ export function Api({ stack }: StackContext) {
       // todo: rename path to 'functions/rest/...'
       "POST /refresh": {
         function: {
-          handler: "functions/authentication/refresh.handler",
+          handler: "functions/rest/refresh.handler",
           config: [secretAccessToken],
         },
       },
       "POST /sign-in": {
         function: {
-          handler: "functions/authentication/sign-in.handler",
+          handler: "functions/rest/sign-in.handler",
           config: [secretAccessToken, db.tableName],
           permissions: [db.table],
         },
       },
       "GET /captcha": {
         function: {
-          handler: "functions/authentication/captcha-get.handler",
+          handler: "functions/rest/captcha-get.handler",
         },
       },
       "POST /captcha": {
         function: {
-          handler: "functions/authentication/captcha-verify.handler",
+          handler: "functions/rest/captcha-verify.handler",
         },
       },
       "POST /confirm": {
         function: {
-          handler: "functions/authentication/confirm.handler",
+          handler: "functions/rest/confirm.handler",
           config: [secretAccessToken, db.tableName],
           permissions: [db.table],
         },

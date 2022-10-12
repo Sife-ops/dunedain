@@ -16,10 +16,10 @@ export function Automation({ stack }: StackContext) {
    * favicon
    */
 
-  const faviconSqs = new Queue(stack, "fetch-favicon-sqs", {
+  const faviconSqs = new Queue(stack, "favicon-sqs", {
     consumer: {
       function: {
-        handler: "functions/automation/fetch-favicon.handler",
+        handler: "functions/external/favicon.handler",
         config: [db.tableName],
         permissions: [db.table],
       },

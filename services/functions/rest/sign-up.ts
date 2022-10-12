@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import bcrypt from "bcryptjs";
-import { dispatchOnboardSqs } from "./common";
+import { sendEmailjsSqs } from "./common";
 import { dunedainModel } from "@dunedain/core/model";
 import { wrapError } from "./common";
 import { z } from "zod";
@@ -35,7 +35,7 @@ const signUp = async (event: any) => {
     password: hash,
   }).go();
 
-  await dispatchOnboardSqs(email, "sign-up");
+  await sendEmailjsSqs(email, "sign-up");
 
   return {
     success: true,

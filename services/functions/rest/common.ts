@@ -19,18 +19,18 @@ export const wrapError = (handler: (event: any) => Promise<any>) => {
   };
 };
 
-export const dispatchOnboardSqs = async (
+export const sendEmailjsSqs = async (
   email: string,
   action: "reset" | "sign-up"
 ) => {
   return sqs
     .sendMessage({
-      QueueUrl: Config.ONBOARD_SQS,
+      QueueUrl: Config.EMAILJS_SQS,
       MessageBody: JSON.stringify({
         email,
         action,
       }),
-      MessageGroupId: "onboard",
+      MessageGroupId: "emailjs",
     })
     .promise()
     .then((e) => console.log(e));

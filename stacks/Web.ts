@@ -23,10 +23,10 @@ export function Web({ stack, app }: StackContext) {
     },
   });
 
-  const onboardSqs = new Queue(stack, "onboard-lambda", {
+  const emailjsSqs = new Queue(stack, "emailjs-lambda", {
     consumer: {
       function: {
-        handler: "functions/authentication/onboard.handler",
+        handler: "functions/external/emailjs.handler",
         config: [
           new Config.Secret(stack, "EMAILJS_SERVICE_ID"),
           new Config.Parameter(stack, "EMAILJS_TEMPLATE_ID", {
@@ -55,23 +55,23 @@ export function Web({ stack, app }: StackContext) {
     },
   });
 
-  const onboardSqsUrl = new Config.Parameter(stack, "ONBOARD_SQS", {
-    value: onboardSqs.queueUrl,
+  const emailjsSqsUrl = new Config.Parameter(stack, "EMAILJS_SQS", {
+    value: emailjsSqs.queueUrl,
   });
 
   api.routes.addRoutes(stack, {
     "POST /sign-up": {
       function: {
-        handler: "functions/authentication/sign-up.handler",
-        config: [onboardSqsUrl, db.tableName],
-        permissions: [onboardSqs, db.table],
+        handler: "functions/rest/sign-up.handler",
+        config: [emailjsSqsUrl, db.tableName],
+        permissions: [emailjsSqs, db.table],
       },
     },
     "POST /resend-email": {
       function: {
-        handler: "functions/authentication/resend-email.handler",
-        config: [onboardSqsUrl, db.tableName],
-        permissions: [onboardSqs, db.table],
+        handler: "functions/rest/resend-email.handler",
+        config: [emailjsSqsUrl, db.tableName],
+        permissions: [emailjsSqs, db.table],
       },
     },
   });
