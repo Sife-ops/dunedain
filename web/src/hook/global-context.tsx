@@ -10,7 +10,7 @@ import {
 } from "../hook/selected-folders";
 
 type Context = {
-  authentication: Authentication;
+  // authentication: Authentication;
   bookmarksFilter: BookmarksFilter;
   categoriesResponse: UseCategoriesResponse;
   foldersResponse: UseFoldersResponse;
@@ -18,14 +18,14 @@ type Context = {
 };
 
 const useContext = (): Context => {
-  const authentication = useAuthentication();
+  // const authentication = useAuthentication();
   const categoriesResponse = useCategoriesQuery();
   const bookmarksFilter = useBookmarksFilter(categoriesResponse);
   const foldersResponse = useFoldersQuery();
   const selectedFolders = useSelectedFolders(foldersResponse);
 
   return {
-    authentication,
+    // authentication,
     bookmarksFilter,
     categoriesResponse,
     foldersResponse,

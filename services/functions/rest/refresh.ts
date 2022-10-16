@@ -1,5 +1,31 @@
-import { Config } from "@serverless-stack/node/config";
+import axios from "axios";
+// import { dunedainModel } from "@dunedain/core/model";
+// import { Config } from "@serverless-stack/node/config";
+import { decode } from "jsonwebtoken";
+import { z } from "zod";
 
-export const handler = () => {
-  console.log(Config.SECRET_ACCESS_TOKEN);
+const eventSchema = z.object({
+  serviceId: z.string(),
+  refreshToken: z.string(),
+});
+
+export const handler = async (event: any) => {
+  try {
+    const validated = eventSchema.parse(JSON.parse(event.body));
+
+    const url =
+      "https://eqcwibjl5l.execute-api.us-east-1.amazonaws.com/refresh";
+    const res = await axios.post(url, {
+      serviceId: "local",
+      refreshToken: validated.refreshToken,
+    });
+
+    return res.data;
+  } catch (e) {
+    console.log(e);
+    return {
+      success: false,
+      message: e,
+    };
+  }
 };

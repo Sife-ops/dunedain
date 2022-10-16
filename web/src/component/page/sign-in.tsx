@@ -96,6 +96,13 @@ export const SignIn: React.FC = () => {
         </Link>
         {/* </div> */}
       </form>
+      <Button
+        onClick={() => {
+          window.location.href = "http://localhost:3000/sign-in?serviceId=local";
+        }}
+      >
+        sign in new
+      </Button>
     </div>
   );
 };

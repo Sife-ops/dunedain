@@ -1,21 +1,23 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-// import { useGlobalContext } from "../hook/global-context";
+import { useAuthContext } from "../hook/auth-context";
+import { useGlobalContext } from "../hook/global-context";
 
 const stage = import.meta.env.VITE_STAGE;
 
 export const Navigation: React.FC = () => {
-  // const {
-  //   authentication,
-  //   categoriesResponse: [_, categoriesRefetch],
-  //   foldersResponse: [__, folderRefetch],
-  //   bookmarksFilter: {
-  //     action: { searchDefault },
-  //   },
-  // } = useGlobalContext();
+  const auth = useAuthContext();
 
-  if (false) {
+  const {
+    categoriesResponse: [_, categoriesRefetch],
+    foldersResponse: [__, folderRefetch],
+    bookmarksFilter: {
+      action: { searchDefault },
+    },
+  } = useGlobalContext();
+
+  if (auth.signedIn) {
     return (
       <nav className="flex justify-between mb-1">
         <div className="flex gap-1">
@@ -60,6 +62,7 @@ export const Navigation: React.FC = () => {
           <Button
             onClick={async () => {
               // await authentication.signOut();
+              auth.signOut();
             }}
           >
             Sign Out

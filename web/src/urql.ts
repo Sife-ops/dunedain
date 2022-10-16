@@ -1,4 +1,5 @@
-// import { Auth } from "@aws-amplify/auth";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 import { AuthConfig } from "@urql/exchange-auth";
 import { useEffect, useState } from "react";
 
@@ -59,20 +60,43 @@ export function useTypedMutation<
 }
 
 export const authConfig: AuthConfig<{ accessToken: string }> = {
+  willAuthError: ({ authState }) => {
+    if (!authState) return true;
+
+    const decoded = jwt_decode<{ exp: number }>(authState.accessToken);
+    const now = Date.now() / 1000;
+    const secsRemaining = decoded.exp - now;
+    console.log(`session time remaining: ${secsRemaining} seconds`);
+    if (secsRemaining < 10) return true;
+
+    return false;
+  },
+
   getAuth: async ({ authState }) => {
     if (!authState) {
-      // const currentSession = await Auth.currentSession();
-      // const accessToken = currentSession.getAccessToken().getJwtToken();
-      // if (accessToken) return { accessToken };
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) return { accessToken };
       return null;
     }
-    // const currentSession = await Auth.currentSession();
-    // const accessToken = currentSession.getAccessToken().getJwtToken();
-    // if (accessToken) return { accessToken };
+
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (refreshToken) {
+      const res = await axios.post(import.meta.env.VITE_API_URL + "/refresh", {
+        serviceId: "local",
+        refreshToken,
+      });
+      const { success, accessToken } = res.data;
+      if (success) {
+        localStorage.setItem("accessToken", accessToken);
+        return { accessToken };
+      }
+    }
+
     localStorage.clear();
     window.location.reload();
     return null;
   },
+
   addAuthToOperation: ({ authState, operation }: any) => {
     if (!authState || !authState.accessToken) {
       return operation;
@@ -89,11 +113,12 @@ export const authConfig: AuthConfig<{ accessToken: string }> = {
         ...fetchOptions,
         headers: {
           ...fetchOptions.headers,
-          Authorization: `Bearer ${authState.accessToken}`,
+          Authorization: authState.accessToken,
         },
       },
     });
   },
+
   didAuthError: ({ error }) => {
     return error.response.status === 401;
   },

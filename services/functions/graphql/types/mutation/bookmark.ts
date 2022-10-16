@@ -108,6 +108,7 @@ builder.mutationFields((t) => ({
           .sendMessage({
             QueueUrl: Config.FAVICON_SQS!,
             MessageBody: JSON.stringify(bookmark),
+            MessageGroupId: "favicon",
           })
           .promise();
 
@@ -147,6 +148,7 @@ builder.mutationFields((t) => ({
         .sendMessage({
           QueueUrl: Config.FAVICON_SQS!,
           MessageBody: JSON.stringify(bookmark),
+          MessageGroupId: "favicon",
         })
         .promise();
 
