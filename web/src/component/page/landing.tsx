@@ -1,13 +1,14 @@
 import Logo from "../../assets/favicon.svg";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
-import { BsWindowSidebar } from "react-icons/bs";
-import { useAuthContext } from "../../hook/auth-context";
+
+const stage = import.meta.env.VITE_STAGE;
+
+const mandos =
+  stage === "prod" ? "???" : "https://d2d8usjkpby83o.cloudfront.net";
+
+const serviceId = stage === "prod" ? "dunedain" : "local";
 
 export const Landing = () => {
-  const nav = useNavigate();
-  const auth = useAuthContext();
-
   return (
     <div className="flex justify-center">
       <div className="flex flex-col w-1/4 gap-1">
@@ -17,8 +18,7 @@ export const Landing = () => {
 
         <Button
           onClick={() => {
-            window.location.href =
-              "http://localhost:3000/sign-in?serviceId=local";
+            window.location.href = `${mandos}/sign-in?serviceId=${serviceId}`;
           }}
         >
           Sign In
@@ -26,7 +26,7 @@ export const Landing = () => {
 
         <Button
           onClick={() => {
-            window.location.href = "http://localhost:3000/sign-up";
+            window.location.href = `${mandos}/sign-up`;
           }}
         >
           Sign Up

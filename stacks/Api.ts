@@ -9,9 +9,11 @@ import {
 import { Automation } from "./Automation";
 import { Database } from "./Database";
 
-export function Api({ stack }: StackContext) {
+export function Api({ stack, app }: StackContext) {
   const automation = use(Automation);
   const db = use(Database);
+
+  const mandosUrl = new Config.Secret(stack, "MANDOS_URL");
 
   const routes = new ApiGateway(stack, "api", {
     authorizers: {
@@ -20,6 +22,10 @@ export function Api({ stack }: StackContext) {
         responseTypes: ["simple"],
         function: new Function(stack, "authorizer", {
           handler: "functions/graphql/authorizer.handler",
+          environment: {
+            STAGE: app.stage,
+          },
+          config: [mandosUrl],
         }),
       },
     },
@@ -41,12 +47,15 @@ export function Api({ stack }: StackContext) {
       "POST /refresh": {
         function: {
           handler: "functions/rest/refresh.handler",
+          environment: {
+            STAGE: app.stage,
+          },
+          config: [mandosUrl],
         },
       },
     },
   });
 
-  // todo: delete?
   new Config.Parameter(stack, "API_URL", {
     value: routes.url,
   });
