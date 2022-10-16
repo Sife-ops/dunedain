@@ -4,9 +4,11 @@ import { Button } from "@chakra-ui/react";
 const stage = import.meta.env.VITE_STAGE;
 
 const mandos =
-  stage === "prod" ? "???" : "https://d2d8usjkpby83o.cloudfront.net";
+  stage === "prod"
+    ? "https://d3avvkaug8hb76.cloudfront.net"
+    : "https://d2d8usjkpby83o.cloudfront.net";
 
-const serviceId = stage === "prod" ? "dunedain" : "local";
+const serviceId = stage === "prod" ? "bookmarks" : "local";
 
 export const Landing = () => {
   return (

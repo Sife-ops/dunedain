@@ -10,7 +10,7 @@ export const handler = async (event: any) => {
 
     const url = `${Config.MANDOS_URL}/verify`;
     const res = await axios.post(url, {
-      serviceId: STAGE === "prod" ? "dunedain" : "local",
+      serviceId: STAGE === "prod" ? "bookmarks" : "local",
       accessToken,
     });
 

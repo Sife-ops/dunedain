@@ -16,7 +16,7 @@ export const handler = async (event: any) => {
 
     const url = `${Config.MANDOS_URL}/refresh`;
     const res = await axios.post(url, {
-      serviceId: STAGE === "prod" ? "dunedain" : "local",
+      serviceId: STAGE === "prod" ? "bookmarks" : "local",
       refreshToken: validated.refreshToken,
     });
 
