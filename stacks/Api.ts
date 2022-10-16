@@ -13,8 +13,6 @@ export function Api({ stack }: StackContext) {
   const automation = use(Automation);
   const db = use(Database);
 
-  const secretAccessToken = new Config.Secret(stack, "SECRET_ACCESS_TOKEN");
-
   const routes = new ApiGateway(stack, "api", {
     authorizers: {
       lambda: {
@@ -22,12 +20,8 @@ export function Api({ stack }: StackContext) {
         responseTypes: ["simple"],
         function: new Function(stack, "authorizer", {
           handler: "functions/graphql/authorizer.handler",
-          config: [secretAccessToken],
         }),
       },
-    },
-    defaults: {
-      authorizer: "none",
     },
     routes: {
       "POST /graphql": {
@@ -44,40 +38,15 @@ export function Api({ stack }: StackContext) {
           "npx genql --output ./graphql/genql --schema ./graphql/schema.graphql --esm",
         ],
       },
-      // todo: rename path to 'functions/rest/...'
       "POST /refresh": {
         function: {
           handler: "functions/rest/refresh.handler",
-          config: [secretAccessToken],
-        },
-      },
-      "POST /sign-in": {
-        function: {
-          handler: "functions/rest/sign-in.handler",
-          config: [secretAccessToken, db.tableName],
-          permissions: [db.table],
-        },
-      },
-      "GET /captcha": {
-        function: {
-          handler: "functions/rest/captcha-get.handler",
-        },
-      },
-      "POST /captcha": {
-        function: {
-          handler: "functions/rest/captcha-verify.handler",
-        },
-      },
-      "POST /confirm": {
-        function: {
-          handler: "functions/rest/confirm.handler",
-          config: [secretAccessToken, db.tableName],
-          permissions: [db.table],
         },
       },
     },
   });
 
+  // todo: delete?
   new Config.Parameter(stack, "API_URL", {
     value: routes.url,
   });
@@ -88,6 +57,5 @@ export function Api({ stack }: StackContext) {
 
   return {
     routes,
-    secretAccessToken,
   };
 }

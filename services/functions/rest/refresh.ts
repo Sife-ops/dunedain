@@ -1,7 +1,4 @@
 import axios from "axios";
-// import { dunedainModel } from "@dunedain/core/model";
-// import { Config } from "@serverless-stack/node/config";
-import { decode } from "jsonwebtoken";
 import { z } from "zod";
 
 const eventSchema = z.object({
