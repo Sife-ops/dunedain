@@ -1,5 +1,4 @@
 import React from "react";
-import { Authentication, useAuthentication } from "../hook/authentication";
 import { UseCategoriesResponse, useCategoriesQuery } from "../query/categories";
 import { UseFoldersResponse, useFoldersQuery } from "../query/folders";
 import { useBookmarksFilter, BookmarksFilter } from "./bookmarks-filter";
