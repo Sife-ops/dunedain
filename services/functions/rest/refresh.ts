@@ -5,7 +5,6 @@ import { z } from "zod";
 const { STAGE } = process.env;
 
 const eventSchema = z.object({
-  serviceId: z.string(),
   refreshToken: z.string(),
 });
 
