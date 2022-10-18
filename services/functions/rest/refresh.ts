@@ -2,8 +2,6 @@ import axios from "axios";
 import { Config } from "@serverless-stack/node/config";
 import { z } from "zod";
 
-const { STAGE } = process.env;
-
 const eventSchema = z.object({
   refreshToken: z.string(),
 });
@@ -11,12 +9,11 @@ const eventSchema = z.object({
 // todo: api password?
 export const handler = async (event: any) => {
   try {
-    const validated = eventSchema.parse(JSON.parse(event.body));
+    const { refreshToken } = eventSchema.parse(JSON.parse(event.body));
 
-    const url = `${Config.MANDOS_URL}/refresh`;
+    const url = `${Config.MANDOS_API_URL}/refresh`;
     const res = await axios.post(url, {
-      serviceId: STAGE === "prod" ? "bookmarks" : "local",
-      refreshToken: validated.refreshToken,
+      refreshToken,
     });
 
     return res.data;

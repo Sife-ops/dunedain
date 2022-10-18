@@ -1,16 +1,10 @@
 import Logo from "../../assets/favicon.svg";
 import { Button } from "@chakra-ui/react";
 
-const stage = import.meta.env.VITE_STAGE;
-
-const mandos =
-  stage === "prod"
-    ? "https://d3avvkaug8hb76.cloudfront.net"
-    : "https://d2d8usjkpby83o.cloudfront.net";
-
-const serviceId = stage === "prod" ? "bookmarks" : "local";
-
 export const Landing = () => {
+  const serviceId =
+    import.meta.env.VITE_STAGE === "prod" ? "bookmarks" : "local";
+
   return (
     <div className="flex justify-center">
       <div className="flex flex-col w-1/4 gap-1">
@@ -20,18 +14,23 @@ export const Landing = () => {
 
         <Button
           onClick={() => {
-            window.location.href = `${mandos}/sign-in?serviceId=${serviceId}`;
+            window.location.href = `${
+              import.meta.env.VITE_MANDOS_URL
+            }/sign-in?serviceId=${serviceId}`;
           }}
         >
           Sign In
         </Button>
 
         <Button
+          hidden
           onClick={() => {
-            window.location.href = `${mandos}/sign-up`;
+            window.location.href = `${
+              import.meta.env.VITE_MANDOS_URL_CLOUDFRONT
+            }/sign-in?serviceId=${serviceId}-cloudfront`;
           }}
         >
-          Sign Up
+          Cloudfront
         </Button>
       </div>
     </div>

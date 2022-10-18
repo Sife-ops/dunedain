@@ -13,7 +13,11 @@ export function Api({ stack, app }: StackContext) {
   const automation = use(Automation);
   const db = use(Database);
 
-  const mandosUrl = new Config.Secret(stack, "MANDOS_URL");
+  const { MANDOS_API_URL } = process.env;
+  if (!MANDOS_API_URL) throw new Error("MANDOS_API_URL is undefined");
+  const mandosUrl = new Config.Parameter(stack, "MANDOS_API_URL", {
+    value: MANDOS_API_URL,
+  });
 
   const routes = new ApiGateway(stack, "api", {
     authorizers: {
@@ -22,9 +26,6 @@ export function Api({ stack, app }: StackContext) {
         responseTypes: ["simple"],
         function: new Function(stack, "authorizer", {
           handler: "functions/graphql/authorizer.handler",
-          environment: {
-            STAGE: app.stage,
-          },
           config: [mandosUrl],
         }),
       },

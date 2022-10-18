@@ -2,23 +2,19 @@ import axios from "axios";
 import { Config } from "@serverless-stack/node/config";
 import { decode } from "jsonwebtoken";
 
-const { STAGE } = process.env;
-
 export const handler = async (event: any) => {
   try {
     const accessToken = event.headers.authorization;
 
-    const url = `${Config.MANDOS_URL}/verify`;
+    const url = `${Config.MANDOS_API_URL}/verify`;
     const res = await axios.post(url, {
-      serviceId: STAGE === "prod" ? "bookmarks" : "local",
       accessToken,
     });
 
     if (res.data.success) {
-      const { email, serviceId, userId } = decode(accessToken) as {
+      const { email, userId } = decode(accessToken) as {
         email: string;
         userId: string;
-        serviceId: string;
       };
 
       return {
@@ -27,7 +23,6 @@ export const handler = async (event: any) => {
           user: {
             email,
             userId,
-            serviceId,
           },
         },
       };
