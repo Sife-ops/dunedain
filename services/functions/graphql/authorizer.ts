@@ -7,9 +7,7 @@ export const handler = async (event: any) => {
     const accessToken = event.headers.authorization;
 
     const url = `${Config.MANDOS_API_URL}/verify`;
-    const res = await axios.post(url, {
-      accessToken,
-    });
+    const res = await axios.post(url, { accessToken });
 
     if (res.data.success) {
       const { email, userId } = decode(accessToken) as {

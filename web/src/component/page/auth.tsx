@@ -13,21 +13,11 @@ export const Auth: React.FC = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    // setTimeout(() => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
-    // p.setSignedIn(true);
     authContext.setSignedIn(true);
-    nav("/");
-    // window.location.reload();
-    // }, 3000);
+    nav("/home");
   }, []);
 
-  return (
-    <div>
-      loading...
-      {/* <div>{accessToken}</div>
-      <div>{refreshToken}</div> */}
-    </div>
-  );
+  return <div></div>;
 };

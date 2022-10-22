@@ -12,9 +12,7 @@ export const handler = async (event: any) => {
     const { refreshToken } = eventSchema.parse(JSON.parse(event.body));
 
     const url = `${Config.MANDOS_API_URL}/refresh`;
-    const res = await axios.post(url, {
-      refreshToken,
-    });
+    const res = await axios.post(url, { refreshToken });
 
     return res.data;
   } catch (e) {
